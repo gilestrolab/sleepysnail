@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name='sleepysnail',
     version='trunk',
-    author='Quentin Geissmann,
+    author='Quentin Geissmann',
     author_email= 'quentin.geissmann13@imperial.ac.uk',
     packages=['sleepysnail',
               'sleepysnail.acquisition',
@@ -18,6 +18,7 @@ setup(
     # },
     install_requires=[
     #TODO
-    "numpy>=1.6.1"
+    "numpy>=1.6.1",
+
     ]
 )
