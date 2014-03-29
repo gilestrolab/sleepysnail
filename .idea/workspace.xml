@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3565c100-deb7-4689-8e26-23ef15ba6168" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/sleepysnail/acquisition/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/sleepysnail/utils/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/sleepysnail/utils/logger.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/sleepysnail/aquisition/dummy" afterPath="$PROJECT_DIR$/src/sleepysnail/acquisition/dummy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/setup.py" afterPath="$PROJECT_DIR$/src/setup.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="sleepysnail-git.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,16 +28,7 @@
       <file leaf-file-name="setup.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/setup.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="25" selection-start="277" selection-end="284" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="609">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="capture.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/bin/capture.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="6" selection-start="99" selection-end="99" vertical-scroll-proportion="0.11627907" vertical-offset="0" max-vertical-offset="903">
+            <state line="21" column="0" selection-start="631" selection-end="631" vertical-scroll-proportion="0.0" vertical-offset="441" max-vertical-offset="630">
               <folding />
             </state>
           </provider>
@@ -50,7 +37,7 @@
       <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sleepysnail/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="0" selection-start="71" selection-end="71" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="210">
+            <state line="3" column="10" selection-start="60" selection-end="60" vertical-scroll-proportion="0.0" vertical-offset="63" max-vertical-offset="210">
               <folding />
             </state>
           </provider>
@@ -59,7 +46,7 @@
       <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sleepysnail/utils/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="13" selection-start="37" selection-end="37" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="189">
+            <state line="2" column="13" selection-start="37" selection-end="37" vertical-scroll-proportion="0.0" vertical-offset="42" max-vertical-offset="189">
               <folding />
             </state>
           </provider>
@@ -68,16 +55,16 @@
       <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sleepysnail/acquisition/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="19" selection-start="43" selection-end="43" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="189">
+            <state line="2" column="19" selection-start="43" selection-end="43" vertical-scroll-proportion="0.0" vertical-offset="42" max-vertical-offset="189">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="video_capture.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="video_capture.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/sleepysnail/acquisition/video_capture.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="32" selection-start="199" selection-end="199" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="378">
+            <state line="8" column="1" selection-start="120" selection-end="120" vertical-scroll-proportion="0.18604651" vertical-offset="0" max-vertical-offset="2919">
               <folding>
                 <element signature="e#24#34#0" expanded="true" />
               </folding>
@@ -88,8 +75,10 @@
       <file leaf-file-name="logger.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sleepysnail/utils/logger.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="16" selection-start="92" selection-end="92" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="462">
-              <folding />
+            <state line="6" column="16" selection-start="92" selection-end="92" vertical-scroll-proportion="0.0" vertical-offset="126" max-vertical-offset="462">
+              <folding>
+                <marker date="1395961768438" expanded="true" signature="201:219" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -116,15 +105,15 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/setup.py" />
         <option value="$PROJECT_DIR$/src/README.txt" />
         <option value="$PROJECT_DIR$/src/sleepysnail/aquisition/video_capture.py" />
         <option value="$PROJECT_DIR$/src/sleepysnail/acquisition/__init__.py" />
         <option value="$PROJECT_DIR$/src/sleepysnail/utils/__init__.py" />
-        <option value="$PROJECT_DIR$/src/sleepysnail/__init__.py" />
         <option value="$PROJECT_DIR$/src/sleepysnail/utils/logger.py" />
-        <option value="$PROJECT_DIR$/src/sleepysnail/acquisition/video_capture.py" />
+        <option value="$PROJECT_DIR$/src/setup.py" />
+        <option value="$PROJECT_DIR$/src/sleepysnail/__init__.py" />
         <option value="$PROJECT_DIR$/src/bin/capture.py" />
+        <option value="$PROJECT_DIR$/src/sleepysnail/acquisition/video_capture.py" />
       </list>
     </option>
   </component>
@@ -160,7 +149,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -207,12 +195,53 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="sleepysnail" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sleepysnail-git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sleepysnail-git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sleepysnail" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="utils" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sleepysnail-git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sleepysnail-git" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="bin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -220,6 +249,7 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="FullScreen" value="false" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -383,11 +413,11 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -418,14 +448,60 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/setup.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="126">
+        <state line="21" column="0" selection-start="631" selection-end="631" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="630">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sleepysnail/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="10" selection-start="60" selection-end="60" vertical-scroll-proportion="0.0" vertical-offset="63" max-vertical-offset="210">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sleepysnail/utils/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="13" selection-start="37" selection-end="37" vertical-scroll-proportion="0.0" vertical-offset="42" max-vertical-offset="189">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sleepysnail/acquisition/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="19" selection-start="43" selection-end="43" vertical-scroll-proportion="0.0" vertical-offset="42" max-vertical-offset="189">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sleepysnail/acquisition/video_capture.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="108" column="0" selection-start="2748" selection-end="2748" vertical-scroll-proportion="0.0" vertical-offset="2268" max-vertical-offset="2835">
+          <folding>
+            <element signature="e#24#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sleepysnail/utils/logger.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="16" selection-start="92" selection-end="92" vertical-scroll-proportion="0.0" vertical-offset="126" max-vertical-offset="462">
+          <folding>
+            <marker date="1395961768438" expanded="true" signature="201:219" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/README.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="8" selection-start="8" selection-end="8" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="903">
+        <state line="0" column="8" selection-start="8" selection-end="8" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="273">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="126">
           <folding />
         </state>
       </provider>
@@ -433,6 +509,15 @@
     <entry file="file://$PROJECT_DIR$/src/sleepysnail/utils/logger.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="16" selection-start="92" selection-end="92" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="462">
+          <folding>
+            <marker date="1395961768438" expanded="true" signature="201:219" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/README.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="8" selection-start="8" selection-end="8" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="903">
           <folding />
         </state>
       </provider>
@@ -451,33 +536,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sleepysnail/acquisition/video_capture.py">
+    <entry file="file://$PROJECT_DIR$/src/setup.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="32" selection-start="199" selection-end="199" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="378">
-          <folding>
-            <element signature="e#24#34#0" expanded="true" />
-          </folding>
+        <state line="21" column="0" selection-start="631" selection-end="631" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="630">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sleepysnail/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="71" selection-end="71" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="210">
+        <state line="3" column="10" selection-start="60" selection-end="60" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="210">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/setup.py">
+    <entry file="file://$PROJECT_DIR$/src/sleepysnail/acquisition/video_capture.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="25" selection-start="277" selection-end="284" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="609">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/bin/capture.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="6" selection-start="99" selection-end="99" vertical-scroll-proportion="0.11627907" vertical-offset="0" max-vertical-offset="903">
-          <folding />
+        <state line="8" column="1" selection-start="120" selection-end="120" vertical-scroll-proportion="0.18604651" vertical-offset="0" max-vertical-offset="2919">
+          <folding>
+            <element signature="e#24#34#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
