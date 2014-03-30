@@ -31,6 +31,7 @@ if __name__ == "__main__":
         if to_wait < 0:
            to_wait = 1
            Logger.warning("time might be inaccurate...")
+
         key = cv2.waitKey(to_wait)  % 256
         
         if key == START_KEY:

@@ -11,12 +11,8 @@ from sleepysnail.utils.logger import Logger
 
 VIDEO_CHUNK_SIZE = 1000
 MAX_CAM_NUMBER = 10
-#
-VIDEO_FORMAT = {'fourcc':cv.CV_FOURCC('D', 'I', 'V', 'X'), 'extension':"avi"}
-#VIDEO_FORMAT = {'fourcc':cv.CV_FOURCC('D', 'I', 'V', '3'), 'extension':"avi"}
 
-#~ VIDEO_FORMAT = {'fourcc':cv.CV_FOURCC('D', 'I', 'V', 'X'), 'extension':"avi"}
-#~ VIDEO_FORMAT = {'fourcc':cv.CV_FOURCC('M', 'P', 'E', 'G'), 'extension':"mpeg"}
+VIDEO_FORMAT = {'fourcc':cv.CV_FOURCC('D', 'I', 'V', 'X'), 'extension':"avi"}
 
 
 class AutoCaptureCollection(list):
