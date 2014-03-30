@@ -85,10 +85,10 @@ class AutoVideoCapture(object):
 
 
     def read(self):
-        ret,frame = self.stream.read()
+        ret,frame = self.stream.read(True)
         if frame is None:
 			return None
-        self.frame_size = frame.shape[:2]
+        self.frame_size = frame.shape[1], frame.shape[0]
         if ret:
             cv2.imshow(self.name, frame)
             return frame
@@ -111,9 +111,10 @@ class AutoVideoCapture(object):
             except:
                 pass
 
-            self.video_writer = cv2.VideoWriter(out_filename, VIDEO_FORMAT["fourcc"], self.fps , self.frame_size, True)
-            
 
+            self.video_writer = cv2.VideoWriter(out_filename, VIDEO_FORMAT["fourcc"], self.fps , self.frame_size)
+            
+        print self.frame_size
         assert(self.video_writer.isOpened())
 
         self.video_writer.write(frame)
