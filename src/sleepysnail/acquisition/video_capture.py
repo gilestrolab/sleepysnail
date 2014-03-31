@@ -9,10 +9,11 @@ from sleepysnail.utils.logger import Logger
 #import matplotlib.animation as animation
 
 
-VIDEO_CHUNK_SIZE = 1000
+VIDEO_CHUNK_SIZE = 10000
 MAX_CAM_NUMBER = 10
 
 VIDEO_FORMAT = {'fourcc':cv.CV_FOURCC('D', 'I', 'V', 'X'), 'extension':"avi"}
+#VIDEO_FORMAT = {'fourcc':cv.CV_FOURCC('M', 'P', 'E', 'G'), 'extension':"mpeg"}
 
 
 class AutoCaptureCollection(list):
@@ -82,9 +83,16 @@ class AutoVideoCapture(object):
 
     def read(self):
         ret,frame = self.stream.read(True)
+        
+        
         if frame is None:
 			return None
+        
+        print frame.shape
+        frame = cv2.cvtColor(frame, cv.CV_GRAY2BGR)
+        print frame.shape
         self.frame_size = frame.shape[1], frame.shape[0]
+        
         if ret:
             cv2.imshow(self.name, frame)
             return frame
@@ -95,10 +103,8 @@ class AutoVideoCapture(object):
     def _write_to_file(self, frame):
 
         if self.frame_count % VIDEO_CHUNK_SIZE == 0:
-			
-            self.frame_count / VIDEO_CHUNK_SIZE
-            out_filename = self.out_dir +"/"+ self.name + "/{0}_{1}.{2}".format(self.name,
-                                                                     self.frame_count / VIDEO_CHUNK_SIZE, VIDEO_FORMAT["extension"])
+            out_filename = self.out_dir +"/"+ self.name + "/{0}_{1}.{2}".format(
+							self.name,self.frame_count / VIDEO_CHUNK_SIZE, VIDEO_FORMAT["extension"])
                                                                      
             Logger.info("Device \"{0}\" Making new video chunk:{1}".format(self.name,out_filename))
 			
@@ -110,7 +116,6 @@ class AutoVideoCapture(object):
 
             self.video_writer = cv2.VideoWriter(out_filename, VIDEO_FORMAT["fourcc"], self.fps , self.frame_size)
             
-        print self.frame_size
         assert(self.video_writer.isOpened())
 
         self.video_writer.write(frame)
