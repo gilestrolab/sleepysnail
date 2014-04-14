@@ -5,7 +5,7 @@ Video capture:
 
 In the terminal:
 
-* Open `coriander`. Set **all** camera to greyscale and close it.
+* Open `coriander`. Set **all** camera to greyscale and close it (you only need to do that if you unplug/replug cameras).
 * Use our program called `capture`. You should see one window for each camera.
 * Start recording by pressing *space bar* (you should read confirmation messages).
 * Use escape to quit (you may need to be click on one of the capture windows for it to work).
