@@ -23,8 +23,8 @@ Inside each `/data/DATE_N/`, there will be many "chunks" of videos such as:
 where `I` is the index of each chunk (starts at 0).
 
 
-So, to watc a video, you could do something like:
+So, to watch a video, you could do something like:
 
 ```
-mplayer /data/DATE_N/DATE_N_I
+mplayer /data/DATE_N/DATE_N_I.avi
 ```
