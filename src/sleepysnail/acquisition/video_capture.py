@@ -4,12 +4,13 @@ import cv2
 import cv
 import os
 import numpy as np
+import time
 
 from sleepysnail.utils.logger import Logger
 #import matplotlib.animation as animation
 
 
-VIDEO_CHUNK_SIZE = 10000
+VIDEO_CHUNK_SIZE = 1e4
 MAX_CAM_NUMBER = 10
 
 VIDEO_FORMAT = {'fourcc':cv.CV_FOURCC('D', 'I', 'V', 'X'), 'extension':"avi"}
@@ -58,7 +59,7 @@ class AutoVideoCapture(object):
 
 
         self.idx = idx
-        self.name = str(idx)
+        self.name = time.strftime("%Y%m%d_") + str(idx) 
         self.fps = fps
         self.frame_count = 0
         self.is_started = False
@@ -88,9 +89,7 @@ class AutoVideoCapture(object):
         if frame is None:
 			return None
         
-        print frame.shape
         frame = cv2.cvtColor(frame, cv.CV_GRAY2BGR)
-        print frame.shape
         self.frame_size = frame.shape[1], frame.shape[0]
         
         if ret:

@@ -8,10 +8,12 @@ FPS = 5
 ESCAPE_KEY = 27
 START_KEY = 32
 
+DATA_DIR = "/data"
+
 if __name__ == "__main__":
     
     sec_per_frame = 1/float(FPS)
-    all_devices = AutoCaptureCollection("/home/quentin/data", FPS)
+    all_devices = AutoCaptureCollection(DATA_DIR, FPS)
     
     if len(all_devices) == 0:
         exit(1)
