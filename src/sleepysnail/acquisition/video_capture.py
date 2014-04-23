@@ -37,9 +37,6 @@ class AutoCaptureCollection(list):
         Logger.info("Managed to open {0} cameras".format(len(self)))
 
 
-
-
-
 class AutoVideoCapture(object):
     def __init__(self, idx, out_dir, fps):
 
@@ -49,25 +46,21 @@ class AutoVideoCapture(object):
         if not self.stream.isOpened():
             raise Exception("cannot open this camera")
             #try to get the first frame
-            ret,frame = self.stream.read()
-            if not ret or frame.empty():
-                raise Exception("Camera opens but does not manage to read frame")
-
-
-
-
-
+        ret,frame = self.stream.read()
+        if not ret or len(frame) == 0:
+            raise Exception("Camera opens but does not manage to read frame")
 
         self.idx = idx
-        self.name = time.strftime("%Y%m%d_") + str(idx) 
+        self.name = time.strftime("%Y%m%d-%H%M%S") + str(idx)
         self.fps = fps
         self.frame_count = 0
         self.is_started = False
         self.video_writer = None
         self.out_dir = out_dir
+        self.frame_size = None
 
     def start(self):
-        if  self.is_started:
+        if self.is_started:
             return
 
         self.is_started = True
@@ -80,18 +73,17 @@ class AutoVideoCapture(object):
             raise Exception("{0} Exists already".format(out_dirpath))
 
 
-
-
     def read(self):
-        ret,frame = self.stream.read(True)
-        
+        ret, frame = self.stream.read(True)
         
         if frame is None:
-			return None
-        
-        frame = cv2.cvtColor(frame, cv.CV_GRAY2BGR)
+            return None
+
+        if len(frame.shape) == 2:
+            frame = cv2.cvtColor(frame, cv.CV_GRAY2BGR)
+
         self.frame_size = frame.shape[1], frame.shape[0]
-        
+
         if ret:
             cv2.imshow(self.name, frame)
             return frame
@@ -102,11 +94,12 @@ class AutoVideoCapture(object):
     def _write_to_file(self, frame):
 
         if self.frame_count % VIDEO_CHUNK_SIZE == 0:
-            out_filename = self.out_dir +"/"+ self.name + "/{0}_{1}.{2}".format(
-							self.name,self.frame_count / VIDEO_CHUNK_SIZE, VIDEO_FORMAT["extension"])
+            out_filename = self.out_dir + "/{0}_{1}.{2}".format(
+                self.name,
+                str(self.frame_count / VIDEO_CHUNK_SIZE).zfill(3),
+                VIDEO_FORMAT["extension"])
                                                                      
             Logger.info("Device \"{0}\" Making new video chunk:{1}".format(self.name,out_filename))
-			
             try:
                 self.video_writer.close()
             except:
