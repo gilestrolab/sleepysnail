@@ -19,7 +19,7 @@ if __name__ == "__main__":
     lag = 0
     if len(all_devices) == 0:
         exit(1)
-    started = false
+    started = False
 
 
     while True:
@@ -43,7 +43,7 @@ if __name__ == "__main__":
         if key == START_KEY and not started:
             for c in all_devices:
                 c.start()
-            started = true
+            started = True
 
         elif key == ESCAPE_KEY:
             break
