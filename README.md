@@ -36,7 +36,7 @@ with, at least, the column field `tube`.
 For example, it could be:
 
 ```
-tube, species, light_hours, weight,
+tube, species, light_hours, weight
 0, Cn, 16, 4.3
 1, Cn, 16, 5.0
 2, Cn, 16, 4.6
