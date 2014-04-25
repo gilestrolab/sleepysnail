@@ -5,7 +5,7 @@ import cv
 import numpy as np
 
 
-def filter_good_contours(c,min_length=200, max_length=500, min_ar = 3.5, max_ar = 6, max_angle=20):
+def filter_good_contours(c, min_length=200, max_length=500, min_ar = 3.5, max_ar = 6, max_angle=20):
             rect = cv2.minAreaRect(c)
             box = cv.BoxPoints(rect)
             a = np.complex(box[0][0], box[0][1])
@@ -15,21 +15,28 @@ def filter_good_contours(c,min_length=200, max_length=500, min_ar = 3.5, max_ar 
             aspect_ratio = np.abs(a-b)/ np.abs(c-b)
             if aspect_ratio < 1:
                 aspect_ratio = 1/aspect_ratio
-            #print diag
+
+
             if diag  > max_length or diag < min_length:
-                return False
+                return None
 
             if aspect_ratio  > max_ar or aspect_ratio < min_ar:
-                return False
+                return None
             if abs(rect[2]% 90) > max_angle and abs(rect[2]) > max_angle:
-                return False
-            return True
+                return None
+            return c,rect, box
 
 class ROISplitter(object):
     def __init__(self, image):
         self.h_morph_line = np.array([[0,0,0], [1,1,1], [0,0,0]],dtype=np.uint8)
         self.v_morph_line = np.array([[0,1,0], [0,1,0], [0,1,0]],dtype=np.uint8)
         self.rois = self.make_rois(image)
+
+    def split(self, image,  which):
+        if which >= len(self.rois):
+            raise Exception("There are only %i ROIs" % len(self.rois))
+        a,b,c,d= self.rois[which]
+        return image[a:b, c:d]
 
     def make_rois(self, image, expected_number=18):
         """
@@ -46,30 +53,20 @@ class ROISplitter(object):
 
             #remove holes
             contours = [c for (c,h) in zip(contours,hiera[0]) if h[3] == -1 and len(c) >3]
-            contours = filter(filter_good_contours,contours)
+            contours = filter(filter_good_contours, contours)
 
-
-            if len(contours)==expected_number:
+            if len(contours) == expected_number:
                 break
 
-        assert(len(contours)==expected_number)
-        return contours
+        if len(contours) != expected_number:
+            raise Exception("len(contour_rect_boxes) != expected_number")
 
-        boxes = [np.int0(cv.BoxPoints(cv2.minAreaRect(c))) for c in contours]
-        rectangles = [cv2.minAreaRect(c) for c in contours]
-        rot_mats = [cv2.getRotationMatrix2D(tuple((np.array(r[0]) - np.array(r[1])) * 2),
-                                 r[2], 1.0)  for r in rectangles]
+        roi_coord = []
+        for c in contours:
+            x,y,w,h = cv2.boundingRect(c)
+            roi_coord.append((y, y+h, x, x+w))
+        return roi_coord
 
-        sizes = []
-        for box in boxes:
-            a = np.complex(box[0][0], box[0][1])
-            b = np.complex(box[1][0], box[1][1])
-            c = np.complex(box[2][0], box[2][1])
-            sizes.append((int(np.abs(c-b)), int(np.abs(a-b))))
-        subimgs = [grid_img[r[0][0]:r[1][0], r[0][1]:r[1][1]] for r in rectangles]
-#rotated = [cv2.warpAffine(ai, m, s) for m, s, si in zip(rot_mats, sizes,subimgs)]
-
-        #preprocessed_mat
 
     def pre_process(self, image, iter_first_pass=10, iter_second_pass=64):
         """
