@@ -132,3 +132,56 @@ class AutoVideoCapture(object):
 
 
 
+class VideoDirCapture(object):
+    def __init__(self, dir, keep_every=1):
+
+        self.__file_list = [os.path.join(dir,f) for f in os.listdir(dir) if f.endswith(".avi")]
+        if len(self.__file_list) < 1:
+            raise Exception("the directory does not contain avi files")
+
+        self.__file_list = [f for f in reversed(sorted(self.__file_list))]
+        self.__current_capture = cv2.VideoCapture(self.__file_list.pop())
+        self.__frame_number = 0
+        self.__keep_every = keep_every
+
+    @property
+    def frame_number(self):
+        return self.__frame_number
+
+    def get_next_img(self):
+        self.__current_capture.grab()
+        retval, image =  self.__current_capture.retrieve()
+        if image is None:
+            if len(self.__file_list) == 0:
+                return None
+            self.__current_capture = cv2.VideoCapture(self.__file_list.pop())
+            image = self.get_next_img()
+
+        return image
+
+    def read(self):
+        image = self.get_next_img()
+        if image is None:
+            return None
+        try:
+            image_grey = cv2.cvtColor(image, cv.CV_BGR2GRAY)
+        except:
+            image_grey = image
+            pass
+
+        self.__frame_number += 1
+
+        return image_grey
+
+    def read_all(self):
+        while True:
+
+            image = self.read()
+            if image is None:
+                break
+
+            if (self.__frame_number % self.__keep_every) != 0:
+                continue
+            yield image
+
+
