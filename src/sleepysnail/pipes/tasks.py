@@ -1,11 +1,13 @@
-__author__ = 'quentin'
-
 import re
 import datetime
 import os
 import luigi
 import cv
 import cv2
+import dis
+import inspect
+import hashlib
+from sleepysnail.utils.logger import Logger
 
 from sleepysnail.acquisition.video_capture import VideoDirCapture, VIDEO_FORMAT
 
@@ -30,6 +32,9 @@ Replaces all non ascii or non-digit characters
     original_filename = original_filename.strip('_')
     return original_filename
 
+
+
+
 class TaskBase(luigi.Task):
 
     _FILENAME_LENGTH_LIMIT = 200
@@ -46,6 +51,32 @@ class TaskBase(luigi.Task):
 
     def __init__(self, *args, **kwargs):
         super(TaskBase, self).__init__(*args, **kwargs)
+
+        # this is to force re-runing tasks when code has changed
+        class_descr = ";".join(inspect.getsourcelines(self.__class__)[0])
+        self._class_code_hash = hashlib.md5(str(class_descr)).hexdigest()
+        self.delete_obsolete_targets()
+
+    def delete_obsolete_targets(self):
+        #check class hash, delete old files
+        class_output_dir = os.path.join(OUTPUT_DIR, self.__class__.__name__)
+        if not os.path.isdir(class_output_dir):
+            return
+
+        file_names = os.listdir(class_output_dir)
+        for f in file_names:
+            f_hash = f.split(".")[1]
+            #delete file if class code has changed
+            if f_hash != self._class_code_hash:
+                os.remove( os.path.join(OUTPUT_DIR, self.__class__.__name__,f))
+                Logger.info("The source code for this task has changed.\n"
+                            "Removing opsolete target: \n"
+                            "old hash = {0}"
+                            "new hash = {1}".format(f_hash, self._class_code_hash))
+
+
+
+
 
     @property
     def _file_extension(self):
@@ -78,6 +109,8 @@ This defaults to the class name, followed by dash-separated parameters of the cl
         params = self.get_params()
         param_values = [getattr(self, x[0]) for x in params if x[1].significant]
 
+
+
         if self.use_human_readable_filenames:
             params_str = '-'.join(map(filesafe_string, param_values))
             if params_str:
@@ -85,12 +118,11 @@ This defaults to the class name, followed by dash-separated parameters of the cl
 
             params_str = params_str.strip('-')
 
-            filename = '{0}-{1}{2}'.format(class_, params_str, self._file_extension)
+            filename = '{0}-{1}.{2}{3}'.format(class_, params_str, self._class_code_hash , self._file_extension)
 
         if not self.use_human_readable_filenames or len(filename) > self._FILENAME_LENGTH_LIMIT:
-            import hashlib
             params_str = hashlib.md5(';'.join(map(str, param_values))).hexdigest()
-            filename = '{0}-{1}{2}'.format(class_, params_str, self._file_extension)
+            filename = '{0}-{1}.{2}{3}'.format(class_, params_str, self._class_code_hash , self._file_extension)
 
         assert(filename != '')
         # Cache the filename before returning, especially important for the hashlib generated ones
@@ -138,36 +170,61 @@ where ``<FILENAME>`` is defined in :attr:`TaskBase._filename`.
 
 
 
+class MainTaskBase(TaskBase):
+    def __init__(self, *args, **kwargs):
+        super(MainTaskBase, self).__init__(*args, **kwargs)
+        Logger.info("VISUALISE AT \n"
+                    "http://localhost:8082/static/visualiser/index.html#{0}%28%29".format(self.__class__.__name__))
+
+    @property
+    def _file_extension(self):
+        return ".stamp"
+
+    def run(self):
+        f = self.output().open('w')
+        f.close()
+
+
 
 
 class VideoToVideoTask(TaskBase):
 
-    video_dir = luigi.Parameter(default = "/data/sleepysnail/raw/20140425-175349_0/")
-    speed_up = luigi.IntParameter(default=100)
+    videos = luigi.Parameter(default="")
+    speed_up = luigi.IntParameter(default=1)
     out_fps = luigi.IntParameter(default=30)
 
     @property
     def _file_extension(self):
         return ".%s" % VIDEO_FORMAT['extension']
 
+    def _process(self, image):
+        raise NotImplementedError
+
     def run(self):
         f = self.output().open('w')
         f.close()
 
-        capture = VideoDirCapture(self.video_dir, self.speed_up)
+        # if an input is available we should get videos from the preceding task
+        input_files = self.input()
+        if len(input_files) == 1:
+            video_file = input_files[0].path
+        else:
+            video_file = self.videos
+
+        capture = VideoDirCapture(video_file, self.speed_up)
         video_writer = None
 
         for img in capture.read_all():
+            img = self._process(img)
             if video_writer is None:
                 video_writer = cv2.VideoWriter(self.output().path,
                                                fourcc=VIDEO_FORMAT['fourcc'],
                                                fps=self.out_fps,
                                                frameSize=(img.shape[1], img.shape[0]))
 
+
             try:
                 img = cv2.cvtColor(img, cv.CV_GRAY2BGR)
             finally:
                 video_writer.write(img)
 
-if __name__ == '__main__':
-    luigi.run(main_task_cls=VideoToVideoTask)

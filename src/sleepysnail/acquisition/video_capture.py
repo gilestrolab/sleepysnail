@@ -12,7 +12,6 @@ VIDEO_CHUNK_SIZE = 1e4
 MAX_CAM_NUMBER = 10
 
 VIDEO_FORMAT = {'fourcc':cv.CV_FOURCC('D', 'I', 'V', 'X'), 'extension':"avi"}
-#VIDEO_FORMAT = {'fourcc':cv.CV_FOURCC('M', 'P', 'E', 'G'), 'extension':"mpeg"}
 
 
 class AutoCaptureCollection(list):
@@ -127,19 +126,19 @@ class AutoVideoCapture(object):
             self.frame_count += 1
 
 
-
-
-
-
-
 class VideoDirCapture(object):
-    def __init__(self, dir, keep_every=1):
+    """
+    Capture wrapper for a directory containing sorted files
+    """
+    def __init__(self, videos, keep_every=1):
+        if os.path.isdir(videos):
+            self.__file_list = [os.path.join(videos,f) for f in os.listdir(videos) if f.endswith(".avi")]
+            if len(self.__file_list) < 1:
+                raise Exception("the directory does not contain avi files")
+            self.__file_list = [f for f in reversed(sorted(self.__file_list))]
+        else:
+            self.__file_list = [videos]
 
-        self.__file_list = [os.path.join(dir,f) for f in os.listdir(dir) if f.endswith(".avi")]
-        if len(self.__file_list) < 1:
-            raise Exception("the directory does not contain avi files")
-
-        self.__file_list = [f for f in reversed(sorted(self.__file_list))]
         self.__current_capture = cv2.VideoCapture(self.__file_list.pop())
         self.__frame_number = 0
         self.__keep_every = keep_every
