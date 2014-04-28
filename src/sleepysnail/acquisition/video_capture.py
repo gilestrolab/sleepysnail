@@ -147,40 +147,42 @@ class VideoDirCapture(object):
     def frame_number(self):
         return self.__frame_number
 
-    def get_next_img(self):
-        self.__current_capture.grab()
-        retval, image =  self.__current_capture.retrieve()
-        if image is None:
-            if len(self.__file_list) == 0:
-                return None
-            self.__current_capture = cv2.VideoCapture(self.__file_list.pop())
-            image = self.get_next_img()
+
+
+    def read(self):
+        if self.__keep_every != 1:
+            capt_frame_n = self.__current_capture.get(cv.CV_CAP_PROP_POS_FRAMES)
+            total_frame_n = self.__current_capture.get(cv.CV_CAP_PROP_FRAME_COUNT)
+            next_frame_n = capt_frame_n + self.__keep_every - 1
+
+            if next_frame_n > total_frame_n:
+                if len(self.__file_list) == 0:
+                    return None
+                self.__current_capture = cv2.VideoCapture(self.__file_list.pop())
+                Logger.info("Merging next chunk. %i chunks to go" % len(self.__file_list))
+                next_frame_n %= self.__keep_every
+                total_frame_n = self.__current_capture.get(cv.CV_CAP_PROP_FRAME_COUNT)
+                if not next_frame_n or total_frame_n < next_frame_n:
+                    return None
+
+            self.__current_capture.set(cv.CV_CAP_PROP_POS_FRAMES, next_frame_n)
+
+        _, image = self.__current_capture.read()
+
+
+        try:
+            image = cv2.cvtColor(image, cv.CV_BGR2GRAY)
+        except:
+            pass
 
         return image
 
-    def read(self):
-        image = self.get_next_img()
-        if image is None:
-            return None
-        try:
-            image_grey = cv2.cvtColor(image, cv.CV_BGR2GRAY)
-        except:
-            image_grey = image
-            pass
-
-        self.__frame_number += 1
-
-        return image_grey
-
     def read_all(self):
         while True:
-
             image = self.read()
             if image is None:
                 break
-
-            if (self.__frame_number % self.__keep_every) != 0:
-                continue
             yield image
+
 
 

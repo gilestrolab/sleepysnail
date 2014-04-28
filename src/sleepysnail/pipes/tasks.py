@@ -10,6 +10,7 @@ import hashlib
 from sleepysnail.utils.logger import Logger
 
 from sleepysnail.acquisition.video_capture import VideoDirCapture, VIDEO_FORMAT
+import operator
 
 
 # Allow getting the output directory from [output] > directory in config file
@@ -53,9 +54,33 @@ class TaskBase(luigi.Task):
         super(TaskBase, self).__init__(*args, **kwargs)
 
         # this is to force re-runing tasks when code has changed
-        class_descr = ";".join(inspect.getsourcelines(self.__class__)[0])
-        self._class_code_hash = hashlib.md5(str(class_descr)).hexdigest()
+
+        #print "--------------------------"
+        #print self.__class__.__name__
+        #print self.get_all_deps()
+
+#            exit()
+        self._class_code_hash = self.make_hash()
         self.delete_obsolete_targets()
+
+    def get_all_deps(self):
+        all_deps = []
+        for x in self.requires():
+            cname = x.__class__.__name__
+            all_deps.append(cname)
+            all_deps += x.get_all_deps()
+        out = []
+        for i in all_deps:
+            if i not in out:
+                out.append(i)
+
+        return out
+
+    def make_hash(self):
+        class_descr = ";".join(inspect.getsourcelines(self.__class__)[0])
+        return hashlib.md5(str(class_descr)).hexdigest()
+
+
 
     def delete_obsolete_targets(self):
         #check class hash, delete old files
@@ -191,7 +216,7 @@ class VideoToVideoTask(TaskBase):
 
     videos = luigi.Parameter(default="")
     speed_up = luigi.IntParameter(default=1)
-    out_fps = luigi.IntParameter(default=30)
+    out_fps = luigi.IntParameter(default=5)
 
     @property
     def _file_extension(self):
@@ -201,30 +226,34 @@ class VideoToVideoTask(TaskBase):
         raise NotImplementedError
 
     def run(self):
-        f = self.output().open('w')
-        f.close()
+        try:
 
-        # if an input is available we should get videos from the preceding task
-        input_files = self.input()
-        if len(input_files) == 1:
-            video_file = input_files[0].path
-        else:
-            video_file = self.videos
+            f = self.output().open('w')
+            f.close()
 
-        capture = VideoDirCapture(video_file, self.speed_up)
-        video_writer = None
+            # if an input is available we should get videos from the preceding task
+            input_files = self.input()
+            if len(input_files) == 1:
+                video_file = input_files[0].path
+            else:
+                video_file = self.videos
 
-        for img in capture.read_all():
-            img = self._process(img)
-            if video_writer is None:
-                video_writer = cv2.VideoWriter(self.output().path,
-                                               fourcc=VIDEO_FORMAT['fourcc'],
-                                               fps=self.out_fps,
-                                               frameSize=(img.shape[1], img.shape[0]))
+            capture = VideoDirCapture(video_file, self.speed_up)
+            video_writer = None
+
+            for img in capture.read_all():
+                img = self._process(img)
+                if video_writer is None:
+                    video_writer = cv2.VideoWriter(self.output().path,
+                                                   fourcc=VIDEO_FORMAT['fourcc'],
+                                                   fps=self.out_fps,
+                                                   frameSize=(img.shape[1], img.shape[0]))
 
 
-            try:
-                img = cv2.cvtColor(img, cv.CV_GRAY2BGR)
-            finally:
-                video_writer.write(img)
-
+                try:
+                    img = cv2.cvtColor(img, cv.CV_GRAY2BGR)
+                finally:
+                    video_writer.write(img)
+        except KeyboardInterrupt:
+            Logger.warning("Removing files")
+            os.remove(self.filepath)
