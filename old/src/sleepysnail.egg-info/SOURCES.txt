@@ -1,0 +1,10 @@
+README.txt
+bin/capture
+sleepysnail/__init__.py
+sleepysnail.egg-info/PKG-INFO
+sleepysnail.egg-info/SOURCES.txt
+sleepysnail.egg-info/dependency_links.txt
+sleepysnail.egg-info/requires.txt
+sleepysnail.egg-info/top_level.txt
+sleepysnail/acquisition/__init__.py
+sleepysnail/acquisition/video_capture.py
