@@ -217,6 +217,7 @@ class VideoToVideoTask(TaskBase):
     videos = luigi.Parameter(default="")
     speed_up = luigi.IntParameter(default=1)
     out_fps = luigi.IntParameter(default=5)
+    capture = None
 
     @property
     def _file_extension(self):
@@ -238,10 +239,10 @@ class VideoToVideoTask(TaskBase):
             else:
                 video_file = self.videos
 
-            capture = VideoDirCapture(video_file, self.speed_up)
+            self.capture = VideoDirCapture(video_file, self.speed_up)
             video_writer = None
 
-            for img in capture.read_all():
+            for img in self.capture.read_all():
                 img = self._process(img)
                 if video_writer is None:
                     video_writer = cv2.VideoWriter(self.output().path,
@@ -254,6 +255,44 @@ class VideoToVideoTask(TaskBase):
                     img = cv2.cvtColor(img, cv.CV_GRAY2BGR)
                 finally:
                     video_writer.write(img)
+        except KeyboardInterrupt:
+            Logger.warning("Removing files")
+            os.remove(self.filepath)
+
+
+
+class VideoToCsvTask(TaskBase):
+    videos = luigi.Parameter(default="")
+    speed_up = luigi.IntParameter(default=1)
+    capture = None
+
+    @property
+    def _file_extension(self):
+        return ".csv"
+
+    def _process(self, image):
+        raise NotImplementedError
+
+    def _header(self):
+        raise NotImplementedError
+
+    def run(self):
+        try:
+            with self.output().open('w') as f:
+
+                input_files = self.input()
+                assert len(input_files) == 1
+                video_file = input_files[0].path
+                print input_files[0].path
+                self.capture = VideoDirCapture(video_file, self.speed_up)
+
+                f.write(self._header() + "\n" )
+                for img in self.capture.read_all():
+                    row = self._process(img)
+                    if row is not None:
+                        f.write(row + "\n")
+
+
         except KeyboardInterrupt:
             Logger.warning("Removing files")
             os.remove(self.filepath)

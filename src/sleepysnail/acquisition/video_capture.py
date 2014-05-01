@@ -174,6 +174,7 @@ class VideoDirCapture(object):
             image = cv2.cvtColor(image, cv.CV_BGR2GRAY)
         except:
             pass
+        self.__frame_number += 1
 
         return image
 

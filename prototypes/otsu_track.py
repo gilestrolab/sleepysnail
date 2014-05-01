@@ -6,14 +6,6 @@ import cv2
 import cv
 
 
-
-
-
-
-
-
-
-
 def filter_good_contours(contour, min_length=50, max_length=200, min_ar=1, max_ar=3):
         rect = cv2.minAreaRect(contour)
         box = cv.BoxPoints(rect)
@@ -35,16 +27,6 @@ def filter_good_contours(contour, min_length=50, max_length=200, min_ar=1, max_a
         return True
 
 
-
-
-
-
-
-
-
-
-
-
 #cap = cv2.VideoCapture('/data/sleepysnail/task-output/MakeVideoForRoi/MakeVideoForRoi-data_sleepysnail_raw_20140425-175349_0-1-5-5.027f0152af3e0f09230ea3a694a8ad0a.avi')
 cap = cv2.VideoCapture('/data/sleepysnail/task-output/MakeVideoForRoi/MakeVideoForRoi-data_sleepysnail_raw_20140425-175349_0-1-5-8.027f0152af3e0f09230ea3a694a8ad0a.avi')
 
@@ -58,18 +40,10 @@ vw = None
 
 
 
-padding = 25
+
 i = 0
 while True:
-    ret, orig = cap.read()
-    i +=1
-    if i % 1000 == 0:
-        print i
-    if ret:
-        frame = cv2.cvtColor(orig, cv2.COLOR_BGR2GRAY)
-        if vw is None:
-            vw = cv2.VideoWriter("/tmp/sleepysnail_contours.avi", VIDEO_FORMAT["fourcc"], 25, (frame.shape[1],frame.shape[0]))
-
+        padding = 25
         frame = cv2.GaussianBlur(frame , (9,9), 1.5)
 
 
@@ -89,27 +63,8 @@ while True:
         orig_bin = cv2.dilate(orig_bin, np.ones((3,3), dtype=np.uint8), iterations=2)
 
         binary = cv2.bitwise_and(orig_bin, binary)
-
-
         binary = binary[padding :-padding ,padding :-padding ]
         contours, hiera = cv2.findContours(binary, cv.CV_RETR_CCOMP,cv.CV_CHAIN_APPROX_SIMPLE)
 
         contours = contours = filter(filter_good_contours, contours)
-
         contours = [cv2.approxPolyDP(c, 1, True) for c in contours]
-
-        cv2.drawContours(orig, contours, -1, (0,255,255), 2, cv.CV_AA)
-
-
-        #cv2.imshow('img', orig)
-
-        vw.write(orig)
-        #k = cv2.waitKey(10) & 0xff
-        #if k == 27:
-        #    break
-
-    else:
-        break
-
-cv2.destroyAllWindows()
-cap.release()
