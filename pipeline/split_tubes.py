@@ -106,6 +106,17 @@ class MainTask(MainTaskBase):
 
             #ConcatenateVideoChunks(videos="/data/sleepysnail/raw/20140425-175349_0/", speed_up=60*5)]
 
+class TestTask(VideoToCsvTask):
+    def requires(self):
+        return [ConcatenateVideoChunks(videos="/data/sleepysnail/raw/20140425-175349_0/", speed_up=60*5)]
+
+    def _header(self):
+        return "frame, mean, var"
+
+    def _process(self, image):
+        print np.mean(image), np.var(image)
+        return "TEST"
 
 if __name__ == '__main__':
-    luigi.run(main_task_cls=MainTask)
+    # luigi.run(main_task_cls=MainTask)
+    luigi.run(main_task_cls=TestTask)
