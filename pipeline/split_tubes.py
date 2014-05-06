@@ -101,7 +101,9 @@ class MainTask(MainTaskBase):
 
     def requires(self):
         return [
-            MakeOneCsvPerROI(videos="/data/sleepysnail/raw/20140425-175349_0/", roi_id=i)
+            #MakeOneCsvPerROI(videos="/data/sleepysnail/raw/20140425-175349_0/", roi_id=i)
+            MakeVideoForRoi(videos="/data/sleepysnail/raw/20140425-175349_0/", roi_id=i)
+
             for i in range(18)]
 
             #ConcatenateVideoChunks(videos="/data/sleepysnail/raw/20140425-175349_0/", speed_up=60*5)]
@@ -118,5 +120,5 @@ class TestTask(VideoToCsvTask):
         return "TEST"
 
 if __name__ == '__main__':
-    # luigi.run(main_task_cls=MainTask)
-    luigi.run(main_task_cls=TestTask)
+    luigi.run(main_task_cls=MainTask)
+    # luigi.run(main_task_cls=TestTask)
