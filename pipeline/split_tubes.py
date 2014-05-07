@@ -7,6 +7,7 @@ from sleepysnail.preprocessing.roi_splitter import ROISplitter
 class MakeOneCsvPerROI(VideoToCsvTask):
     roi_id = luigi.IntParameter()
     padding = luigi.IntParameter(default=25)
+    background_classif = cv2.NormalBayesClassifier()
 
 
 
@@ -38,7 +39,7 @@ class MakeOneCsvPerROI(VideoToCsvTask):
 
     def _process(self, image):
         padding = self.padding
-
+        image = image[4:-4, 4:-4]
         frame = cv2.GaussianBlur(image , (9,9), 1.5)
 
         blur_frame = cv2.blur(frame, (151,151))
@@ -47,19 +48,61 @@ class MakeOneCsvPerROI(VideoToCsvTask):
         blur_frame[padding:-padding, padding :-padding ] = frame
 
         med = cv2.medianBlur(blur_frame, 15)
-        morph = cv2.dilate(med, np.ones((3, 3), dtype=np.uint8), iterations=4)
-        morph = cv2.erode(morph, np.ones((3, 3), dtype=np.uint8), iterations=4)
+        morph = cv2.dilate(med, np.ones((3, 3), dtype=np.uint8), iterations=7)
+        morph = cv2.erode(morph, np.ones((3, 3), dtype=np.uint8), iterations=7)
 
-        binary = cv2.adaptiveThreshold(morph, 255,  cv.CV_ADAPTIVE_THRESH_GAUSSIAN_C, cv.CV_THRESH_BINARY_INV, 151, 7)
-        binary = cv2.dilate(binary, np.ones((3,3), dtype=np.uint8), iterations=7)
+        seed = cv2.adaptiveThreshold(morph, 1,  cv.CV_ADAPTIVE_THRESH_GAUSSIAN_C, cv.CV_THRESH_BINARY_INV, 151, 7)
+        seed = seed[padding:-padding, padding :-padding]
 
-        orig_bin = cv2.adaptiveThreshold(blur_frame, 255,  cv.CV_ADAPTIVE_THRESH_GAUSSIAN_C, cv.CV_THRESH_BINARY_INV, 151, -5)
-        orig_bin = cv2.dilate(orig_bin, np.ones((3,3), dtype=np.uint8), iterations=2)
+        seed_contours, _ =cv2.findContours(seed, cv.CV_RETR_EXTERNAL,cv.CV_CHAIN_APPROX_SIMPLE)
+        cv2.drawContours(seed,seed_contours, 0, 1, -1)
 
-        binary = cv2.bitwise_and(orig_bin, binary)
-        binary = binary[padding :-padding ,padding :-padding ]
-        contours, hiera = cv2.findContours(binary, cv.CV_RETR_CCOMP,cv.CV_CHAIN_APPROX_SIMPLE)
+        relaxed_bin = cv2.adaptiveThreshold(frame, 1,  cv.CV_ADAPTIVE_THRESH_GAUSSIAN_C, cv.CV_THRESH_BINARY_INV, 151, -5)
+        relaxed_bin  = cv2.dilate(relaxed_bin , np.ones((3, 3), dtype=np.uint8), iterations=5)
+        if len(seed_contours) != 1:
+            continue
 
+        mom= cv2.moments(seed_contours[0], False)
+        zeroth = mom["m00"]
+        x = mom["m10"] / zeroth
+        y = mom["m01"] / zeroth
+
+        seed_center = complex(x, y)
+
+        x_mat = np.fromfunction(lambda i, j: j, seed.shape)
+        y_mat = np.fromfunction(lambda i, j: i, seed.shape)
+
+        y_vec = y_mat.flatten() * 1j
+        x_vec = x_mat.flatten()
+        pixel_posit = y_vec + x_vec
+
+        dist_mat = np.abs(pixel_posit - seed_center).astype(np.float32)
+
+        grey_mat = image.flatten().astype(np.float32)
+        data = np.column_stack((dist_mat , grey_mat))
+
+
+
+        labels = (relaxed_bin + seed).flatten()
+        cv2.imshow("q", 100* (relaxed_bin + seed))
+        if len(np.unique(labels)) < 3:
+            continue
+
+        train_data = data[labels != 1, :]
+        test_data = data[labels == 1, :]
+        response = labels[labels != 1]
+
+        self.background_classif.train(train_data, response.astype(np.int32))
+        _, predicted = self.background_classif.predict(test_data)
+
+        labels[labels == 1] = predicted
+
+        prediction = labels.reshape(seed.shape)
+        prediction = cv2.erode(prediction , np.ones((3, 3), dtype=np.uint8), iterations=1)
+        prediction = cv2.dilate(prediction , np.ones((3, 3), dtype=np.uint8), iterations=1)
+
+
+        contours, hiera = cv2.findContours(prediction, cv.CV_RETR_EXTERNAL,cv.CV_CHAIN_APPROX_SIMPLE)
         contours = filter(self.filter_good_contours, contours)
         contours = [cv2.approxPolyDP(c, 1, True) for c in contours]
         if len(contours) == 1:
