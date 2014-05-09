@@ -15,9 +15,30 @@ makeDf <-function(file_name, speed_up=60*5, fps=5, start_hour){
 
 all_my_files <- list.files(".")
 
-pdf("/tmp/the_best.pdf",w=16,h=8)
+
 all_dfs <- lapply(all_my_files, makeDf)
 df <- do.call("rbind",all_dfs)
+df <- na.omit(df)
+
+df$label <- NA
+
+min_speed <- 10
+max_speed <- 0.1
+
+df[df$diff > min_speed, ]$label <- TRUE
+df[df$diff < max_speed, ]$label <- FALSE
+
+trainning_set <- na.omit(df)
+test_set <- df[is.na(df$label),]
+
+train_s <- trainning_set[,c("id","area", "perim", "h", "w")]
+
+rf <- randomForest(train_s,as.factor(trainning_set$label), ntree=100)
+df$preds  <- predict(rf, df[,c("id","area", "perim", "h", "w")])
+
+
+
+pdf("/tmp/the_best.pdf",w=16,h=8)
 for (d in sort(unique(df$id))){
 	
 	plot(runmed(diff, 5) ~ th, na.omit(subset(df,id==d)),main=d)
