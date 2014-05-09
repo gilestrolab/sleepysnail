@@ -14,7 +14,7 @@ class MakeOneCsvPerROI(VideoToCsvTask):
     def requires(self):
         return [MakeVideoForRoi(videos=self.videos, roi_id=self.roi_id)]
     def _header(self):
-        return "id, f, x, y, area"
+        return "id, f, x, y, area, perim, hull_area, hull_perim, w, h"
 
 
     def filter_good_contours(self, contour, min_length=50, max_length=200, min_ar=1, max_ar=3):
@@ -60,7 +60,7 @@ class MakeOneCsvPerROI(VideoToCsvTask):
         relaxed_bin = cv2.adaptiveThreshold(frame, 1,  cv.CV_ADAPTIVE_THRESH_GAUSSIAN_C, cv.CV_THRESH_BINARY_INV, 151, -5)
         relaxed_bin  = cv2.dilate(relaxed_bin , np.ones((3, 3), dtype=np.uint8), iterations=5)
         if len(seed_contours) != 1:
-            continue
+            return
 
         mom= cv2.moments(seed_contours[0], False)
         zeroth = mom["m00"]
@@ -86,7 +86,7 @@ class MakeOneCsvPerROI(VideoToCsvTask):
         labels = (relaxed_bin + seed).flatten()
         cv2.imshow("q", 100* (relaxed_bin + seed))
         if len(np.unique(labels)) < 3:
-            continue
+            return
 
         train_data = data[labels != 1, :]
         test_data = data[labels == 1, :]
@@ -106,14 +106,30 @@ class MakeOneCsvPerROI(VideoToCsvTask):
         contours = filter(self.filter_good_contours, contours)
         contours = [cv2.approxPolyDP(c, 1, True) for c in contours]
         if len(contours) == 1:
+            cnt = contours[0]
             f = self.capture.frame_number
             mom= cv2.moments(contours[0], False)
             id = self.roi_id
             zeroth = mom["m00"]
             x = mom["m10"] / zeroth
             y = mom["m01"] / zeroth
-            area = zeroth
-            features = (id, f, x, y, area)
+            area = cv2.contourArea(cnt)
+            perim = cv2.arcLength(cnt,True)
+            hull = cv2.convexHull(cnt)
+
+            area_hull = cv2.contourArea(hull)
+            perim_hull = cv2.arcLength(hull,True)
+
+            rect = cv2.minAreaRect(cnt)
+            box = cv.BoxPoints(rect)
+            a = np.complex(box[0][0], box[0][1])
+            b = np.complex(box[1][0], box[1][1])
+            c = np.complex(box[2][0], box[2][1])
+
+            w, h = sorted([np.abs(a-b), np.abs(c-b)])
+
+
+            features = (id, f, x, y, area, perim, area_hull, perim_hull, w, h)
             out = ",".join(str(i) for i in features)
             return out
 
@@ -144,10 +160,11 @@ class MainTask(MainTaskBase):
 
     def requires(self):
         return [
-            #MakeOneCsvPerROI(videos="/data/sleepysnail/raw/20140425-175349_0/", roi_id=i)
-            MakeVideoForRoi(videos="/data/sleepysnail/raw/20140425-175349_0/", roi_id=i)
-
+            MakeOneCsvPerROI(videos="/data/sleepysnail/raw/20140425-175349_0/", roi_id=i)
+            #MakeVideoForRoi(videos="/data/sleepysnail/raw/20140425-175349_0/", roi_id=i)
             for i in range(18)]
+    def dummy(self):
+        print self
 
             #ConcatenateVideoChunks(videos="/data/sleepysnail/raw/20140425-175349_0/", speed_up=60*5)]
 
