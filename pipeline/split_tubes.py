@@ -3,6 +3,7 @@ import luigi
 import numpy as np
 from sleepysnail.pipes.tasks import *
 from sleepysnail.preprocessing.roi_splitter import ROISplitter
+from sleepysnail.preprocessing.undistortor import Undistortor
 
 class MakeOneCsvPerROI(VideoToCsvTask):
     roi_id = luigi.IntParameter()
@@ -136,12 +137,23 @@ class MakeOneCsvPerROI(VideoToCsvTask):
 
 
 
+class UndistortVideo(VideoToVideoTask):
+    undistortor = None
+    def requires(self):
+        return [ConcatenateVideoChunks(videos=self.videos, speed_up=60*5)]
+
+    def _process(self, image):
+        if self.undistortor is None:
+            self.undistortor = Undistortor(image)
+        return self.undistortor.undistort(image)
+
+
 
 class MakeVideoForRoi(VideoToVideoTask):
     roi_id = luigi.IntParameter()
     roi_splitter = None
     def requires(self):
-        return [ConcatenateVideoChunks(videos=self.videos, speed_up=60*5)]
+        return [UndistortVideo(videos=self.videos)]
 
     def _process(self, image):
         if self.roi_splitter is None:
@@ -170,7 +182,7 @@ class MainTask(MainTaskBase):
 
 class TestTask(VideoToCsvTask):
     def requires(self):
-        return [ConcatenateVideoChunks(videos="/data/sleepysnail/raw/20140425-175349_0/", speed_up=60*5)]
+        return [UndistortVideo(videos="/data/sleepysnail/raw/20140425-175349_0/")]
 
     def _header(self):
         return "frame, mean, var"
@@ -180,5 +192,5 @@ class TestTask(VideoToCsvTask):
         return "TEST"
 
 if __name__ == '__main__':
-    luigi.run(main_task_cls=MainTask)
-    # luigi.run(main_task_cls=TestTask)
+    #luigi.run(main_task_cls=MainTask)
+    luigi.run(main_task_cls=TestTask)
