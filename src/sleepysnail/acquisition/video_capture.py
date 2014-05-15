@@ -30,7 +30,9 @@ class AutoCaptureCollection(list):
                 pass
 
         Logger.info("Managed to open {0} cameras".format(len(self)))
-
+    def __del__(self):
+        for i in self:
+            del(i)
 
 class AutoVideoCapture(object):
     def __init__(self, idx, raw_data_dir, fps):
@@ -40,10 +42,12 @@ class AutoVideoCapture(object):
         if not self.stream.isOpened():
             raise Exception("cannot open this camera")
             #try to get the first frame
-        ret,frame = self.stream.read()
-        if not ret or len(frame) == 0:
-            raise Exception("Camera opens but does not manage to read frame")
-
+        #~ ret,frame = self.stream.read()
+        #~ if not ret or len(frame) == 0:
+            #~ self.stream.release()
+            #~ print frame
+            #~ raise Exception("Camera opens but does not manage to read frame")
+            
         self.idx = idx
         self.name = time.strftime("%Y%m%d-%H%M%S_") + str(self.idx)
         self.fps = fps
@@ -126,8 +130,11 @@ class AutoVideoCapture(object):
             self._write_to_file(frame)
             self.frame_count += 1
 
-
-
+    def __del__(self):
+        #~ try:
+            #~ self.video_writer.close()
+            
+        self.stream.release()
 
 
 
