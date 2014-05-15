@@ -17,7 +17,7 @@ setup(
     #     'pipes': ['luigi>=1.0.13'],
     # },
     install_requires=[
-    #TODO
+    "luigi>=1.0.13",
     "numpy>=1.6.1",
 
     ]

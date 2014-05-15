@@ -12,7 +12,6 @@ VIDEO_CHUNK_SIZE = 1e4
 MAX_CAM_NUMBER = 10
 
 VIDEO_FORMAT = {'fourcc':cv.CV_FOURCC('D', 'I', 'V', 'X'), 'extension':"avi"}
-#VIDEO_FORMAT = {'fourcc':cv.CV_FOURCC('M', 'P', 'E', 'G'), 'extension':"mpeg"}
 
 
 class AutoCaptureCollection(list):
@@ -109,11 +108,7 @@ class AutoVideoCapture(object):
                 VIDEO_FORMAT["extension"])
 
             Logger.info("Device \"{0}\" Making new video chunk: {1}".format(self.name, out_filename))
-            try:
-                self.video_writer.close()
-            except:
-                pass
-
+        
             self.video_writer = cv2.VideoWriter(out_filename, VIDEO_FORMAT["fourcc"], self.fps, self.frame_size)
             
         assert(self.video_writer.isOpened())
@@ -131,11 +126,64 @@ class AutoVideoCapture(object):
             self.frame_count += 1
 
     def __del__(self):
-        #~ try:
-            #~ self.video_writer.close()
-            
         self.stream.release()
 
+class VideoDirCapture(object):
+    """
+    Capture wrapper for a directory containing sorted files
+    """
+    def __init__(self, videos, keep_every=1):
+        if os.path.isdir(videos):
+            self.__file_list = [os.path.join(videos,f) for f in os.listdir(videos) if f.endswith(".avi")]
+            if len(self.__file_list) < 1:
+                raise Exception("the directory does not contain avi files")
+            self.__file_list = [f for f in reversed(sorted(self.__file_list))]
+        else:
+            self.__file_list = [videos]
+
+        self.__current_capture = cv2.VideoCapture(self.__file_list.pop())
+        self.__frame_number = 0
+        self.__keep_every = keep_every
+
+    @property
+    def frame_number(self):
+        return self.__frame_number
+
+    def read(self):
+        if self.__keep_every != 1:
+            capt_frame_n = self.__current_capture.get(cv.CV_CAP_PROP_POS_FRAMES)
+            total_frame_n = self.__current_capture.get(cv.CV_CAP_PROP_FRAME_COUNT)
+            next_frame_n = capt_frame_n + self.__keep_every - 1
+
+            if next_frame_n > total_frame_n:
+                if len(self.__file_list) == 0:
+                    return None
+                self.__current_capture = cv2.VideoCapture(self.__file_list.pop())
+                Logger.info("Merging next chunk. %i chunks to go" % len(self.__file_list))
+                next_frame_n %= self.__keep_every
+                total_frame_n = self.__current_capture.get(cv.CV_CAP_PROP_FRAME_COUNT)
+                if not next_frame_n or total_frame_n < next_frame_n:
+                    return None
+
+            self.__current_capture.set(cv.CV_CAP_PROP_POS_FRAMES, next_frame_n)
+
+        _, image = self.__current_capture.read()
+
+
+        try:
+            image = cv2.cvtColor(image, cv.CV_BGR2GRAY)
+        except:
+            pass
+        self.__frame_number += 1
+
+        return image
+
+    def read_all(self):
+        while True:
+            image = self.read()
+            if image is None:
+                break
+            yield image
 
 
 

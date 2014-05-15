@@ -16,7 +16,7 @@ if __name__ == "__main__":
 
     sec_per_frame = 1/float(FPS)
     all_devices = AutoCaptureCollection(DATA_DIR, FPS)
-    lag = 0
+    total_lag = 0
     if len(all_devices) == 0:
         exit(1)
     started = False
@@ -39,9 +39,11 @@ if __name__ == "__main__":
             if to_wait < 0:
 
                 Logger.warning("Inaccurate time: {0}ms over".format(-1 * to_wait))
-                to_wait = 1
+                
                 if started:
-                    lag += (-1 * to_wait)
+                    total_lag += (-1 * to_wait)
+                    
+                to_wait = 1
 
             key = cv2.waitKey(to_wait)  % 256
             
@@ -55,5 +57,5 @@ if __name__ == "__main__":
     finally:
         del(all_devices)
         Logger.info("Successful exit")
-        Logger.warning("The total lag is {0}s".format(float(lag)/1000.0))
+        Logger.warning("The total lag is {0}s".format(total_lag/1000.0))
         
