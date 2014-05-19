@@ -20,6 +20,8 @@ getFeatureDf <- function(MAIN_TASK_DIR, list_of_targs){
 	dfs <- lapply(to_read, read.csv)
 	col_numbers <- sapply(dfs,ncol)
 	features = dfs[[which(col_numbers != 1)]]
+	features$x <- round(features$x)
+	features$y <- round(features$y)
 	return(features)
 	}
 
@@ -41,12 +43,16 @@ getRawDf <- function(RAW_DIR, experiment){
 	}
 
 
-addSecondaryFeatures <- function(df){
+addSecondaryFeatures <- function(df,median_size=5, threshold=5){
 	out <- df
-	cplx <- complex(df$x, df$y)
+	cplx <- complex(real=df$x, imag=df$y)
 	dist <- abs(diff(cplx))
 	out$dist <- c(NA, dist)
-	return(na.omit(out))
+	out <- na.omit(out)
+	out$dist <- runmed(out$dist,median_size)
+	
+	out$is_active <- ifelse(out$dist > threshold,T, F)
+	return(out)
 	}
 
 
@@ -64,7 +70,7 @@ feature_df <- merge(feature_df, is_day_df, by="frame")
 feature_df <- na.omit(feature_df)
 features_per_indiv <- split(feature_df, feature_df$id)
 features_per_indiv <- lapply(features_per_indiv, addSecondaryFeatures)
-
+feature_df <- do.call("rbind", features_per_indiv)
 
 pdf("/tmp/R.pdf")
 
@@ -72,8 +78,7 @@ for (f in features_per_indiv){
 	title <- paste(unique(f$id),
 				unique(f$Species), 
 				sep=";")
-				
-	 plot(runmed(dist,11) ~ frame,f,pch=20,col=ifelse(is_day==0,"blue","red"),main=title)
+	 plot(runmed(dist,5) ~ frame,f,pch=20,col=ifelse(is_day==0,"blue","red"),main=title)
  }
 
 dev.off()

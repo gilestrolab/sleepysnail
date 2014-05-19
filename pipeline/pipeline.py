@@ -163,7 +163,7 @@ class MainTask(MainTaskBase):
 class MasterTask(MainTaskBase):
 
     experiments = ["/data/sleepysnail/raw/20140425-175349_0/",
-                   #"/data/sleepysnail/raw/20140502-175216_0"
+                   "/data/sleepysnail/raw/20140502-175216_0"
                    ]
 
     def requires(self):

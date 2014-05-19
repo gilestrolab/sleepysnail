@@ -94,15 +94,21 @@ class BlobFinder(object):
         pass
 
     def header(self):
-        return "x, y, area, perim, hull_area, hull_perim, w, h"
+        return "x, y, area, perim, hull_area, hull_perim, w, h, error"
 
     @property
     def n_features(self):
          stri= self.header()
          return len(stri.split(","))
 
-    def __na_result(self):
-        return ",".join(["NA" for i in range(self.n_features)])
+    def __na_result(self, error_code):
+
+        """
+        0 => no error
+        """
+        out = ["NA" for i in range(self.n_features - 1)]
+        out.append(error_code)
+        return ",".join(out)
 
     def __filter_good_contours(self, contour, min_length=30, max_length=200, min_ar=1, max_ar=3):
         rect = cv2.minAreaRect(contour)
@@ -126,8 +132,9 @@ class BlobFinder(object):
 
 
     def __make_seed(self, image):
-        padding = self.padding
 
+
+        padding = self.padding
 
         blur_frame = cv2.blur(image, (151,151))
         blur_frame = np.pad(blur_frame, padding, "edge")
@@ -138,20 +145,25 @@ class BlobFinder(object):
         morph = cv2.dilate(med, np.ones((3, 3), dtype=np.uint8), iterations=7)
         morph = cv2.erode(morph, np.ones((3, 3), dtype=np.uint8), iterations=7)
 
-        seed = cv2.adaptiveThreshold(morph, 1,  cv.CV_ADAPTIVE_THRESH_GAUSSIAN_C, cv.CV_THRESH_BINARY_INV, 151, 7)
+        seed = cv2.adaptiveThreshold(morph, 1,  cv.CV_ADAPTIVE_THRESH_GAUSSIAN_C, cv.CV_THRESH_BINARY_INV, 151, 10)
         seed = seed[padding:-padding, padding :-padding]
 
 
 
 
         blobs = BlobCollection(seed, filter_fun=filter_blobs)
-        if len(blobs) != 1:
+        if len(blobs) == 0:
             return
+        elif len(blobs) >1 :
+            good_blob_id = np.argmax([bl.area for bl in blobs])
+            good_blob = blobs[good_blob_id]
+        else:
+            good_blob = blobs[0]
 
         seed = np.zeros(seed.shape, np.uint8)
-        cv2.drawContours(seed, [bl.points for bl in blobs], 0, 1, -1)
+        cv2.drawContours(seed, [good_blob.points], 0, 1, -1)
 
-        return seed, bl.x, bl.y
+        return seed, good_blob.x, good_blob.y
 
 
     def find_blobs(self, image):
@@ -162,7 +174,7 @@ class BlobFinder(object):
 
         seed_tuple = self.__make_seed(frame)
         if seed_tuple is None:
-            return image, self.__na_result()
+            return image, self.__na_result("no_seed")
         seed, seed_x, seed_y = seed_tuple
 
         # pixels that could be part of the blob:
@@ -188,8 +200,7 @@ class BlobFinder(object):
 
 
         if len(np.unique(labels)) < 3:
-            print "labels issue"
-            return image, self.__na_result()
+            return image, self.__na_result("label_error")
 
         train_data = data[labels != 1, :]
         test_data = data[labels == 1, :]
@@ -208,11 +219,12 @@ class BlobFinder(object):
 
 
         if len(blobs) != 1:
-            return image, self.__na_result()
+            return image, self.__na_result("several_blobs")
         bl = blobs[0]
 
 
-        features = (bl.x, bl.y, bl.area, bl.perim, bl.area_hull, bl.perim_hull, bl.w, bl.h)
+        features = (bl.x, bl.y, bl.area, bl.perim, bl.area_hull, bl.perim_hull, bl.w, bl.h, 0)
+
         assert len(features) == self.n_features
 
         out = ",".join(str(i) for i in features)
