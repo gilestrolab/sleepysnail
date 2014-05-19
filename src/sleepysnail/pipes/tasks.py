@@ -203,11 +203,14 @@ class MainTaskBase(TaskBase):
 
     @property
     def _file_extension(self):
-        return ".stamp"
+        return ".targets"
 
     def run(self):
         f = self.output().open('w')
-        f.close()
+        with self.output().open('w') as f:
+            for infile in self.input():
+                f.write(infile.path + "\n")
+
 
 
 
@@ -255,6 +258,7 @@ class VideoToVideoTask(TaskBase):
                     img = cv2.cvtColor(img, cv.CV_GRAY2BGR)
                 finally:
                     video_writer.write(img)
+
         except KeyboardInterrupt:
             Logger.warning("Removing files")
             os.remove(self.filepath)
@@ -264,6 +268,7 @@ class VideoToVideoTask(TaskBase):
 class VideoToCsvTask(TaskBase):
     videos = luigi.Parameter(default="")
     speed_up = luigi.IntParameter(default=1)
+    save_video_log = luigi.BooleanParameter(default=False)
     capture = None
 
     @property
@@ -276,22 +281,40 @@ class VideoToCsvTask(TaskBase):
     def _header(self):
         raise NotImplementedError
 
+    def tmp_log_video(self):
+        import tempfile
+        return os.path.join(tempfile.gettempdir(),
+                            self._filename + '.' + VIDEO_FORMAT["extension"])
+        # return os.path.join(tempfile.gettempdir(), "test.avi")
     def run(self):
+
+        video_writer = None
+
         try:
             with self.output().open('w') as f:
 
                 input_files = self.input()
                 assert len(input_files) == 1
                 video_file = input_files[0].path
-                print input_files[0].path
+
                 self.capture = VideoDirCapture(video_file, self.speed_up)
 
                 f.write(self._header() + "\n" )
                 for img in self.capture.read_all():
-                    row = self._process(img)
+                    log, row = self._process(img)
                     if row is not None:
                         f.write(row + "\n")
 
+                    if self.save_video_log:
+                        if video_writer is None:
+                            video_writer = cv2.VideoWriter(self.tmp_log_video(),
+                                                   fourcc=VIDEO_FORMAT['fourcc'],
+                                                   fps=5,
+                                                   frameSize=(log.shape[1], log.shape[0]))
+                        try:
+                            log = cv2.cvtColor(log, cv.CV_GRAY2BGR)
+                        finally:
+                            video_writer.write(log)
 
         except KeyboardInterrupt:
             Logger.warning("Removing files")
