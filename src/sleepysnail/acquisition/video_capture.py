@@ -29,7 +29,9 @@ class AutoCaptureCollection(list):
                 pass
 
         Logger.info("Managed to open {0} cameras".format(len(self)))
-
+    def __del__(self):
+        for i in self:
+            del(i)
 
 class AutoVideoCapture(object):
     def __init__(self, idx, raw_data_dir, fps):
@@ -39,10 +41,12 @@ class AutoVideoCapture(object):
         if not self.stream.isOpened():
             raise Exception("cannot open this camera")
             #try to get the first frame
-        ret,frame = self.stream.read()
-        if not ret or len(frame) == 0:
-            raise Exception("Camera opens but does not manage to read frame")
-
+        #~ ret,frame = self.stream.read()
+        #~ if not ret or len(frame) == 0:
+            #~ self.stream.release()
+            #~ print frame
+            #~ raise Exception("Camera opens but does not manage to read frame")
+            
         self.idx = idx
         self.name = time.strftime("%Y%m%d-%H%M%S_") + str(self.idx)
         self.fps = fps
@@ -104,11 +108,7 @@ class AutoVideoCapture(object):
                 VIDEO_FORMAT["extension"])
 
             Logger.info("Device \"{0}\" Making new video chunk: {1}".format(self.name, out_filename))
-            try:
-                self.video_writer.close()
-            except:
-                pass
-
+        
             self.video_writer = cv2.VideoWriter(out_filename, VIDEO_FORMAT["fourcc"], self.fps, self.frame_size)
             
         assert(self.video_writer.isOpened())
@@ -125,6 +125,8 @@ class AutoVideoCapture(object):
             self._write_to_file(frame)
             self.frame_count += 1
 
+    def __del__(self):
+        self.stream.release()
 
 class VideoDirCapture(object):
     """
@@ -146,8 +148,6 @@ class VideoDirCapture(object):
     @property
     def frame_number(self):
         return self.__frame_number
-
-
 
     def read(self):
         if self.__keep_every != 1:
