@@ -74,7 +74,7 @@ class StretchHistogram(VideoToVideoTask):
         array = image.astype(np.float)
         med = np.median(array )
         array  = (array  * self.new_median) / med
-        array  = np.where(array >255, 255, array )
+        array  = np.where(array > 255, 255, array )
         #print array
         return array.astype(np.uint8)
 
@@ -162,8 +162,11 @@ class MainTask(MainTaskBase):
 
 class MasterTask(MainTaskBase):
 
-    experiments = ["/data/sleepysnail/raw/20140425-175349_0/",
-                   "/data/sleepysnail/raw/20140502-175216_0"
+    experiments = [
+                   "/data/sleepysnail/raw/20140425-175349_0/",
+                   # "/data/sleepysnail/raw/20140502-175216_0",
+                   # "/data/sleepysnail/raw/20140516-173616_0",
+                   # "/data/sleepysnail/raw/20140516-173617_2"
                    ]
 
     def requires(self):
@@ -173,7 +176,7 @@ class MasterTask(MainTaskBase):
 class TestTask(MainTaskBase):
     videos = luigi.Parameter(default="/data/sleepysnail/raw/20140425-175349_0/")
     def requires(self):
-        prerequisites = [ConcatenateVideoChunks(videos=self.videos)
+        prerequisites = [ConcatenateVideoChunks(videos=self.videos, speed_up=SPEED_UP)
         for i in range(1)]
 
         return prerequisites
@@ -181,3 +184,4 @@ class TestTask(MainTaskBase):
 
 if __name__ == '__main__':
     luigi.run(main_task_cls=MasterTask)
+    # luigi.run(main_task_cls=TestTask)

@@ -8,8 +8,14 @@ import dis
 import inspect
 import hashlib
 from sleepysnail.utils.logger import Logger
+from sleepysnail.acquisition.mencoder_wrappers import VideoSink
 
-from sleepysnail.acquisition.video_capture import VideoDirCapture, VIDEO_FORMAT
+from sleepysnail.acquisition.video_capture import VideoDirCapture\
+    #, VIDEO_FORMAT
+# VIDEO_FORMAT = {'fourcc':cv.CV_FOURCC('D', 'I', 'V', 'X'), 'extension':"avi"}
+
+# VIDEO_FORMAT = {'fourcc':cv.CV_FOURCC('I', 'Y', 'U', 'V'), 'extension':"mpeg"}
+
 import operator
 
 
@@ -224,7 +230,7 @@ class VideoToVideoTask(TaskBase):
 
     @property
     def _file_extension(self):
-        return ".%s" % VIDEO_FORMAT['extension']
+        return ".avi"
 
     def _process(self, image):
         raise NotImplementedError
@@ -245,24 +251,30 @@ class VideoToVideoTask(TaskBase):
             self.capture = VideoDirCapture(video_file, self.speed_up)
             video_writer = None
 
-            for img in self.capture.read_all():
+            for i,img in enumerate(self.capture.read_all()):
                 img = self._process(img)
+                #print i
                 if video_writer is None:
-                    video_writer = cv2.VideoWriter(self.output().path,
-                                                   fourcc=VIDEO_FORMAT['fourcc'],
-                                                   fps=self.out_fps,
-                                                   frameSize=(img.shape[1], img.shape[0]))
+                    video_writer = VideoSink(self.output().path, size=(img.shape[0], img.shape[1]),
+                                             rate=self.out_fps, colorspace='bgr24')
+
+
 
 
                 try:
                     img = cv2.cvtColor(img, cv.CV_GRAY2BGR)
+
                 finally:
-                    video_writer.write(img)
+                    video_writer(img)
 
         except KeyboardInterrupt:
             Logger.warning("Removing files")
             os.remove(self.filepath)
-
+        finally:
+            try:
+                video_writer.close()
+            except:
+                pass
 
 
 class VideoToCsvTask(TaskBase):
@@ -284,7 +296,7 @@ class VideoToCsvTask(TaskBase):
     def tmp_log_video(self):
         import tempfile
         return os.path.join(tempfile.gettempdir(),
-                            self._filename + '.' + VIDEO_FORMAT["extension"])
+                            self._filename + '.avi')
         # return os.path.join(tempfile.gettempdir(), "test.avi")
     def run(self):
 
@@ -307,14 +319,12 @@ class VideoToCsvTask(TaskBase):
 
                     if self.save_video_log:
                         if video_writer is None:
-                            video_writer = cv2.VideoWriter(self.tmp_log_video(),
-                                                   fourcc=VIDEO_FORMAT['fourcc'],
-                                                   fps=5,
-                                                   frameSize=(log.shape[1], log.shape[0]))
+                             video_writer = VideoSink(self.output().path, size=(img.shape[0], img.shape[1]),
+                                             rate=5, colorspace='bgr24')
                         try:
                             log = cv2.cvtColor(log, cv.CV_GRAY2BGR)
                         finally:
-                            video_writer.write(log)
+                            video_writer(log)
 
         except KeyboardInterrupt:
             Logger.warning("Removing files")

@@ -8,6 +8,8 @@ import time
 
 from sleepysnail.utils.logger import Logger
 
+from sleepysnail.acquisition.mencoder_wrappers import VideoSource
+
 VIDEO_CHUNK_SIZE = 1e4
 MAX_CAM_NUMBER = 10
 
@@ -128,10 +130,12 @@ class AutoVideoCapture(object):
     def __del__(self):
         self.stream.release()
 
+
+
 class VideoDirCapture(object):
     """
-    Capture wrapper for a directory containing sorted files
-    """
+Capture wrapper for a directory containing sorted files
+"""
     def __init__(self, videos, keep_every=1):
         if os.path.isdir(videos):
             self.__file_list = [os.path.join(videos,f) for f in os.listdir(videos) if f.endswith(".avi")]
@@ -154,7 +158,6 @@ class VideoDirCapture(object):
             capt_frame_n = self.__current_capture.get(cv.CV_CAP_PROP_POS_FRAMES)
             total_frame_n = self.__current_capture.get(cv.CV_CAP_PROP_FRAME_COUNT)
             next_frame_n = capt_frame_n + self.__keep_every - 1
-
             if next_frame_n > total_frame_n:
                 if len(self.__file_list) == 0:
                     return None
@@ -187,3 +190,115 @@ class VideoDirCapture(object):
 
 
 
+
+#
+# class VideoDirCapture(object):
+#     """
+#     Capture wrapper for a directory containing sorted files
+#     """
+#     def __init__(self, videos, keep_every=1):
+#         if os.path.isdir(videos):
+#             self.__file_list = [os.path.join(videos,f) for f in os.listdir(videos) if f.endswith(".avi")]
+#             if len(self.__file_list) < 1:
+#                 raise Exception("the directory does not contain avi files")
+#             self.__file_list = [f for f in reversed(sorted(self.__file_list))]
+#         else:
+#             self.__file_list = [videos]
+#
+#         self.__current_capture = cv2.VideoCapture(self.__file_list.pop())
+#         self.__frame_number = 0
+#         self.__keep_every = keep_every
+#
+#     @property
+#     def frame_number(self):
+#         return self.__frame_number
+#
+#     def read(self):
+#
+#         if self.__keep_every != 1:
+#             capt_frame_n = self.__current_capture.get(cv.CV_CAP_PROP_POS_FRAMES)
+#             total_frame_n = self.__current_capture.get(cv.CV_CAP_PROP_FRAME_COUNT)
+#             next_frame_n = capt_frame_n + self.__keep_every - 1
+#
+#             if next_frame_n > total_frame_n:
+#                 if len(self.__file_list) == 0:
+#                     return None
+#                 self.__current_capture = cv2.VideoCapture(self.__file_list.pop())
+#                 print "?"
+#                 Logger.info("Merging next chunk. %i chunks to go" % len(self.__file_list))
+#                 next_frame_n %= self.__keep_every
+#                 total_frame_n = self.__current_capture.get(cv.CV_CAP_PROP_FRAME_COUNT)
+#                 if not next_frame_n or total_frame_n < next_frame_n:
+#                     return None
+#
+#             self.__current_capture.set(cv.CV_CAP_PROP_POS_FRAMES, next_frame_n)
+#
+#         _, image = self.__current_capture.read()
+#
+#
+#         try:
+#             image = cv2.cvtColor(image, cv.CV_BGR2GRAY)
+#         except:
+#             pass
+#         self.__frame_number += 1
+#
+#         return image
+#
+#     def read_all(self):
+#         while True:
+#             image = self.read()
+#             if image is None:
+#                 break
+#             yield image
+
+
+# class VideoDirCaptureMencoder(VideoDirCapture):
+#     """
+#     Capture wrapper for a directory containing sorted files
+#     """
+#     def __init__(self, videos, keep_every=1):
+#         if os.path.isdir(videos):
+#             self.__file_list = [os.path.join(videos,f) for f in os.listdir(videos) if f.endswith(".avi")]
+#             if len(self.__file_list) < 1:
+#                 raise Exception("the directory does not contain avi files")
+#             self.__file_list = [f for f in reversed(sorted(self.__file_list))]
+#         else:
+#             self.__file_list = [videos]
+#
+#         self.guessed_colorspace
+#         self.__current_capture = cv2.VideoCapture(self.__file_list.pop())
+#         self.__frame_number = 0
+#         self.__keep_every = keep_every
+#
+#
+#     def read(self):
+#         if self.__keep_every != 1:
+#             capt_frame_n = self.__current_capture.get(cv.CV_CAP_PROP_POS_FRAMES)
+#             total_frame_n = self.__current_capture.get(cv.CV_CAP_PROP_FRAME_COUNT)
+#             next_frame_n = capt_frame_n + self.__keep_every - 1
+#
+#             if next_frame_n > total_frame_n:
+#                 if len(self.__file_list) == 0:
+#                     return None
+#                 self.__current_capture = VideoSource(self.__file_list.pop(),colorspace=self.guessed_colorspace)
+#                 Logger.info("Merging next chunk. %i chunks to go" % len(self.__file_list))
+#                 next_frame_n %= self.__keep_every
+#                 total_frame_n = self.__current_capture.get(cv.CV_CAP_PROP_FRAME_COUNT)
+#                 if not next_frame_n or total_frame_n < next_frame_n:
+#                     return None
+#
+#             self.__current_capture.set(cv.CV_CAP_PROP_POS_FRAMES, next_frame_n)
+#
+#         _, image = self.__current_capture.read()
+#
+#
+#         try:
+#             image = cv2.cvtColor(image, cv.CV_BGR2GRAY)
+#         except:
+#             pass
+#         self.__frame_number += 1
+#
+#         return image
+#
+#
+#

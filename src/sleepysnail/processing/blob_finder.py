@@ -218,10 +218,20 @@ class BlobFinder(object):
         blobs = BlobCollection(prediction, epsilon=1, filter_fun=filter_blobs)
 
 
-        if len(blobs) != 1:
-            return image, self.__na_result("several_blobs")
-        bl = blobs[0]
+        # if len(blobs) != 1:
+        #     return image, self.__na_result("several_blobs")
+        # bl = blobs[0]
 
+
+
+        if len(blobs) ==0 :
+             return image, self.__na_result("no_blobs")
+
+        elif len(blobs) >1 :
+            good_blob_id = np.argmax([bl.area for bl in blobs])
+            bl = blobs[good_blob_id]
+        else:
+            bl= blobs[0]
 
         features = (bl.x, bl.y, bl.area, bl.perim, bl.area_hull, bl.perim_hull, bl.w, bl.h, 0)
 
