@@ -43,8 +43,15 @@ class Undistortor(object):
             return np.Inf
 
         else:
-            Logger.info(str([f,k,lines.shape[1]]))
-            return 1/float(lines.shape[1])
+            # Logger.info(str([f,k,lines.shape[1]]))
+
+            # print "linesssssssssssssssss"
+            # print lines
+            # print lines.shape
+            pt1 = lines[0,:, 0] + 1j * lines[0, :, 1]
+            pt2 = lines[0, :, 2] + 1j * lines[0, :, 3]
+            out = 1 / np.sum(abs(pt1 - pt2))
+            return out
 
     def _find_cam_matrix(self, image,f,k):
         camera_matrix = np.zeros((3,3),'float32')

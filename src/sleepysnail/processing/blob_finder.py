@@ -101,13 +101,17 @@ class BlobFinder(object):
          stri= self.header()
          return len(stri.split(","))
 
-    def __na_result(self, error_code):
+    def __na_result(self, error_code, x="NA", y ="NA"):
 
         """
         0 => no error
         """
-        out = ["NA" for i in range(self.n_features - 1)]
+        out = [x, y]
+        for i in range(self.n_features - 3):
+            out.append("NA")
         out.append(error_code)
+        if error_code != "no_seed":
+            print out
         return ",".join(out)
 
     def __filter_good_contours(self, contour, min_length=30, max_length=200, min_ar=1, max_ar=3):
@@ -172,9 +176,16 @@ class BlobFinder(object):
         image = image[6:-6, 6:-6]
         frame = cv2.GaussianBlur(image, (9,9), 1.5)
 
+
+        try:
+            log = cv2.cvtColor(image, cv.CV_GRAY2BGR)
+
+        except:
+            pass
+
         seed_tuple = self.__make_seed(frame)
         if seed_tuple is None:
-            return image, self.__na_result("no_seed")
+            return log, self.__na_result("no_seed")
         seed, seed_x, seed_y = seed_tuple
 
         # pixels that could be part of the blob:
@@ -200,7 +211,7 @@ class BlobFinder(object):
 
 
         if len(np.unique(labels)) < 3:
-            return image, self.__na_result("label_error")
+            return log, self.__na_result("label_error")
 
         train_data = data[labels != 1, :]
         test_data = data[labels == 1, :]
@@ -225,7 +236,7 @@ class BlobFinder(object):
 
 
         if len(blobs) ==0 :
-             return image, self.__na_result("no_blobs")
+             return log, self.__na_result("no_blobs",str(seed_x), str(seed_y))
 
         elif len(blobs) >1 :
             good_blob_id = np.argmax([bl.area for bl in blobs])
@@ -239,9 +250,12 @@ class BlobFinder(object):
 
         out = ",".join(str(i) for i in features)
 
-        # log image
-        cv2.drawContours(image, [bl.points], 0, (255,0,0), 4)
+
+        log2 = np.copy(log)
+        cv2.drawContours(log, [bl.points], 0, (255,0,0), 3)
+        log = (log2/2  + log/2).astype(np.uint8)
 
 
-        return image, out
+        return log, out
+
 

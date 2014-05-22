@@ -263,13 +263,15 @@ class VideoToVideoTask(TaskBase):
 
                 try:
                     img = cv2.cvtColor(img, cv.CV_GRAY2BGR)
-
+                except:
+                    pass
                 finally:
                     video_writer(img)
 
         except KeyboardInterrupt:
-            Logger.warning("Removing files")
+        # except Exception, e:
             os.remove(self.filepath)
+            raise
         finally:
             try:
                 video_writer.close()
@@ -314,18 +316,23 @@ class VideoToCsvTask(TaskBase):
                 f.write(self._header() + "\n" )
                 for img in self.capture.read_all():
                     log, row = self._process(img)
+
                     if row is not None:
                         f.write(row + "\n")
 
                     if self.save_video_log:
                         if video_writer is None:
-                             video_writer = VideoSink(self.output().path, size=(img.shape[0], img.shape[1]),
+                             video_writer = VideoSink(self.tmp_log_video(),  size=(log.shape[0], log.shape[1]),
                                              rate=5, colorspace='bgr24')
-                        try:
-                            log = cv2.cvtColor(log, cv.CV_GRAY2BGR)
-                        finally:
-                            video_writer(log)
+                        # try:
+                        #     log = cv2.cvtColor(log, cv.CV_GRAY2BGR)
+                        # except:
+                        #     pass
+
+                        video_writer(log)
 
         except KeyboardInterrupt:
+        # except Exception, e:
             Logger.warning("Removing files")
-            os.remove(self.filepath)
+            #os.remove(self.filepath)
+        #     raise

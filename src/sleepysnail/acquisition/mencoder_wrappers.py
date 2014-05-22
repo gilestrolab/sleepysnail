@@ -77,7 +77,7 @@ class VideoSink(object) :
                         '-nosound',
                         '-really-quiet'
         )
-        print cmdstring
+
         self.p = subprocess.Popen(cmdstring, stdin=subprocess.PIPE, shell=False)
 
     def __call__(self, frame) :

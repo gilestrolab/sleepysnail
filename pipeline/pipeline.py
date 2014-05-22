@@ -63,7 +63,7 @@ class MakeVideoForRoi(VideoToVideoTask):
 
 
 class StretchHistogram(VideoToVideoTask):
-    new_median=175
+    new_median=128
 
     undistortor = None
     def requires(self):
@@ -164,9 +164,9 @@ class MasterTask(MainTaskBase):
 
     experiments = [
                    "/data/sleepysnail/raw/20140425-175349_0/",
-                   # "/data/sleepysnail/raw/20140502-175216_0",
-                   # "/data/sleepysnail/raw/20140516-173616_0",
-                   # "/data/sleepysnail/raw/20140516-173617_2"
+                   "/data/sleepysnail/raw/20140502-175216_0",
+                   "/data/sleepysnail/raw/20140516-173616_0",
+                   "/data/sleepysnail/raw/20140516-173617_2"
                    ]
 
     def requires(self):
