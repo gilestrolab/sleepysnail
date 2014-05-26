@@ -4,8 +4,8 @@ rm(list=ls())
 
 RAW_DIR <- "/data/sleepysnail/raw"
 MAIN_TASK_DIR <- "/data/sleepysnail/task-output/MainTask"
-
 FRAME_PER_HOUR = 60
+
 
 getIsDayDf <- function(experiment){
 	target_file <- list.files(MAIN_TASK_DIR, pattern=experiment, full.names=T)
@@ -50,7 +50,6 @@ getRawDf <- function(RAW_DIR, experiment){
 	return(df)
 	}
 
-
 addSecondaryFeatures <- function(df,max_frames,median_size=3, threshold=5){
 	mat <- as.matrix(na.omit(df))
 	frame <- 1:max_frames
@@ -76,7 +75,6 @@ addSecondaryFeatures <- function(df,max_frames,median_size=3, threshold=5){
 
 summarise_one_experiment <- function(experiment){
 
-	
 	start_hh_mm <- substring(strsplit(experiment,"[-_]")[[1]][2], c(1,3),c(2,4))
 	
 	start_hour  <- strtoi(start_hh_mm[1]) + strtoi(start_hh_mm[2])/60
@@ -164,6 +162,7 @@ summarise_one_experiment <- function(experiment){
 	dev.off()
 	return(feature_mat)
 }
+
 experiments = c("20140425-175349_0", "20140502-175216_0", "20140516-173616_0",  "20140516-173617_2")
 features_per_exper <- lapply(experiments, summarise_one_experiment)
 

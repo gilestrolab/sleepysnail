@@ -1,5 +1,3 @@
-from ubuntuone.controlpanel.gui.qt import gotoweb
-
 __author__ = 'quentin'
 
 import cv
