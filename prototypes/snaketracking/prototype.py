@@ -5,7 +5,8 @@ import cv
 from sleepysnail.acquisition.video_capture import VideoDirCapture
 from acwe import MorphACWE
 import numpy as np
-R = 1
+from sleepysnail.utils.figure_maker import FigureMaker
+R = 1.4
 FILE = "./test.avi"
 
 
@@ -80,7 +81,7 @@ class Tracker(object):
         l1 = 1e9
         l2 = l1 * r
         self.snake = MorphACWE(1, l1, l2)
-        pass
+        self.counter=0
 
     def make_seed(self, image, padding=25):
         blur_frame = cv2.blur(image, (151,151))
@@ -109,8 +110,8 @@ class Tracker(object):
     def __call__(self, image):
 
         image = image[6:-6, 6:-6]
-        gaus = cv2.GaussianBlur(image, (51,51), 4.5)
-        gaus_small = cv2.GaussianBlur(image, (15,15), 2.5)
+        # gaus = cv2.GaussianBlur(image, (51,51), 4.5)
+        gaus_small = cv2.GaussianBlur(image, (7,7), 1.5)
 
 
         sob_x = cv2.Sobel(gaus_small, cv.CV_16S, 1,0)
@@ -128,34 +129,47 @@ class Tracker(object):
 
         self.snake.set_levelset(self.mask)
 
+        epsilon = 1e-5
 
-
-        for i in range(60):
+        es = []
+        for i in range(100):
             toshow = cv2.cvtColor(image, cv.CV_GRAY2BGR)
-            mask = self.mask.astype(np.uint8)
 
-            bc = BlobCollection(mask)
+            if i ==0:
+                fig_make(toshow,"%03d_%02d" % (self.counter, i))
 
-            cv2.drawContours(toshow, [bc[0].points], 0, (255,200,0), 3, cv.CV_AA)
+            old_mask = self.snake.levelset
+            bc = BlobCollection(old_mask.astype(np.uint8))
+            cv2.drawContours(toshow, [bc[0].points], 0, (255,200,0), 2, cv.CV_AA)
 
+            fig_make(toshow,"%03d_%02d" % (self.counter, i+1))
             cv2.imshow("toshow",toshow)
 
-            cv2.imshow("test",test)
-            #cv2.imshow("orig",cv2.cvtColor(image, cv.CV_GRAY2BGR))
+
 
             cv2.waitKey(10)
             self.mask = self.snake.step(test)
 
+            # e = np.sum(np.logical_and(old_mask, self.mask))/ np.float(np.sum(np.logical_or(old_mask, self.mask)))
+            e = np.sum(old_mask) / np.float(np.sum(self.mask))
+
+            es.append(e)
+
+            if len(es) > 5:
+                if abs(es[-1] - es[-3] + es[-2] - es[-4]) < epsilon:
+                    #print (i, i)
+                    break
+        self.counter += 1
 
 
 
 
+fig_make = FigureMaker("/tmp/fig/", "snake")
 
 
 if __name__ == "__main__":
     vc = VideoDirCapture(FILE)
     tr = Tracker(R)
-    for img in vc.read_all():
-
+    for i, img in enumerate(vc.read_all()):
         tr(img)
 
