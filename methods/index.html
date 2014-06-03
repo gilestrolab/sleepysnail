@@ -2,30 +2,45 @@
 layout: default
 title: Methods
 ---
-<div class="jumbotron">
-  
-</div>
 
+<div class="jumbotron">
+	<h2>My message</h2>
+</div>
 <div class="row">
-	<div class="col-md-6">
-		testt Avfdz fds fdsbv fda df ds efavesgvfre
-		testt Avfdz fds fdsbv fda df ds efavesgvfre
-		testt Avfdz fds fdsbv fda df ds efavesgvfre
-		testt Avfdz fds fdsbv fda df ds efavesgvfre
-		testt Avfdz fds fdsbv fda df ds efavesgvfre
-		
+	<div class="col-md-6 dag_div">
+
+	<span>
+		<svg width="100" height="100">
+		  <circle id="dag_raw" class="process active" cx="20" cy="20" r="10" stroke="green" stroke-width="4" onclick="updateDag(this.id)"/>
+		  <circle id="dag_concat" class="process" cx="20" cy="50" r="10" stroke="green" stroke-width="4" onclick="updateDag(this.id)"/>
+		</svg>
+	</span>
+
 	</div>
 	
 	<div class="col-md-6">
-		<div class="row"> 
-			descriptionnnnnnn onn ? tdebwgucbgsw
-			descriptionnnnnnn onn ? tdebwgucbgsw
-			descriptionnnnnnn onn ? tdebwgucbgsw
-			descriptionnnnnnn onn ? tdebwgucbgsw
-			descriptionnnnnnn ew
+		<div class="row fig_div">
+			<div id="fig_raw" class= "process active">
+				test raw
+			</div>
+			
+			<div id="fig_concat" class= "process">
+				test concat
+			</div>
+			
 		</div>
-		<div class="row"> test C vfdz gvfdxz fgbdzv b gdzbfzgvdz gfds
-		 gbfzsbdz sbb ckesz bvourzsn oiiug8o u8w ua fuwe09 uwe9w wruw9 tuf</div>
+		
+		<div class="row math_div"> 
+					
+			<div id="math_raw" class= "process active">
+				MATH_RAW
+			</div>
+			
+			<div id="math_concat" class= "process">
+				MATH_CONCAT
+			</div>
+		</div>
 	</div>
 </div>
+
 

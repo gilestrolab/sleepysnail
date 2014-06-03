@@ -1,0 +1,43 @@
+
+/*
+dag.process.active{
+	fill: "red";
+}
+*/
+
+.dag_div .process:hover{
+	opacity: 0.5;
+	cursor:pointer;
+}
+.dag_div .process{
+  fill:yellow;
+}
+
+.dag_div .process.active{
+	opacity: 1;
+	fill:red;
+}
+
+.fig_div .process{
+  display: none;
+}
+
+.fig_div .process.active{
+  display: inline-block;
+}
+
+.math_div .process{
+  display: none;
+}
+
+.math_div .process.active{
+  display: inline-block;
+}
+
+
+/*
+
+circle:hover{
+  fill:red;
+}
+*/
