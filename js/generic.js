@@ -12,12 +12,9 @@ $( document ).ready(function() {
 var updateDag = function(tag){
 	
 	suffix = tag.split("_")[1]
-	console.log(prefixes)
-	console.log(suffix)
 	for(p in prefixes){
 		$('.' + prefixes[p] + '_div .process').attr("class", "process");
 		id = '#' + prefixes[p] + '_' + suffix
-		console.log(id)
 		$(id).attr("class", "process active");
 		}
 	};

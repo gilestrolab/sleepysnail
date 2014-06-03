@@ -6,20 +6,26 @@ dag.process.active{
 */
 
 .dag_div .process:hover{
-	opacity: 0.5;
+	opacity: 0.7;
 	cursor:pointer;
 }
 .dag_div .process{
-  fill:yellow;
+	opacity: 0.3;
+	fill:#00ffff;
+	fill-opacity:1;
+	stroke:#000000;
+	stroke-width:3;
 }
 
 .dag_div .process.active{
-	opacity: 1;
-	fill:red;
+	opacity: 0.5;
+	fill-opacity: 1;
+	fill:yellow;
+	stroke: red;
 }
 
 .fig_div .process{
-  display: none;
+	display: none;
 }
 
 .fig_div .process.active{
