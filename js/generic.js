@@ -5,6 +5,7 @@ var media_map = {"raw":"1044213",
 "rois": "1045435",
 "undist": "1045433",
 "daynight": "1045484",
+"hist": "1045574",
 "contours": "1041210"};
 
 var media_url_template = ["http://wl.figshare.com/articles/", 

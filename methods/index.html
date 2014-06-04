@@ -427,6 +427,10 @@ title: Methods
 					<h1>Sampling</h1>
 					<figure> <iframe width="568" height="481" frameborder="0"></iframe>
 					<figcaption>Representative video sequence of 18 individual land snails.</figcaption></figure></div>
+				<div id="fig_hist" class= "process">
+					<h1>Histogram Stretching</h1>
+					<figure> <iframe width="568" height="481" frameborder="0"></iframe>
+					<figcaption>The intensity of each frame is normalised (stretched) to fix median at 128.</figcaption></figure></div>
 					
 				<div id="fig_undist" class= "process">
 					<h1>Undistortion</h1>
@@ -446,42 +450,6 @@ title: Methods
 					<h1>Definition of ROIs</h1>
 					<figure> <iframe width="568" height="481" frameborder="0"></iframe>
 					<figcaption>Processing steps for automaticaly defining regions of interest (ROIs)</figcaption></figure></div>
-<!--
-					<figcaption>Representative video sequence of 18 individual land snails.</figcaption></figure></div>
-					
-				<div id="fig_concat" class= "process">
-					<h1>Acquisition</h1>
-					<iframe src="http://wl.figshare.com/articles/1041210/embed?show_title=0" width="568" height="481" frameborder="0"></iframe>
-					<p>Representative video sequence of 18 individual land snails.</p>
-				</div>
-				<div id="fig_rois" class= "process">
-					<h1>Definition of ROIs</h1>
-					
-					<iframe src="http://wl.figshare.com/articles/1045435/embed?show_title=0" width="568" height="481" frameborder="0"></iframe>
-					<p>Processing steps for automaticaly defining regions of interest (ROIs)</p>
-				</div>
-				
-				<div id="fig_undist" class= "process">
-					<h1>Undistortion</h1>
-					<iframe src="http://wl.figshare.com/articles/1045433/embed?show_title=0" width="568" height="481" frameborder="0"></iframe>
-					<p>Processing steps for undistorting a frame.</p>
-				</div>
-				
-				<div id="fig_daynight" class= "process">
-					<h1>Day vs Night image classification.</h1>
-					<iframe src="http://wl.figshare.com/articles/1045484/embed?show_title=0" width="568" height="481" frameborder="0"></iframe>
-					<p>Summary of the classification of frames in "day" or "night" images.</p>
-				</div>
-				
-				<div id="fig_contours" class= "process">
-					<h1>Active contours (snake) to define snail boundaries.</h1>
-					<iframe src="http://wl.figshare.com/articles/1041210/embed?show_title=0" width="568" height="481" frameborder="0"></iframe>
-					<p>Visual explanation of the use of morphological snake for tracking snails.</p>
-				</div>
--->
-
-		
-				
 			</div>
 		</div>
 	</div>
@@ -498,6 +466,25 @@ title: Methods
 			During aquisition, videos were saved as successive sequences of 10000 frames (about 33.3 minutes) for more than five days.
 			</p>
 		</div>
+		
+		<div id="math_hist" class= "process">
+			<p>
+			"Night" frames and "day" frames have dramaticaly different intensities.
+			For subsequent analysis, mainly use adaptive strategies to come with difference of average intensity.
+			However, this will not be efficient if pixel intensities have very different variance.
+			For this reason, we normalised the images.
+			</p>
+			
+			<p>
+			Normalisation was carried by multiplying each pixel by a normalisation factor $r$:
+			$$\mathbf{M'_{ij}} = \mathbf{M_{ij}} * r$$
+			Where
+			$$r = m
+			
+			</p>
+			
+		</div>
+		
 		<div id="math_daynight" class= "process">
 			<p>
 			The experimental arena was set up so that periods of 12h of red light (night) and 12h of blue light (day) were succedding.
