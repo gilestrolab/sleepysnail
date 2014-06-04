@@ -16,6 +16,7 @@ var updateDag = function(tag){
 		$('.' + prefixes[p] + '_div .process').attr("class", "process");
 		id = '#' + prefixes[p] + '_' + suffix
 		$(id).attr("class", "process active");
+		$(id).html($(id).html());
 		}
 	};
 

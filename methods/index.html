@@ -456,13 +456,65 @@ title: Methods
 			</p>
 		</div>
 		
+		<div id="math_undist" class= "process">
+			<h2>Issue with distorted images</h2>
+			<p>
+			Visual inspection of videos reveals that frames were slightly distorted.
+			The image appears as if it was mapped onto a sphere as opose to a plan. This is known as barrel distortion.
+			This artefecact results from the relatively wide angle of the camera used, and the type of lense.
+			Distortion artefact could reveal problematic in later stages of the analysis in so far as it would bias morphological measurments and render 
+			detection of the grid more complicated.
+			</p>
+			<h2>Correction of distortion</h2>
+			<h3>Parameter definition</h3>
+			<p>
+			Classically, undistortion would require to compute a vector of distortion coeficients $\mathbf{D} = (k_1, k_2, p_1,p_2,k_3)$.
+			In addition, a $3\times3$ camera matrix $\mathbf{M}$ is requiered.
+			$$\mathbf{M} = \left( \begin{array}{ccc}
+			f_x & 0 & c_x \\
+			0 & f_y & c_y \\
+			0 & 0 & 1 \end{array} \right)$$
+			
+			We reduce the number of parameter needed using three assumptions:
+			<ul>
+			<li>We can neglect tangential distortion since we know the lense is parallel to the plan.
+			Therefore, we only have radial distortion, so $\mathbf{D} = (k_1, k_2, 0,0,0)$ </li>
+			<li>The distortion in the $x$ and $y$ axis are equal. Therefore, $f_x = f_y = f$ and $k_1 = k_2 = k$.</li>
+			<li>Finally, the distortion can be assumed to be centerd on the middle of the image. 
+			Therefore, $c_x = w/2$ $c_y = h/2$ for an image of dimention $w \times h$</li>
+			
+			</ul>
+			In the end, only $k$ and $f$ parameters need to be defined in order to undistort the image.
+			</p>
+			<h3>Distance function</h3>
+			<p>
+			The images contain parallel black lines delimiting a grid.
+			We know, that these lines should be perfectly straight if the
+			undistortion is sucessful.
+			Therefore, it should be possible to infer $k$ and $f$ using a distance function quantifying how straight lines are in an undistorted image.
+			For this distance function, <a href="http://en.wikipedia.org/wiki/Randomized_Hough_transform">probabilistic Hough transform</a> was used to discover $n$ line segments.
+			Then, the distance, metric was:
+			$$ D = \frac{1}{(\sum_{i}^{n}{||l_i||})}$$
+			where $||l_i||$ is the lenght of a line $i$.
+			</p>
+			<h3>Inference</h3>
+			Brute force inference was used to locate starting parameter set candidate for subsequent minimisation of distance using Nelder-Mead simplex algorithm.
+			
+			<h3>Result</h3>
+			<p>
+			The distortion was assumed to be constant in time. 
+			Therefore, $k$ and $f$ were infered on the first image of each sequence and used to undistord all frames of the same sequence.
+			</p>
+			
+		</div>
+		
 		<div id="math_concat" class= "process">
 			<p>
 				In a first place, video were trivially concatenated and resampled at one frame per minute(fpm)
 				in order to simplify and speedup subsequent analysis.
 				In further analysis, we assess the maximal speed of a snail in the experiement at (todo).
-				Therefore, 1fpm seemed a good compromise; improving performance whist preserving high-frequency information.
-				It would be interesting to reanalise the data at a higher frame rate.
+				Therefore, 1fpm seemed a good compromise; improving performance whist preserving relatively high-frequency information.
+				It would be interesting to re-analyse the data at a higher frame rate.
 				
 			</p>
 			<p>
@@ -471,15 +523,73 @@ title: Methods
 			
 		</div>
 		<div id="math_contours" class= "process">
+			<h2>Overview</h2>
 			<p>In this project, it was important to capture the entire shape of the animal in order to link morphological features to behavioural states.
 				Importantly, the position and shape of the sensory organs of the snail, tentacles, could b...
-				While finding the approximate position of the animal is relatively trivial, finding the boundary can be very dificult.
-				The presence of glare and shadows casted by neighbour snails, in addition to the variability in contrast between snails, made this task challenging.
-				For each frame, the rough position of the snail was obtained using 
-				<b>black top-hat</b>
+				Although finding the approximate position of the animal is relatively trivial, finding the boundary proved difficult.
+				The presence of glare and shadows casted by neighbouring snails, in addition to the variability in contrast between snails, made this task challenging.
+				For each successive frame,  the following strategy was addopted:
+				<ol>
+				 <li>frame is pre-processed.
+				 <li>the rough position (seed) of the snail is found. 
+				<li> the seed was extended to the edge of the snail.
+				</ol>
+			</p>
+			<h2>Pre-processing</h2>
+			<p>Frames were denoised using Gaussian blur ($\sigma=1.5$). 
+				Then, the first derivatives (on x and y axis) of the denoised image were computed using Sobel operator.
+				The average of x and y derivatives were substracted from the denoised images in order to improve edges sharpness.
 			</p>
 			
-			<p></p>
+			<h2>Seeding</h2>
+			<p>
+				In order to find the approximate position of each animal, a median filter ($15px$) was first applied to the preprocessed image.
+				This aims was to remove low frequency variation whilst preserving the edges of the image.
+				Then, greyscale morphological closing was performed ($15px$).
+				Afterwards, adaptive thresholding was used to form a binary image.
+				Finally, the connected components in the binary image were filtered.
+			</p>
+			
+			<h2>Snakes</h2>
+			<p>
+				<a href="http://en.wikipedia.org/wiki/Active_contour_model">Active contours</a> (a.k.a. snakes) is a computer vision framework designed to
+				fing the contour of a foreground object in a noisy image.
+				Active contours have been used recently for segmenting biological images.
+				Active contours model a physical membrane around a foreground object and try to minimise the associated energy, iteratively.
+				One type of snakes, Geodesic Active Contours(GAC), 
+				todo
+				...
+			<p>
+				Recent approximation of GAC was provided through the use of morphological operators todo CITE.
+				
+				$$ \frac{\partial u}{\partial t} = 
+					|\nabla u | \left(\mu \operatorname{div} \left(\frac{\nabla u}{|\nabla u|}\right)
+					 - \nu -\lambda_1(I - c_1)^2 + \lambda_2(I - c_2)^2\right)$$
+			</p>
+			<p>
+				In addition a <a href="http://github.com/pmneila/morphsnakes"> python implementation</a> was provided by the authors and could be used in the project with few modifications.
+				The main modification was to provide a terminaison criteria.
+				The iterative process would stop if the area between successive frames did not increase more than a values $\epsilon$ for four consecurive frames:
+			
+				Formally, convergence was defined  by 
+				$$ \delta \leq \epsilon  $$
+				Where,
+				$$\epsilon = 10^{-5}$$
+				and,
+				$$ \delta =  |e_t + e_{t-2} - e_{t-1} -e_{t-3}|$$
+				With
+				$$ e_t = A_{t - 1} / A_{t}$$
+				$A_t$ is the area of the foreground object at a descrete time $t$.
+			</p>	
+			<p>
+				$\lambda_1$ and $\lambda_2$ define the importance of inside and outside pixels, respectively.
+				Therefore, the ratio $r = \lambda_2 / \lambda_1$ is an important parameter.
+				In order to find relevant value for $r$, the area of the biologial object was manually defined for ten representative pictures.
+				...
+			</p>	
+			
+			
+			
 			
 		</div>
 
