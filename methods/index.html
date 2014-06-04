@@ -421,14 +421,56 @@ title: Methods
 			<div class="row fig_div">
 				<div id="fig_raw" class= "process">
 					<h1>Acquisition</h1>
-					<iframe src="http://wl.figshare.com/articles/1044213/embed?show_title=0" width="568" height="481" frameborder="0"></iframe>
-					<p>Representative video sequence of 18 individual land snails.</p>
-				</div>
-				
+					<figure> <iframe width="568" height="481" frameborder="0"></iframe>
+					<figcaption>Representative video sequence of 18 individual land snails.</figcaption></figure></div>
+				<div id="fig_concat" class= "process">
+					<h1>Sampling</h1>
+					<figure> <iframe width="568" height="481" frameborder="0"></iframe>
+					<figcaption>Representative video sequence of 18 individual land snails.</figcaption></figure></div>
+					
+				<div id="fig_undist" class= "process">
+					<h1>Undistortion</h1>
+					<figure> <iframe width="568" height="481" frameborder="0"></iframe>
+					<figcaption>Processing steps for undistorting a frame.</figcaption></figure></div>
+					
+				<div id="fig_daynight" class= "process">
+					<h1>Day vs Night image classification.</h1>
+					<figure> <iframe width="568" height="481" frameborder="0"></iframe>
+					<figcaption>Summary of the classification of frames in "day" or "night" images.</figcaption></figure></div>
+					
+				<div id="fig_contours" class= "process">
+					<h1>Active contours (snake) to define snail boundaries.</h1>
+					<figure> <iframe width="568" height="481" frameborder="0"></iframe>
+					<figcaption>Visual explanation of the use of morphological snake for tracking snails.</figcaption></figure></div>
+				<div id="fig_rois" class= "process">
+					<h1>Definition of ROIs</h1>
+					<figure> <iframe width="568" height="481" frameborder="0"></iframe>
+					<figcaption>Processing steps for automaticaly defining regions of interest (ROIs)</figcaption></figure></div>
+<!--
+					<figcaption>Representative video sequence of 18 individual land snails.</figcaption></figure></div>
+					
 				<div id="fig_concat" class= "process">
 					<h1>Acquisition</h1>
 					<iframe src="http://wl.figshare.com/articles/1041210/embed?show_title=0" width="568" height="481" frameborder="0"></iframe>
 					<p>Representative video sequence of 18 individual land snails.</p>
+				</div>
+				<div id="fig_rois" class= "process">
+					<h1>Definition of ROIs</h1>
+					
+					<iframe src="http://wl.figshare.com/articles/1045435/embed?show_title=0" width="568" height="481" frameborder="0"></iframe>
+					<p>Processing steps for automaticaly defining regions of interest (ROIs)</p>
+				</div>
+				
+				<div id="fig_undist" class= "process">
+					<h1>Undistortion</h1>
+					<iframe src="http://wl.figshare.com/articles/1045433/embed?show_title=0" width="568" height="481" frameborder="0"></iframe>
+					<p>Processing steps for undistorting a frame.</p>
+				</div>
+				
+				<div id="fig_daynight" class= "process">
+					<h1>Day vs Night image classification.</h1>
+					<iframe src="http://wl.figshare.com/articles/1045484/embed?show_title=0" width="568" height="481" frameborder="0"></iframe>
+					<p>Summary of the classification of frames in "day" or "night" images.</p>
 				</div>
 				
 				<div id="fig_contours" class= "process">
@@ -436,6 +478,7 @@ title: Methods
 					<iframe src="http://wl.figshare.com/articles/1041210/embed?show_title=0" width="568" height="481" frameborder="0"></iframe>
 					<p>Visual explanation of the use of morphological snake for tracking snails.</p>
 				</div>
+-->
 
 		
 				
@@ -453,6 +496,21 @@ title: Methods
 			<p>
 			Raw videos were recorded at 5 frame per second, in greyscale and at a pixel resoltion of 1240x960.
 			During aquisition, videos were saved as successive sequences of 10000 frames (about 33.3 minutes) for more than five days.
+			</p>
+		</div>
+		<div id="math_daynight" class= "process">
+			<p>
+			The experimental arena was set up so that periods of 12h of red light (night) and 12h of blue light (day) were succedding.
+			We suspected that the onset of night and day were critical periods for snails. However, the analogu mechanism turning the lights on or off
+			was not syncronised with the aquisition platform. It was therefore necessary to use the video themeselves to define the night and day periods.
+			In addition, it was important to ensure no electronic failure occured and that we observed the expected night and day durations.
+			</p>
+			<p>
+			In order to classify night and day frame, an unsupervided learning approach was undertaken.
+			The median intensity as well as first and third quartiles were computed for each frames. Then kmeans clustering was applied
+			to segregrate all frames in two groups according to these three variables.
+			A posteriory, the cluster with the lowest centre for median intensity was defined as the "night" group.
+			
 			</p>
 		</div>
 		
@@ -494,11 +552,17 @@ title: Methods
 			Therefore, it should be possible to infer $k$ and $f$ using a distance function quantifying how straight lines are in an undistorted image.
 			For this distance function, <a href="http://en.wikipedia.org/wiki/Randomized_Hough_transform">probabilistic Hough transform</a> was used to discover $n$ line segments.
 			Then, the distance, metric was:
-			$$ D = \frac{1}{(\sum_{i}^{n}{||l_i||})}$$
+			$$ D = log\left(\frac{1}{(\sum_{i}^{n}{||l_i||})}\right)$$
 			where $||l_i||$ is the lenght of a line $i$.
 			</p>
+			<p>
+				In order to improve accuraty of Hough transform, the image
+				is pre-processed with a <a href=http://en.wikipedia.org/wiki/Top-hat_transform>black top-hat transform</a> 
+				and binarised with automatic threshold.
+			</p>
 			<h3>Inference</h3>
-			Brute force inference was used to locate starting parameter set candidate for subsequent minimisation of distance using Nelder-Mead simplex algorithm.
+			Brute force inference was used to locate starting parameter set candidate for subsequent minimisation of 
+			distance using Nelder-Mead simplex algorithm.
 			
 			<h3>Result</h3>
 			<p>
@@ -522,6 +586,66 @@ title: Methods
 			</p>
 			
 		</div>
+		
+		<div id="math_rois" class= "process">
+			<p>
+				We were interested in analysing the behaviour of snails in individual tubes.
+				We therefore wanted to analyse independenlty every animal in its tube.
+				During the experiment, tubes were visualy delimited by black straight lines crossing in the corners of the tube.
+				This feature was used to separate each video in 18 videos (one per tube).
+			</p>
+			<p>
+				For the first image of each video, a black top-hat was applied in order to extract the black lines.
+				Then, <a href="http://en.wikipedia.org/wiki/Corner_detection#The_Harris_.26_Stephens_.2F_Plessey_.2F_Shi.E2.80.93Tomasi_corner_detection_algorithm">Harris's algorithm</a>
+				was used for detecting corners.
+				Random points (20% of all points) from the binary image were sampled and recorded in a sparce matrix:
+				$$\mathbf{M} = \left( \begin{array}{ccc}
+					x_1 & y_1\\
+					x_2 & y_2\\
+					\vdots & \vdots\\
+					x_n & y_n \end{array} \right)$$
+				
+			</p>
+			<p>
+				<h2>Distance function</h2>
+				The points can be rotated by the angle $\theta$ with:
+				$$\mathbf{M'} = \mathbf{M} . \mathbf{R}^T$$
+				Where
+				$$\mathbf{R} = \left( \begin{array}{ccc}
+					cos(\theta) & -sin(\theta)\\
+					sin(\theta) & cos(\theta)\end{array} \right)$$
+				Once rotated, the $x$ values of the points can be classified in four clusters (since there are four vertical lines).
+				Similarly, the $y$ values are clustered in ten groups, using kmeans.
+				The compactness of $x$ and $y$ clusters ($C_x$ and $C_y$, respectively) should be maximal when the rotation
+				 $\hat{\theta}$ align the points.
+				Therefore, a distance metric was defined as:
+				$$ D = log(C_x C_y)$$
+			</p>
+			<h2>Inference</h2>
+			<p>
+				Brute force over the range $[-\pi/4, +\pi/4]$, with a resolution of $\pi 10^{-2}$ was used to estimate $\hat{\theta}$.
+				Importantly, median values, $\mathbf{X}$ and $\mathbf{Y}$, for the ten $y$ and four $x$ clusters, respectively, were kept.
+			</p>
+			<h2>Remaping corners</h2>
+				All $4 \times 10$ possible of points after rotation $\hat{\theta}$ can be expressed as:
+				$$\mathbf{P} = \left( \begin{array}{ccc}
+					\mathbf{X_1} & \mathbf{Y_1}\\
+					\mathbf{X_2} & \mathbf{Y_1}\\
+					\vdots & \vdots\\
+					\mathbf{X_i} & \mathbf{Y_j} \end{array} \right)$$
+				In order to remap thes points onto the unrotated image, we can trivially compute:
+				
+				$$\mathbf{P'} = \mathbf{P} . \mathbf{R'}^T$$
+				With
+				$$\mathbf{R'} = \left( \begin{array}{ccc}
+					cos(-\hat{\theta}) & -sin(-\hat{\theta})\\
+					sin(-\hat{\theta}) & cos(-\hat{\theta})\end{array} \right)$$
+					
+			<p>
+				
+			</p>
+			
+		</div>
 		<div id="math_contours" class= "process">
 			<h2>Overview</h2>
 			<p>In this project, it was important to capture the entire shape of the animal in order to link morphological features to behavioural states.
@@ -537,8 +661,8 @@ title: Methods
 			</p>
 			<h2>Pre-processing</h2>
 			<p>Frames were denoised using Gaussian blur ($\sigma=1.5$). 
-				Then, the first derivatives (on x and y axis) of the denoised image were computed using Sobel operator.
-				The average of x and y derivatives were substracted from the denoised images in order to improve edges sharpness.
+				Then, the first derivatives (on $x$ and $y$ axis) of the denoised image were computed using Sobel operator.
+				The average of $x$ and $y$ derivatives were substracted from the denoised images in order to improve edges sharpness.
 			</p>
 			
 			<h2>Seeding</h2>
@@ -585,12 +709,8 @@ title: Methods
 				$\lambda_1$ and $\lambda_2$ define the importance of inside and outside pixels, respectively.
 				Therefore, the ratio $r = \lambda_2 / \lambda_1$ is an important parameter.
 				In order to find relevant value for $r$, the area of the biologial object was manually defined for ten representative pictures.
-				...
-			</p>	
-			
-			
-			
-			
+				
+			</p>
 		</div>
 
 	</div>
