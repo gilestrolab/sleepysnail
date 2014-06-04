@@ -4,6 +4,8 @@
 *.png
 *.svg
 
+_site/
+
 # C extensions
 *.so
 
