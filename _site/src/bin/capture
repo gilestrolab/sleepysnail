@@ -1,0 +1,61 @@
+from sleepysnail.acquisition.video_capture import AutoCaptureCollection
+from sleepysnail.utils.logger import Logger
+import cv2
+import time
+
+FPS = 5
+
+ESCAPE_KEY = 27
+START_KEY = 32
+
+DATA_DIR = "/data/sleepysnail/raw/"
+
+
+if __name__ == "__main__":
+    key = 0
+
+    sec_per_frame = 1/float(FPS)
+    all_devices = AutoCaptureCollection(DATA_DIR, FPS)
+    total_lag = 0
+    if len(all_devices) == 0:
+        exit(1)
+    started = False
+
+    try:
+
+        while True:
+            start = time.time()
+
+            for c in all_devices:
+                c.capture()
+                
+            end = time.time()
+            lag = (end - start)
+            if lag < 0:
+                lag = 0
+                
+            to_wait = sec_per_frame - lag
+            to_wait =  int(to_wait * 1000)
+            if to_wait < 0:
+
+                Logger.warning("Inaccurate time: {0}ms over".format(-1 * to_wait))
+                
+                if started:
+                    total_lag += (-1 * to_wait)
+                    
+                to_wait = 1
+
+            key = cv2.waitKey(to_wait)  % 256
+            
+            if key == START_KEY and not started:
+                for c in all_devices:
+                    c.start()
+                started = True
+
+            elif key == ESCAPE_KEY:
+                break
+    finally:
+        del(all_devices)
+        Logger.info("Successful exit")
+        Logger.warning("The total lag is {0}s".format(total_lag/1000.0))
+        

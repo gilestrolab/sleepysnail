@@ -63,7 +63,7 @@ class MakeVideoForRoi(VideoToVideoTask):
 
 
 class StretchHistogram(VideoToVideoTask):
-    new_median=128.0
+    new_median=128
 
     undistortor = None
     def requires(self):
