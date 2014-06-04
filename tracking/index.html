@@ -4,7 +4,11 @@ title: Methods
 ---
 
 <div class="jumbotron">
-	<h2>My message</h2>
+	<h2>Video Tracking of Snails</h2>
+	<p>
+		This page describes the pipeline developed for obtaining time series of features (coordinate, area, aspect ractio, ...)
+		for each individual snail from the raw videos.
+	</p>
 	</div>
 <div class="row">
 	<div class="col-md-6 dag_div">
@@ -419,6 +423,11 @@ title: Methods
 	
 		<div class="col-md-6">
 			<div class="row fig_div">
+				<div id="fig_demo" class= "process active">
+					<h1>How to interact with this page</h1>
+					<figure> <img src="../img/demo.png" width="100%"</img>
+					</div>
+					
 				<div id="fig_raw" class= "process">
 					<h1>Acquisition</h1>
 					<figure> <iframe width="568" height="481" frameborder="0"></iframe>
@@ -476,11 +485,11 @@ title: Methods
 			</p>
 			
 			<p>
-			Normalisation was carried by multiplying each pixel by a normalisation factor $r$:
-			$$\mathbf{M'_{ij}} = \mathbf{M_{ij}} * r$$
-			Where
-			$$r = m
-			
+			Normalisation was carried by multiplying each pixel of the image $\mathbf{M_{ij}}$ by a normalisation factor:
+			$$\mathbf{M'_{ij}} = \mathbf{M_{ij}} * 128 / m$$
+			where $m$ is the median of all values of $\mathbf{M}$.
+			The median of the normalised array is therefore always 128.
+			This value was chosen because it represents half of the 8bit (0 to 255) range.
 			</p>
 			
 		</div>

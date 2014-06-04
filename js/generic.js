@@ -38,6 +38,7 @@ var updateDag = function(tag){
 		//$(id).html($(id).html());
 		if(prefixes[p] == "fig"){
 			url = media_url_template[0]+ media_map[suffix]+media_url_template[1];
+			$(".process iframe").attr("src", "");
 			$(id).find("iframe").attr("src", url);
 			}
 		}
