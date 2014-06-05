@@ -5,9 +5,28 @@ title: Methods
 
 <div class="jumbotron">
 	<h2>Video Tracking of Snails</h2>
+	<h3>The pipeline</h3>
 	<p>
-		This page describes the pipeline developed for obtaining time series of features (coordinate, area, aspect ractio, ...)
-		for each individual snail from the raw videos.
+		This study aimed at quantifying behaviour of individual land snails over several days and nights.
+		Each experiment resulted in the acquisition of the a video sequence containing several isolated animals.
+		The present page describes the pipeline developed to extract time series of primary features
+		(such as coordinates, area, aspect ratio) for each snail from the raw videos.
+		
+	<p>
+		The pipeline was implemented using python programing language, 
+		in combination with <a href="http://opencv.org/">opencv</a>
+		and <a href="http://opencv.org/">scipy</a> libraries. This page will not cover the 
+		details of the implementation, but the reader is invited to have a look at 
+		<a href="https://github.com/gilestrolab/sleepysnail">the source code</a>.
+		
+	</p>
+	</p>
+	
+	<h3>How to read this page</h3>
+	<p>
+		The <b>interactive graph on the left-hand side</b> allow you to show information about a specific process.
+		A <b>summary presentation</b> will be shown on the <b>right-hand side</b>, and <b>detailed explanation</b> about a processing step 
+		can be read at the <b>bottom</b>.
 	</p>
 	</div>
 <div class="row">
@@ -424,7 +443,7 @@ title: Methods
 		<div class="col-md-6">
 			<div class="row fig_div">
 				<div id="fig_demo" class= "process active">
-					<h1>How to interact with this page</h1>
+					<h1>Interact with this page</h1>
 					<figure> <img src="../img/demo.png" width="100%"</img>
 					</div>
 					
@@ -465,18 +484,36 @@ title: Methods
 	<div class="row math_div"> 
 				
 		<div id="math_raw" class= "process">
+			<h2>The experiment</h2>
 			<p>
-			In each experiment, 18 land snails belonging to two common species (todo and todo) were put
-			in individual tubes for several days in order to study their behaviour.
-			A 12h/12h day/night cycle was applied using white and red light (which snails cannot see).
+			In each replicate, 18 land snails belonging to two common species, <em>Helix aperta</em> and <em>Cepaea nemoralis</em>,
+			were put in individual tubes for more than five days in order to study their behaviour.
+			All tubes were layed-out in a grid manner, delimited by black threads, as shown on the summary video.
+			A 12h/12h day/night cycle was applied using blue and red light (as snails cannot see the latter).
 			</p>
+			<h2>The raw videos</h2>
 			<p>
-			Raw videos were recorded at 5 frame per second, in greyscale and at a pixel resoltion of 1240x960.
-			During aquisition, videos were saved as successive sequences of 10000 frames (about 33.3 minutes) for more than five days.
+			Raw videos were recorded at 5 frame per second, in greyscale and at a pixel resolution of $1240 \times 960$.
+			During aquisition, videos were saved as successive sequences of 10000 frames (about 33.3 minutes).
 			</p>
 		</div>
 		
+		<div id="math_concat" class= "process">
+			<h2>Simplification of videos</h2>
+			<p>
+				In a first place, video were concatenated and resampled at one frame per minute(fpm)
+				in order to simplify and speedup subsequent analysis.
+				In further analysis, we estimated the overall maximal speed of a snail at about 7cm/min (which represents half of the tube).
+				In addition, activity bouts later fount to span, generally, over several minutes
+				Therefore, 1fpm appeared to be a good compromise; improving performance whist preserving relatively high-frequency information.
+				It would nevertheless be interesting to re-analyse the data at a higher frame rate.
+			</p>
+
+		</div>
+		
 		<div id="math_hist" class= "process">
+			
+			
 			<p>
 			"Night" frames and "day" frames have dramaticaly different intensities.
 			For subsequent analysis, mainly use adaptive strategies to come with difference of average intensity.
@@ -495,19 +532,43 @@ title: Methods
 		</div>
 		
 		<div id="math_daynight" class= "process">
+			<h2>Issue with day/night cycles</h2>
 			<p>
 			The experimental arena was set up so that periods of 12h of red light (night) and 12h of blue light (day) were succedding.
-			We suspected that the onset of night and day were critical periods for snails. However, the analogu mechanism turning the lights on or off
-			was not syncronised with the aquisition platform. It was therefore necessary to use the video themeselves to define the night and day periods.
-			In addition, it was important to ensure no electronic failure occured and that we observed the expected night and day durations.
+			We suspected that the onset of night and day were critical periods for snails. 
+			However, the analogue mechanism controling the lights could not be syncronised accurately with the aquisition platform.
+			That is the timing of the onset of the night and day was inacurate (±15min).
+			We therefore decided to use the video frames themeselves to define the transitions between day and night.
+			In addition, it was important to control that no electronic failures had occured.
 			</p>
+			<h2>Unsupervised learning</h2>
 			<p>
 			In order to classify night and day frame, an unsupervided learning approach was undertaken.
-			The median intensity as well as first and third quartiles were computed for each frames. Then kmeans clustering was applied
+			The median intensity as well as first and third quartiles were computed for each frames. Then, kmeans clustering was applied
 			to segregrate all frames in two groups according to these three variables.
 			A posteriory, the cluster with the lowest centre for median intensity was defined as the "night" group.
-			
+			As shown in the summary figure, both clusters segregated very well and no ambiguous frames were detected.
 			</p>
+			<h2>Time drifting</h2>
+			<p>
+				After defining day and night frames, the time of all $day \rightarrow night$ and $night \rightarrow day$ transition were computed.
+				Then, the expected transitions (every 24h) were ploted agains the observed transitions.
+				If the timing was rigourously accurate, we whould observe a slope of 1 and a very large $R^2$.
+			</p>
+			<figure>
+				<figcaption>
+					TODO put fig here
+				</figcaption>
+			</figure>
+			<p>
+				The although the slope was very close to 1, it differed very sigificantly (TODO).
+				In most cases, such a small difference would appear unimportant, but, in this context,
+				time inacuracy may have dramatic consequences.
+				A slope of 0.990 means the observed time is about 15min earlier every day. After 5 days,
+				the time would drift of more thant an hour, which sould lead to wrong biological interpretations.
+				Therefore, the empirical time later was used to correct the expected time stamps.
+			</p>
+			
 		</div>
 		
 		<div id="math_undist" class= "process">
@@ -568,20 +629,7 @@ title: Methods
 			
 		</div>
 		
-		<div id="math_concat" class= "process">
-			<p>
-				In a first place, video were trivially concatenated and resampled at one frame per minute(fpm)
-				in order to simplify and speedup subsequent analysis.
-				In further analysis, we assess the maximal speed of a snail in the experiement at (todo).
-				Therefore, 1fpm seemed a good compromise; improving performance whist preserving relatively high-frequency information.
-				It would be interesting to re-analyse the data at a higher frame rate.
-				
-			</p>
-			<p>
-				
-			</p>
-			
-		</div>
+
 		
 		<div id="math_rois" class= "process">
 			<p>
