@@ -3,5 +3,5 @@ markdown: redcarpet
 pygments: true
 safe: true
 lsi: false
-url: sleepysnail
-baseurl: "http://gilestrolab.github.io/"
+#~ url: sleepysnail
+baseurl: /sleepysnail
