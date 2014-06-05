@@ -512,21 +512,21 @@ title: Methods
 		</div>
 		
 		<div id="math_hist" class= "process">
-			
-			
+			<h2>Different intensities between day and night frames</h2>
 			<p>
-			"Night" frames and "day" frames have dramaticaly different intensities.
-			For subsequent analysis, mainly use adaptive strategies to come with difference of average intensity.
-			However, this will not be efficient if pixel intensities have very different variance.
-			For this reason, we normalised the images.
+			"Night" frames and "day" frames had dramatically different pixel intensities.
+			In subsequent analysis, the use adaptive strategies was used to cope with difference of average intensity.
+			However, the difference of variances in intensities between day and night remained very high.
+			For this reason, intra-frame normalisation was applied to all images.
 			</p>
 			
+			<h2>Stretching using median</h2>
 			<p>
 			Normalisation was carried by multiplying each pixel of the image $\mathbf{M_{ij}}$ by a normalisation factor:
 			$$\mathbf{M'_{ij}} = \mathbf{M_{ij}} * 128 / m$$
-			where $m$ is the median of all values of $\mathbf{M}$.
-			The median of the normalised array is therefore always 128.
-			This value was chosen because it represents half of the 8bit (0 to 255) range.
+			Where $m$ is the median of all values of $\mathbf{M}$.
+			The median of the normalised array is therefore always $128$.
+			This value was chosen because it represents half of the 8bit ($0$ to $255$) range.
 			</p>
 			
 		</div>
@@ -574,43 +574,45 @@ title: Methods
 		<div id="math_undist" class= "process">
 			<h2>Issue with distorted images</h2>
 			<p>
-			Visual inspection of videos reveals that frames were slightly distorted.
-			The image appears as if it was mapped onto a sphere as opose to a plan. This is known as barrel distortion.
-			This artefecact results from the relatively wide angle of the camera used, and the type of lense.
-			Distortion artefact could reveal problematic in later stages of the analysis in so far as it would bias morphological measurments and render 
-			detection of the grid more complicated.
+			Visual inspection of videos revealed that frames were slightly distorted.
+			The image appears as if it was mapped onto a sphere as opose to a plan. 
+			This is known as barrel distortion.
+			This artefecact results from the relatively wide angle of the camera used in combination with the type of camera lense.
+			Distortion artefact could reveal problematic in later stages of the analysis in so far as it would bias morphological
+			measurments and render detection of the tube layout more complicated.
 			</p>
 			<h2>Correction of distortion</h2>
 			<h3>Parameter definition</h3>
 			<p>
 			Classically, undistortion would require to compute a vector of distortion coeficients $\mathbf{D} = (k_1, k_2, p_1,p_2,k_3)$.
-			In addition, a $3\times3$ camera matrix $\mathbf{M}$ is requiered.
+			In addition, a $3\times3$ camera matrix, $\mathbf{M}$, is requiered:
 			$$\mathbf{M} = \left( \begin{array}{ccc}
 			f_x & 0 & c_x \\
 			0 & f_y & c_y \\
 			0 & 0 & 1 \end{array} \right)$$
 			
-			We reduce the number of parameter needed using three assumptions:
+			We were able to reduce the number of parameter needed using three assumptions:
 			<ul>
 			<li>We can neglect tangential distortion since we know the lense is parallel to the plan.
 			Therefore, we only have radial distortion, so $\mathbf{D} = (k_1, k_2, 0,0,0)$ </li>
 			<li>The distortion in the $x$ and $y$ axis are equal. Therefore, $f_x = f_y = f$ and $k_1 = k_2 = k$.</li>
 			<li>Finally, the distortion can be assumed to be centerd on the middle of the image. 
-			Therefore, $c_x = w/2$ $c_y = h/2$ for an image of dimention $w \times h$</li>
+			Therefore, $c_x = w/2$ and $c_y = h/2$ for an image of dimention $w \times h$</li>
 			
 			</ul>
 			In the end, only $k$ and $f$ parameters need to be defined in order to undistort the image.
 			</p>
 			<h3>Distance function</h3>
 			<p>
-			The images contain parallel black lines delimiting a grid.
+			The images contain black lines delimiting a grid layout around each experimental tube.
 			We know, that these lines should be perfectly straight if the
 			undistortion is sucessful.
 			Therefore, it should be possible to infer $k$ and $f$ using a distance function quantifying how straight lines are in an undistorted image.
-			For this distance function, <a href="http://en.wikipedia.org/wiki/Randomized_Hough_transform">probabilistic Hough transform</a> was used to discover $n$ line segments.
-			Then, the distance, metric was:
+			Therefore, <a href="http://en.wikipedia.org/wiki/Randomized_Hough_transform">probabilistic Hough transform</a>
+			was used to discover $n$ line segments.
+			Then, the distance, metric was defined as:
 			$$ D = log\left(\frac{1}{(\sum_{i}^{n}{||l_i||})}\right)$$
-			where $||l_i||$ is the lenght of a line $i$.
+			where $||l_i||$ is the lenght of a line $i$, discovered by Hough transform.
 			</p>
 			<p>
 				In order to improve accuraty of Hough transform, the image
@@ -618,13 +620,18 @@ title: Methods
 				and binarised with automatic threshold.
 			</p>
 			<h3>Inference</h3>
-			Brute force inference was used to locate starting parameter set candidate for subsequent minimisation of 
-			distance using Nelder-Mead simplex algorithm.
-			
-			<h3>Result</h3>
+			<p>
+			Brute force inference was used to locate a candidate pair of starting parameters wich was further optimies using
+			Nelder-Mead simplex algorithm.
+			</p>
+			<figure>
+			<figcaption>
+				TODO FIGURE LANDSCAPE
+			</figcaption>
+			</figure>
 			<p>
 			The distortion was assumed to be constant in time. 
-			Therefore, $k$ and $f$ were infered on the first image of each sequence and used to undistord all frames of the same sequence.
+			Therefore, $k$ and $f$ were infered on the first image of each sequence and used to undistort all frames of the same sequence.
 			</p>
 			
 		</div>
