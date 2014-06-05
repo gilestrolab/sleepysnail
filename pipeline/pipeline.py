@@ -4,7 +4,7 @@ import numpy as np
 from sleepysnail.pipes.tasks import *
 from sleepysnail.preprocessing.roi_splitter import ROISplitter
 from sleepysnail.preprocessing.undistortor import Undistortor
-from sleepysnail.processing.blob_finder import BlobFinder
+from sleepysnail.processing.blob_finder import Tracker
 
 
 #1 fpm
@@ -13,7 +13,8 @@ SPEED_UP = 60*5
 
 class MakeOneCsvPerROI(VideoToCsvTask):
     roi_id = luigi.IntParameter()
-    padding = luigi.IntParameter(default=25)
+    r = luigi.FloatParameter(default=1.4)
+    save_video_log = luigi.BooleanParameter(default=True)
     blob_finder = None
     #background_classif = cv2.NormalBayesClassifier()
 
@@ -21,9 +22,10 @@ class MakeOneCsvPerROI(VideoToCsvTask):
         return [MakeVideoForRoi(videos=self.videos, roi_id=self.roi_id)]
     def _process(self, image):
         if self.blob_finder is None:
-            self.blob_finder = BlobFinder(self.padding)
+            self.blob_finder = Tracker(self.padding)
 
-        log, line = self.blob_finder.find_blobs(image)
+        log, line = self.blob_finder(image)
+
         f = str(self.capture.frame_number)
         id = str(self.roi_id)
         if line:
@@ -33,7 +35,7 @@ class MakeOneCsvPerROI(VideoToCsvTask):
 
     def _header(self):
         if self.blob_finder is None:
-            self.blob_finder = BlobFinder(self.padding)
+            self.blob_finder = Tracker(self.r)
 
         return "id, " + "frame, " + self.blob_finder.header()
 
@@ -180,8 +182,14 @@ class TestTask(MainTaskBase):
         for i in range(1)]
 
         return prerequisites
+class TestTask2(MainTaskBase):
+    videos = luigi.Parameter(default="/data/sleepysnail/raw/20140516-173617_2/")
+    def requires(self):
+        prerequisites = [MakeOneCsvPerROI(videos=self.videos, roi_id=5)]
+
+        return prerequisites
 
 
 if __name__ == '__main__':
     luigi.run(main_task_cls=MasterTask)
-    # luigi.run(main_task_cls=TestTask)
+    #luigi.run(main_task_cls=TestTask2)

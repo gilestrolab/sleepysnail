@@ -328,7 +328,7 @@ class VideoToCsvTask(TaskBase):
                         #     log = cv2.cvtColor(log, cv.CV_GRAY2BGR)
                         # except:
                         #     pass
-
+                        # print log.shap
                         video_writer(log)
 
         except KeyboardInterrupt:
