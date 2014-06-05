@@ -3,5 +3,5 @@ markdown: redcarpet
 pygments: true
 safe: true
 lsi: false
-url: http://localhost:4000
-#url: http://gilestrolab.github.io
+#url: http://localhost:4000
+baseurl: http://gilestrolab.github.io/sleepysnail
