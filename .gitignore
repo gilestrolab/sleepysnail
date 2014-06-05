@@ -4,8 +4,8 @@ _site/
 *.py[cod]
 *.avi
 *.mp4
-*.png
 
+prototypes/
 figures/
 
 # C extensions
