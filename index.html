@@ -4,23 +4,72 @@ title: SleepySnail
 ---
 <div class="jumbotron">
 	<h2>Automatic detection of sleep in land snails using video tracking and machine learning.</h2>
-	<p>This website presents my data analysis project as part of the MSc in Bioinformatics and Theoretical Systems Biology.</p>
-	<h3>Background</h3>
+	<p>This website presents my data analysis project as part of the <a href="http://www3.imperial.ac.uk/lifesciences/postgraduate/courselist/bioinformatics">MSc in Bioinformatics and Theoretical Systems Biology</a>.</p>
+	<div class="row">
+		<div class="col-md-6 dag_div">
+	<h3>Lay abstract</h3>
 	<p>
-	Sleep is ...
+	Sleep appears to be ubiquitous amongst animals. 
+	Indeed, most animals in which it has been investigated
+	appear to exhibit and require the basics characteristics of sleep
+	(<em>e.g.</em> quiescent behaviors with elevated arousal thresholds,
+	<a href="http://www.plosbiology.org/article/info%3Adoi%2F10.1371%2Fjournal.pbio.0060216#pbio-0060216-g002">see C. Cirelli and G. Tononi, 2008</a>).
+	However, litterature mainly focusses on a few vertebrate models, and sleep is pourly studied in
+	other phylla (<a href="http://www.sciencedirect.com/science/article/pii/S0166223608000623">J. M. Siegel, 2008</a>).
+	The development of new experimental paradigms and biological models could provide a 
+	significant insight into the functions of sleep. 
+	In addition, understanding evolution of sleep cannot be possible without studing a wide range of organisms.
 	</p>
 	
-
+	<p>
+	Snails are an historically important animal model for studying the cellular basis
+	of learning and memory and they could potentially be used to investigate the links between sleep or sleep deprivation and learning.
+	In mammals, electophysiology is mostly used to quantify sleep.
+	Since, this methodology cannot be applied to other phylla, behavioural observation is generally used.
+	This is often very time consuming and subjective.
+	The aim of this project was to develop a <a href="{{ site.baseurl }}/tracking/">video processing pipeline</a>
+	to study activity of land snails — for which sleep has not yet been characterised.
+	In addition, preliminary <a href="{{ site.baseurl }}/activity/">analysis of snail circadian activity</a>
+	patterns have been performed.
+	</p>
+	</div>
+	<div class="col-md-6 dag_div">
 	<h3>Scientific abstract</h3>	
 	<p>
-		fresgf,les' ,l;wf,a 
+		todo! mini intro
 	</p>
+	<p>
+		The present study demonstrate an extensible video analysis pipeline which
+		can be used to automatically analyse future experiements.
+		It explains the important preprocessing steps to such as 
+		<a href="{{ site.baseurl }}/tracking/#undist">automatic undistortion</a>,
+		<a href="{{ site.baseurl }}/tracking/#rois">statistical grid detection</a>
+		and <a href="{{ site.baseurl }}/tracking/#daynight">time stamp correction</a>.
+		The presence of glare and shaddows, as well as to the difference of colour between snail morphs and between "day" and "night"
+		made it difficult to apply classical blob detection techniques.
+		For this reason, Morphological Geodesic Active Contours 
+		(<a href="http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=6529072&tag=1">P. Marquez-Neila et al., 2013</a>)
+		were used to detect contours of individual animals in a robust manner (<a href="{{ site.baseurl }}/tracking/#contours">description</a>).		
+		This permited to quantify activity and morphology of individual 35 snails every minute for over 100h.
+	</p>
+	<p>
+		<a href="{{ site.baseurl }}/activity">Binomial Generalised Linear Mixed Model</a> was used to evaluate the effects of variables such as time, age and species on the activity.
+		This analysis revealed that
+		the overall activity decreases dramatically during the experiment.
+		Snails were significantly more active during the night ...
+		todo
 		
+	</p>
+	
+		</div>
+		</div>
 	<h3>Availability</h3>	
 	<p>
-		All the source code used for this study has been compiled as
+		You can find a public version of this web-page on the <a href="http://gilestrolab.github.io/sleepysnail/">github page</a> of the project.
+		All the source code used for this study has been put together as
 		a python package publicly available on <a href="https://github.com/gilestrolab/sleepysnail">github</a>.
 		All figures are released on the public domain and are available on <a href="http://figshare.com/articles/Sleepysnail/1045575">figshare</a>.
+		Raw data are available upon personal request.
 	</p>
 	
 </div>

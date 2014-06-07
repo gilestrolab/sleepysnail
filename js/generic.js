@@ -42,6 +42,9 @@ var showAllSuff = function(suffix){
 			}
 		}
 	}
+var scrollTo = function(id){
+	$('html,body').animate({scrollTop:$(id).offset().top}, 500);
+}
 var updateDag = function(tag){
 	suffix = tag.split("_")[1];
 	location.hash = '#'+ suffix;

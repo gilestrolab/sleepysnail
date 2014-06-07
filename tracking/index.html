@@ -10,13 +10,13 @@ title: Methods
 		This study aimed at quantifying behaviour of individual land snails over several days and nights.
 		Each experiment resulted in the acquisition of the a video sequence containing several isolated animals.
 		The present page describes the pipeline developed to extract time series of primary features
-		(such as coordinates, area, aspect ratio) for each snail from the raw videos.
+		(such as coordinates, area, aspect ratio) for each snail from the raw videos, and how the raw data was acquiered.
 		
 	<p>
 		The pipeline was implemented using python programing language, 
 		in combination with <a href="http://opencv.org/">opencv</a>
-		and <a href="http://opencv.org/">scipy</a> libraries. This page focuses on the concepts rather than
-		the implementation details, but feel free to read 
+		and <a href="http://opencv.org/">scipy</a> libraries.
+		This page focuses on the concepts rather than the implementation details, but feel free to read 
 		<a href="https://github.com/gilestrolab/sleepysnail">the source code</a>.
 		
 	</p>
@@ -462,40 +462,55 @@ title: Methods
 					</div>
 					
 				<div id="fig_raw" class= "process">
-					<h1>Acquisition</h1>
+					
+					<h1>Acquisition
+					<button style="font-size: 50%" onClick="scrollTo('#math');">Read details</button>
+					</h1>
 					<figure> <div class="iframe_container"></iframe></div>
 					<figcaption>Representative video sequence of 18 individual land snails.</figcaption></figure></div>
 				<div id="fig_concat" class= "process">
-					<h1>Sampling</h1>
+					<h1>Sampling
+					<button style="font-size: 50%" onClick="scrollTo('#math');">Read details</button>
+					</h1>
 					<figure> <div class="iframe_container"></iframe></div>
 					<figcaption>Representative video sequence of 18 individual land snails.</figcaption></figure></div>
 				<div id="fig_hist" class= "process">
-					<h1>Histogram Stretching</h1>
+					<h1>Histogram Stretching
+					<button style="font-size: 50%" onClick="scrollTo('#math');">Read details</button>
+					</h1>
 					<figure> <div class="iframe_container"></iframe></div>
 					<figcaption>The intensity of each frame is normalised (stretched) to fix median at 128.</figcaption></figure></div>
 					
 				<div id="fig_undist" class= "process">
-					<h1>Undistortion</h1>
+					<h1>Undistortion
+					<button style="font-size: 50%" onClick="scrollTo('#math');">Read details</button>
+					</h1>
 					<figure> <div class="iframe_container"></iframe></div>
 					<figcaption>Processing steps for undistorting a frame.</figcaption></figure></div>
 					
 				<div id="fig_daynight" class= "process">
-					<h1>Day vs Night image classification.</h1>
+					<h1>Day vs Night image classification
+					<button style="font-size: 50%" onClick="scrollTo('#math');">Read details</button>
+					</h1>
 					<figure> <div class="iframe_container"></iframe></div>
 					<figcaption>Summary of the classification of frames in "day" or "night" images.</figcaption></figure></div>
 					
 				<div id="fig_contours" class= "process">
-					<h1>Active contours (snake) to define snail boundaries.</h1>
+					<h1>Active contours (snake) to define snail boundaries
+					<button style="font-size: 50%" onClick="scrollTo('#math');">Read details</button>
+					</h1>
 					<figure> <div class="iframe_container"></iframe></div>
 					<figcaption>Visual explanation of the use of morphological snake for tracking snails.</figcaption></figure></div>
 				<div id="fig_rois" class= "process">
-					<h1>Definition of ROIs</h1>
+					<h1>Definition of ROIs
+					<button style="font-size: 50%" onClick="scrollTo('#math');">Read details</button>
+					</h1>
 					<figure> <div class="iframe_container"></iframe></div>
 					<figcaption>Processing steps for automaticaly defining regions of interest (ROIs)</figcaption></figure></div>
 			</div>
 		</div>
 	</div>
-	<div class="row math_div"> 
+	<div class="row math_div" id="math"> 
 		<div id="math_raw" class= "process">
 		<div class="row">
 			<div class="col-md-6">		

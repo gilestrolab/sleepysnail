@@ -4,6 +4,11 @@ dag.process.active{
 	fill: "red";
 }
 */
+.footer{
+	font-size: 12px;
+	margin-top:20px;
+	text-align:center
+}
 div.iframe_container{
 	/*border: 2px solid;*/
 }
