@@ -15,8 +15,8 @@ title: Methods
 	<p>
 		The pipeline was implemented using python programing language, 
 		in combination with <a href="http://opencv.org/">opencv</a>
-		and <a href="http://opencv.org/">scipy</a> libraries. This page will not cover the 
-		details of the implementation, but the reader is invited to have a look at 
+		and <a href="http://opencv.org/">scipy</a> libraries. This page focuses on the concepts rather than
+		the implementation details, but feel free to read 
 		<a href="https://github.com/gilestrolab/sleepysnail">the source code</a>.
 		
 	</p>
@@ -299,15 +299,37 @@ title: Methods
 				 x="204.52521"
 				 y="949.90985"
 				 id="tspan3931">extraction</tspan></text>
+			  <text
+				sodipodi:linespacing="100%"
+				id="text3799-7-4"
+				y="992.20764"
+				x="98.293427"
+				style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Liberation Sans;-inkscape-font-specification:Liberation Sans"
+				xml:space="preserve"><tspan
+				id="tspan3803-80-2"
+				y="992.20764"
+				x="98.293427"
+				sodipodi:role="line" /><tspan
+				id="tspan3931-7"
+				y="1016.2076"
+				x="98.293427"
+				sodipodi:role="line">Features</tspan><tspan
+				id="tspan3965"
+				y="1040.2076"
+				x="98.293427"
+				sodipodi:role="line" /></text>
+			   
+			<a xlink:href="#raw">
 			<rect
-			   class="process"
+				class="process"
 			   style="stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
 			   id="dag_raw"
 			   width="128.33707"
 			   height="38.123489"
 			   x="84.636871"
-			   y="484.20911"
-			   onclick="updateDag(this.id)" />
+			   y="484.20911"/></a>
+
+			<a xlink:href="#concat">
 			<rect
 			   class="process"
 			   style="stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
@@ -315,8 +337,9 @@ title: Methods
 			   width="106.04148"
 			   height="42.82719"
 			   x="91.622116"
-			   y="562.76166"
-			   onclick="updateDag(this.id)" />
+			   y="562.76166" />
+			 </a>
+			 <a xlink:href="#daynight">
 			<rect
 			   class="process"
 			   style="stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
@@ -324,8 +347,9 @@ title: Methods
 			   width="116.65207"
 			   height="51.652069"
 			   x="3.4596794"
-			   y="638.35431"
-			   onclick="updateDag(this.id)" />
+			   y="638.35431"/>
+			</a>
+			 <a xlink:href="#hist">
 			<rect
 			   class="process"
 			   style="stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
@@ -335,6 +359,8 @@ title: Methods
 			   x="144.52133"
 			   y="638.55896"
 			   onclick="updateDag(this.id)" />
+			</a>
+			<a xlink:href="#undist">
 			<rect
 			   class="process"
 			   style="stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
@@ -344,6 +370,8 @@ title: Methods
 			   x="137.1317"
 			   y="736.86267"
 			   onclick="updateDag(this.id)" />
+			</a>
+			<a xlink:href="#rois">
 			<rect
 			   class="process"
 			   style="stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
@@ -353,6 +381,8 @@ title: Methods
 			   x="146.05673"
 			   y="812.70312"
 			   onclick="updateDag(this.id)" />
+			</a>
+			<a xlink:href="#contours">
 			<rect
 			   class="process"
 			   style="stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
@@ -362,38 +392,22 @@ title: Methods
 			   x="146.01437"
 			   y="904.83002"
 			   onclick="updateDag(this.id)" />
-			<g
-			   id="dag_features"
-			   transform="translate(45.798645,0)">
-			  <text
-				 sodipodi:linespacing="100%"
-				 id="text3799-7-4"
-				 y="992.20764"
-				 x="98.293427"
-				 style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Liberation Sans;-inkscape-font-specification:Liberation Sans"
-				 xml:space="preserve"><tspan
-				   id="tspan3803-80-2"
-				   y="992.20764"
-				   x="98.293427"
-				   sodipodi:role="line" /><tspan
-				   id="tspan3931-7"
-				   y="1016.2076"
-				   x="98.293427"
-				   sodipodi:role="line">Features</tspan><tspan
-				   id="tspan3965"
-				   y="1040.2076"
-				   x="98.293427"
-				   sodipodi:role="line" /></text>
-			  <rect
-				 class="process"
-				 onclick="updateDag(this.id)"
-				 y="987.1178"
-				 x="47.852787"
-				 height="41.902348"
-				 width="101.98285"
-				 id="dag_raw-7-7"
-				 style="stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-			</g>
+			</a>
+			
+			<a xlink:href="#features">
+			<rect
+			 class="process"
+			 onclick="updateDag(this.id)"
+			 y="987.1178"
+			 x="47.852787"
+			 height="41.902348"
+			 width="101.98285"
+			 id="dag_features"
+			 style="stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+			</a>
+			
+
+			
 			<path
 			   style="fill:none;stroke:#000000;stroke-width:2.29999995;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow2Mend)"
 			   d="m 143.44166,528.51823 0,26.26396"
@@ -444,61 +458,89 @@ title: Methods
 			<div class="row fig_div">
 				<div id="fig_demo" class= "process active">
 					<h1>Interact with this page</h1>
-					<figure> <img src="../img/demo.png" width="100%"</img>
+					<figure> <img src="../img/demo.png" >
 					</div>
 					
 				<div id="fig_raw" class= "process">
 					<h1>Acquisition</h1>
-					<figure> <iframe width="568" height="481" frameborder="0"></iframe>
+					<figure> <div class="iframe_container"></iframe></div>
 					<figcaption>Representative video sequence of 18 individual land snails.</figcaption></figure></div>
 				<div id="fig_concat" class= "process">
 					<h1>Sampling</h1>
-					<figure> <iframe width="568" height="481" frameborder="0"></iframe>
+					<figure> <div class="iframe_container"></iframe></div>
 					<figcaption>Representative video sequence of 18 individual land snails.</figcaption></figure></div>
 				<div id="fig_hist" class= "process">
 					<h1>Histogram Stretching</h1>
-					<figure> <iframe width="568" height="481" frameborder="0"></iframe>
+					<figure> <div class="iframe_container"></iframe></div>
 					<figcaption>The intensity of each frame is normalised (stretched) to fix median at 128.</figcaption></figure></div>
 					
 				<div id="fig_undist" class= "process">
 					<h1>Undistortion</h1>
-					<figure> <iframe width="568" height="481" frameborder="0"></iframe>
+					<figure> <div class="iframe_container"></iframe></div>
 					<figcaption>Processing steps for undistorting a frame.</figcaption></figure></div>
 					
 				<div id="fig_daynight" class= "process">
 					<h1>Day vs Night image classification.</h1>
-					<figure> <iframe width="568" height="481" frameborder="0"></iframe>
+					<figure> <div class="iframe_container"></iframe></div>
 					<figcaption>Summary of the classification of frames in "day" or "night" images.</figcaption></figure></div>
 					
 				<div id="fig_contours" class= "process">
 					<h1>Active contours (snake) to define snail boundaries.</h1>
-					<figure> <iframe width="568" height="481" frameborder="0"></iframe>
+					<figure> <div class="iframe_container"></iframe></div>
 					<figcaption>Visual explanation of the use of morphological snake for tracking snails.</figcaption></figure></div>
 				<div id="fig_rois" class= "process">
 					<h1>Definition of ROIs</h1>
-					<figure> <iframe width="568" height="481" frameborder="0"></iframe>
+					<figure> <div class="iframe_container"></iframe></div>
 					<figcaption>Processing steps for automaticaly defining regions of interest (ROIs)</figcaption></figure></div>
 			</div>
 		</div>
 	</div>
 	<div class="row math_div"> 
-				
 		<div id="math_raw" class= "process">
-			<h2>The experiment</h2>
-			<p>
-			In each replicate, 18 land snails belonging to two common species, <em>Helix aperta</em> and <em>Cepaea nemoralis</em>,
-			were put in individual tubes for more than five days in order to study their behaviour.
-			All tubes were layed-out in a grid manner, delimited by black threads, as shown on the summary video.
-			A 12h/12h day/night cycle was applied using blue and red light (as snails cannot see the latter).
-			</p>
-			<h2>The raw videos</h2>
-			<p>
-			Raw videos were recorded at 5 frame per second, in greyscale and at a pixel resolution of $1240 \times 960$.
-			During aquisition, videos were saved as successive sequences of 10000 frames (about 33.3 minutes).
-			</p>
+		<div class="row">
+			<div class="col-md-6">		
+				<h2>The experiment</h2>
+				
+				<p>
+				The aim of this project is to investigate the use of land snails as model organism of sleep.
+				The first aspect was to quantify circadian activity of land snails in a controled environment.
+				A crucial point was to investigate the effect of species and age on the activity patterns.
+				
+				</p>
+				<p>
+				Snails belonging to two common species, <em>Helix aperta</em> and <em>Cepaea nemoralis</em> and of different ages
+				(from 1 to 4 years old) were sampled from the field and raise in the laboratory environment for several weeks.
+				In order to investigate their behaviour in isolations, snails were put in individual experimental tubes.
+				All tubes were layed-out in a grid pattern, delimited by black threads, as shown on the summary video (above).
+				A 12h/12h day/night cycle was applied using blue and red light (as snails cannot see the latter).
+				Each experiment lasted more than $100h$.
+				</p>
+
+			</div>
+			<div class="col-md-6">
+				
+				<h2>Replication scheme</h2>
+				<p>
+					Two replicates of this experiment were performed.
+					In each, 18 or 17 snails were put in individual containers.
+					In order to limit the effect of counfounding variables, individual animals were 
+					interspresed between and within experiement in a "systematic" way
+					(see <a href="http://www.esajournals.org/doi/abs/10.2307/1942661">S. H. Hurlbert, 1984, fig. 1</a>)
+				</p>
+				
+				<h2>The raw videos</h2>
+				<p>
+				Raw videos were recorded at 5 frame per second, in greyscale and at a pixel resolution of $1240 \times 960$.
+				During aquisition, videos were saved as successive sequences of 10000 frames (about 33.3 minutes) and 
+				on the fly MPEG4-compressed, with conservative quality settings.
+				</p>
+			</div>
+		</div>
 		</div>
 		
 		<div id="math_concat" class= "process">
+		<div class="row">
+			<div class="col-md-6">	
 			<h2>Simplification of videos</h2>
 			<p>
 				In a first place, video were concatenated and resampled at one frame per minute(fpm)
@@ -509,69 +551,93 @@ title: Methods
 				It would nevertheless be interesting to re-analyse the data at a higher frame rate.
 			</p>
 
+			</div>
+		</div>
 		</div>
 		
 		<div id="math_hist" class= "process">
+		<div class="row">
+			<div class="col-md-6">	
 			<h2>Different intensities between day and night frames</h2>
 			<p>
 			"Night" frames and "day" frames had dramatically different pixel intensities.
-			In subsequent analysis, the use adaptive strategies was used to cope with difference of average intensity.
+			In subsequent analysis, the use adaptive algorithms was used to cope with difference of average intensity.
 			However, the difference of variances in intensities between day and night remained very high.
 			For this reason, intra-frame normalisation was applied to all images.
 			</p>
-			
+			</div>
+			<div class="col-md-6">	
 			<h2>Stretching using median</h2>
 			<p>
 			Normalisation was carried by multiplying each pixel of the image $\mathbf{M_{ij}}$ by a normalisation factor:
 			$$\mathbf{M'_{ij}} = \mathbf{M_{ij}} * 128 / m$$
 			Where $m$ is the median of all values of $\mathbf{M}$.
-			The median of the normalised array is therefore always $128$.
+			The median of $\mathbf{M'}$, the normalised array, is therefore always $128$.
 			This value was chosen because it represents half of the 8bit ($0$ to $255$) range.
 			</p>
 			
+			</div>
+		</div>
 		</div>
 		
 		<div id="math_daynight" class= "process">
+		<div class="row">
+			<div class="col-md-6">	
 			<h2>Issue with day/night cycles</h2>
 			<p>
-			The experimental arena was set up so that periods of 12h of red light (night) and 12h of blue light (day) were succedding.
-			We suspected that the onset of night and day were critical periods for snails. 
-			However, the analogue mechanism controling the lights could not be syncronised accurately with the aquisition platform.
-			That is the timing of the onset of the night and day was inacurate (±15min).
-			We therefore decided to use the video frames themeselves to define the transitions between day and night.
-			In addition, it was important to control that no electronic failures had occured.
+				The experimental arena was set up so that periods of 12h of red light (night) and 12h of blue light (day) were succedding.
+				We suspected that the onset of night and day were critical periods for snails. 
+				However, the analogue mechanism controling the lights could not be syncronised accurately with the aquisition platform.
+				That is the timing of the onset of the night and day was inacurate (±15min).
+				We therefore decided to use the video frames themeselves to define the transitions between day and night.
+				In addition, it was important to control that no electronic failures had occured.
 			</p>
 			<h2>Unsupervised learning</h2>
 			<p>
-			In order to classify night and day frame, an unsupervided learning approach was undertaken.
-			The median intensity as well as first and third quartiles were computed for each frames. Then, kmeans clustering was applied
-			to segregrate all frames in two groups according to these three variables.
-			A posteriory, the cluster with the lowest centre for median intensity was defined as the "night" group.
-			As shown in the summary figure, both clusters segregated very well and no ambiguous frames were detected.
+				In order to classify night and day frame, an unsupervided learning approach was undertaken.
+				The median intensity as well as first and third quartiles were computed for each frames. Then, kmeans clustering was applied
+				to segregrate all frames in two groups according to these three variables.
+				A posteriory, the cluster with the lowest centre for median intensity was defined as the "night" group.
+				As shown in the summary figure, both clusters segregated very well and no ambiguous frames were detected.
 			</p>
+			</div>
+			<div class="col-md-6">	
 			<h2>Time drifting</h2>
 			<p>
-				After defining day and night frames, the time of all $day \rightarrow night$ and $night \rightarrow day$ transition were computed.
-				Then, the expected transitions (every 24h) were ploted agains the observed transitions.
-				If the timing was rigourously accurate, we whould observe a slope of 1 and a very large $R^2$.
+				After defining day and night frames, the time of all $day \rightarrow night$ and $night \rightarrow day$ 
+				transition were computed.
+					The difference between the observed and theoritical(expected) time can then be ploted against the observed time:
+				<figure>
+					<img src="../img/time_correction.png">
+					<figcaption>
+						testsdes fjkmc la vjdmal.
+					</figcaption>
+				</figure>
 			</p>
-			<figure>
-				<figcaption>
-					TODO put fig here
-				</figcaption>
-			</figure>
 			<p>
-				The although the slope was very close to 1, it differed very sigificantly (TODO).
-				In most cases, such a small difference would appear unimportant, but, in this context,
-				time inacuracy may have dramatic consequences.
-				A slope of 0.990 means the observed time is about 15min earlier every day. After 5 days,
-				the time would drift of more thant an hour, which sould lead to wrong biological interpretations.
-				Therefore, the empirical time later was used to correct the expected time stamps.
+				If the timing was rigourously accurate, we whould observe a slope and intercept at $0$ and an $R^2$ very close to one.
+				However, the overall slope is very significantly negative ($-0.67 min.h^{-1}$; $p-values &lt 2 \cdot 10^{-14}$;
+				$R^2 > 0.999$). This means that the time is anticipated approximatly 16 minutes earlier every day.
+				This could seriously bias biological conclusions, expectially if snails are crepuscular animals.
+				Therefore, the empirical time was later used to correct the expected time stamps.
+			</p>
+			<p>
+				The intercepts of $day \rightarrow night$ and $night \rightarrow day$ transitions are also significantly
+				different frem each other.
+				$(b_{night\rightarrow day} = -2.33  min$; $p-values &lt 2 \cdot 10^{-5}$).
+				This indicates that, on average, 
+				$night\rightarrow day$ transitions happen $2.33$ minutes after. 
+				In other words, nights are $12h - 2.33min$ long (instead of $12h$), this error is therefore negligible.
+
 			</p>
 			
 		</div>
+		</div>
+		</div>
 		
 		<div id="math_undist" class= "process">
+		<div class="row">
+			<div class="col-md-6">	
 			<h2>Issue with distorted images</h2>
 			<p>
 			Visual inspection of videos revealed that frames were slightly distorted.
@@ -602,6 +668,8 @@ title: Methods
 			</ul>
 			In the end, only $k$ and $f$ parameters need to be defined in order to undistort the image.
 			</p>
+			</div>
+			<div class="col-md-6">	
 			<h3>Distance function</h3>
 			<p>
 			The images contain black lines delimiting a grid layout around each experimental tube.
@@ -625,8 +693,10 @@ title: Methods
 			Nelder-Mead simplex algorithm.
 			</p>
 			<figure>
+				<img src="../img/fk_landscape.png"></img>
 			<figcaption>
-				TODO FIGURE LANDSCAPE
+				Exemple of distance for parameters $f$ and $k$. The black arrow indicates the "best"
+				 set of parameters, $\hat{f}, \hat{k}$
 			</figcaption>
 			</figure>
 			<p>
@@ -635,10 +705,15 @@ title: Methods
 			</p>
 			
 		</div>
+		</div>
+		</div>
 		
 
 		
 		<div id="math_rois" class= "process">
+			<div class="row">
+			<div class="col-md-6">	
+			<h2>Automatic seperation of tubes</h2>
 			<p>
 				We were interested in analysing the behaviour of snails in individual tubes.
 				We therefore wanted to analyse independenlty every animal in its tube.
@@ -672,6 +747,8 @@ title: Methods
 				Therefore, a distance metric was defined as:
 				$$ D = log(C_x C_y)$$
 			</p>
+			</div>	
+			<div class="col-md-6">	
 			<h2>Inference</h2>
 			<p>
 				Brute force over the range $[-\pi/4, +\pi/4]$, with a resolution of $\pi 10^{-2}$ was used to estimate $\hat{\theta}$.
@@ -697,7 +774,12 @@ title: Methods
 			</p>
 			
 		</div>
+		</div>
+		</div>
+		
 		<div id="math_contours" class= "process">
+		<div class="row">
+			<div class="col-md-6">
 			<h2>Overview</h2>
 			<p>In this project, it was important to capture the entire shape of the animal in order to link morphological features to behavioural states.
 				Importantly, the position and shape of the sensory organs of the snail, tentacles, could b...
@@ -724,7 +806,8 @@ title: Methods
 				Afterwards, adaptive thresholding was used to form a binary image.
 				Finally, the connected components in the binary image were filtered.
 			</p>
-			
+			</div>
+			<div class="col-md-6">
 			<h2>Snakes</h2>
 			<p>
 				<a href="http://en.wikipedia.org/wiki/Active_contour_model">Active contours</a> (a.k.a. snakes) is a computer vision framework designed to
@@ -762,6 +845,8 @@ title: Methods
 				In order to find relevant value for $r$, the area of the biologial object was manually defined for ten representative pictures.
 				
 			</p>
+		</div>
+		</div>
 		</div>
 
 	</div>

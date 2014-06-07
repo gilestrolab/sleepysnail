@@ -4,7 +4,24 @@ dag.process.active{
 	fill: "red";
 }
 */
-
+div.iframe_container{
+	/*border: 2px solid;*/
+}
+figure img{
+	width: 75%;
+	margin-left: auto;
+    margin-right: auto;
+    border-width: 1px;
+    border-color: Black;
+}
+figcaption{
+	font-style: italic;
+	width: 75%;
+	margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+}
+	
 .dag_div .process:hover{
 	opacity: 0.7;
 	cursor:pointer;
