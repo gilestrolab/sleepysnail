@@ -4,30 +4,20 @@ title: Methods
 ---
 
 <div class="jumbotron">
-	<h2>Video Tracking of Snails</h2>
-	<h3>The pipeline</h3>
+	<h2>Studying of activity pattern</h2>
+	
 	<p>
-		This study aimed at quantifying behaviour of individual land snails over several days and nights.
-		Each experiment resulted in the acquisition of the a video sequence containing several isolated animals.
-		The present page describes the pipeline developed to extract time series of primary features
-		(such as coordinates, area, aspect ratio) for each snail from the raw videos, and how the raw data was acquiered.
-		
+		<a href="../tracking">Video tracking</a> of land snails resulted in a recording of positionnal and morphological features
+		of 35 snails, every minute for 140 hours. This page describes how activity was defined and
+		shows graphical description of overal activity to guide an in-depth statistical analysis.
+		It explains how several binomial generalised linear mixed models of activity where assessed. 
+		Finally, it describes the effect of variables such as time, species and age on the propensity to be active.
 	<p>
-		The pipeline was implemented using python programing language, 
-		in combination with <a href="http://opencv.org/">opencv</a>
-		and <a href="http://opencv.org/">scipy</a> libraries.
-		This page focuses on the concepts rather than the implementation details, but feel free to read 
-		<a href="https://github.com/gilestrolab/sleepysnail">the source code</a>.
-		
+		The entire statistical analysis was done using R programing language, 
+		in combination with <a href="http://cran.r-project.org/web/packages/lme4/index.html">lme4</a> package.
 	</p>
 	</p>
 	
-	<h3>How to read this page</h3>
-	<p>
-		The <b>interactive graph on the left-hand side</b> allow you to show information about a specific process.
-		A <b>summary presentation</b> will be shown on the <b>right-hand side</b>, and <b>detailed explanation</b> about a processing step 
-		can be read at the <b>bottom</b>.
-	</p>
 	</div>
 <div class="row">
 	<div class="col-md-6 dag_div">
@@ -458,7 +448,7 @@ title: Methods
 			<div class="row fig_div">
 				<div id="fig_demo" class= "process active">
 					<h1>Interact with this page</h1>
-					<figure> <img src="../img/demo.png" ></figure>
+					<figure> <img src="../img/demo.png" >
 					</div>
 					
 				<div id="fig_raw" class= "process">
@@ -514,41 +504,43 @@ title: Methods
 		<div id="math_raw" class= "process">
 		<div class="row">
 			<div class="col-md-6">		
-				<h2>The experiment</h2>
-				
+				<h2>Pre-procecessing</h2>
 				<p>
-				The aim of this project is to investigate the use of land snails as model organism of sleep.
-				The first aspect was to quantify circadian activity of land snails in a controled environment.
-				A crucial point was to investigate the effect of species and age on the activity patterns.
+				Minor preprocessing was applied to the data resulting from the tracking pipeline.
+				<ol>
+					<li>The first two hours of both experiments were removed to account for behavioural habituation of the animals.</li>
+					<li>Median filter (with a window size of 3 minutes) was applied in order to remove potential outlier points.</li>
+					<li>Linear iterpolation was applied to replace the few missing points (where the algorithm could not detect the animal).
+					This also guarented the time series of features to be homogenous.</li>
+					<li>Distance between consecutive $\{x,y\}$ positions was trivially computed(see exemple figure below).</li>
+				</ol>
 				
 				</p>
-				<p>
-				Snails belonging to two common species, <em>Helix aperta</em> and <em>Cepaea nemoralis</em> and of different ages
-				(from 1 to 4 years old) were sampled from the field and raise in the laboratory environment for several weeks.
-				In order to investigate their behaviour in isolations, snails were put in individual experimental tubes.
-				All tubes were layed-out in a grid pattern, delimited by black threads, as shown on the summary video (above).
-				A 12h/12h day/night cycle was applied using blue and red light (as snails cannot see the latter).
-				Each experiment lasted more than $100h$.
-				</p>
-
+				<figure> <img src="../img/speed.png"></img>
+				<figcaption><em>Instantaneous speed over time for one individual.</em>
+				Each point represent an instantaneous speed at a given minute for a representative animal.
+				The grey and black stripes on the x axis represent artificial day and night, respectively.
+				The red horizontal line represents the arbitrary threshold of activity ($1mm/min$).
+				</figcaption></figure>
 			</div>
 			<div class="col-md-6">
-				
-				<h2>Replication scheme</h2>
+				<h2>Activity</h2>
 				<p>
-					Two replicates of this experiment were performed.
-					In each, 18 or 17 snails were put in individual containers.
-					In order to limit the effect of counfounding variables, individual animals were 
-					interspresed between and within experiement in a "systematic" way
-					(see <a href="http://www.esajournals.org/doi/abs/10.2307/1942661">S. H. Hurlbert, 1984, fig. 1</a>)
+				Instead of using speed as a measure of activity,
+				we were interested in defining a binary response variable that could be a conceptual approximation
+				of whether an animal is asleep at a time $t$. 
+				This is an important difference, because we are more interested in the resting state of an animal
+				than in its ovelall speed.
+				For this reason, a snail was considered active at a given time if and only if its
+				instantaneous speed was higher than $1mm/min$ (see red line on the figure). This is a provisionnal approximation which should
+				be taken with caution (<a href=" ../discussion/">see discussion</a>).
 				</p>
+				<figure> <img src="../img/activity_one_animal.png"></img>
+				<figcaption><em>Average activity per hour.</em>
+				Each point represent the propotion of time during which a representative animal was active each hour of the experiment.
+				The grey and black stripes on the x axis represent artificial day and night, respectively.
 				
-				<h2>The raw videos</h2>
-				<p>
-				Raw videos were recorded at 5 frame per second, in greyscale and at a pixel resolution of $1240 \times 960$.
-				During aquisition, videos were saved as successive sequences of 10000 frames (about 33.3 minutes) and 
-				on the fly MPEG4-compressed, with conservative quality settings.
-				</p>
+				</figcaption></figure>
 			</div>
 		</div>
 		</div>
@@ -556,14 +548,39 @@ title: Methods
 		<div id="math_concat" class= "process">
 		<div class="row">
 			<div class="col-md-6">	
-			<h2>Simplification of videos</h2>
+			<h2>Activity seem to decrease durring the experiment</h2>
 			<p>
-				In a first place, video were concatenated and resampled at one frame per minute(fpm)
-				in order to simplify and speedup subsequent analysis.
-				In further analysis, we estimated the overall maximal speed of a snail at about 7cm/min (which represents half of the tube).
-				In addition, activity bouts later fount to span, generally, over several minutes
-				Therefore, 1fpm appeared to be a good compromise; improving performance whist preserving relatively high-frequency information.
-				It would nevertheless be interesting to re-analyse the data at a higher frame rate.
+				When pooling all animals and computing the average activity ratio for each hour of the experiment,
+				it appears that :
+				<ol>
+					<li>There is a very large proportion of inactivity (rarely more than 20% of animals are active).</li>
+					<li>Activity seems to decrease during experiment.</li>
+				</ol>
+				
+				<figure> <img src="../img/activity_all_animals.png"></img>
+				<figcaption><em>Average activity per hour for all animals.</em>
+				Overall average of activity for all animal and every hour of both experiments.
+				The grey and black stripes on the x axis represent artificial day and night, respectively.
+				</figcaption></figure>
+				
+			</p>
+
+
+			</div>
+			<div class="col-md-6">	
+			<h2>Snails appear to be nocturnal</h2>
+			<p>
+				When looking at the overall activity, snails appear to be more active during night.
+				This result indicates that our experimental condition may be sufficient to promote
+				differential activities between day and night.
+				
+				<figure> <img src="../img/zeitgeber_activ.png"></img>
+				<figcaption><em>Overall average activity at different time of the day.</em>
+				The overall activity was aggregated, for all animals and over time, 
+				for every hour, relative to the onset of the night.
+				The time  $t=0$ represents the onset of the night, and $t=12$, the onset of the day.
+				</figcaption></figure>
+				
 			</p>
 
 			</div>
@@ -573,22 +590,112 @@ title: Methods
 		<div id="math_hist" class= "process">
 		<div class="row">
 			<div class="col-md-6">	
-			<h2>Different intensities between day and night frames</h2>
+			<h2>Binomial data</h2>
 			<p>
-			"Night" frames and "day" frames had dramatically different pixel intensities.
-			In subsequent analysis, the use adaptive algorithms was used to cope with difference of average intensity.
-			However, the difference of variances in intensities between day and night remained very high.
-			For this reason, intra-frame normalisation was applied to all images.
+			The response variable, activity, is here assumed to be a random variable $Y$ with binary outcome (active or not active).
+			Therefore, linear framework, which assumes $Y$ is normaly distributed, cannot be used.
+			However, it is possible to model $Y$ in with a <em>generalised linear model</em>, with a binomial distribution.
 			</p>
+			
+			<h2>Pseudo-replication</h2>
+			<p>
+			Each successive mesurment on a single snail is <em>not independant</em> from other measurment on the same animal.
+			A simplified data frame coule look like:
+			<figure>
+			<table cellspacing="0" border="0">
+				<colgroup span="3" width="85"></colgroup>
+				<tr>
+					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center"><b>Activity</b></td>
+					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center"><b>time</b></td>
+					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center"><b>Snail</b></td>
+				</tr>
+				<tr>
+					<td style="border-top: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
+					<td style="border-top: 1px solid #000000" align="center" sdval="1" sdnum="2057;">1</td>
+					<td style="border-top: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">A</td>
+				</tr>
+				<tr>
+					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="0" sdnum="2057;">0</td>
+					<td align="center" sdval="2" sdnum="2057;">2</td>
+					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">A</td>
+				</tr>
+				<tr>
+					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
+					<td align="center" sdval="3" sdnum="2057;">3</td>
+					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">A</td>
+				</tr>
+				<tr>
+					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
+					<td align="center" sdval="4" sdnum="2057;">4</td>
+					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">A</td>
+				</tr>
+				<tr>
+					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
+					<td align="center" sdval="5" sdnum="2057;">5</td>
+					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">A</td>
+				</tr>
+				<tr>
+					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center">…</td>
+					<td align="center">…</td>
+					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">…</td>
+				</tr>
+				<tr>
+					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
+					<td align="center" sdval="1" sdnum="2057;">1</td>
+					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">B</td>
+				</tr>
+				<tr>
+					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="0" sdnum="2057;">0</td>
+					<td align="center" sdval="2" sdnum="2057;">2</td>
+					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">B</td>
+				</tr>
+				<tr>
+					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
+					<td align="center" sdval="3" sdnum="2057;">3</td>
+					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">B</td>
+				</tr>
+				<tr>
+					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
+					<td align="center" sdval="4" sdnum="2057;">4</td>
+					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">B</td>
+				</tr>
+				<tr>
+					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
+					<td align="center" sdval="5" sdnum="2057;">5</td>
+					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">B</td>
+				</tr>
+				<tr>
+					<td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center">…</td>
+					<td style="border-bottom: 1px solid #000000" align="center">…</td>
+					<td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">…</td>
+				</tr>
+			</table>
+			</figure>
+			</p>
+			<p>
+			It would be wrong to ignore the (random) effect between each measurments of a same animal and only model fixed effects.
+			The analysis of time series is a non-trivial, but one way to adress this issue is to use
+			<em>generalised linear model</em> and set every individual snails as random effect.
+			For instance, in R, a model could be formulated like:
+			{% highlight R %}
+			R> Activity ~ time + (1 | Snail)
+			{% endhighlight %}
+			
+			</p>
+			
 			</div>
 			<div class="col-md-6">	
-			<h2>Stretching using median</h2>
+			<h2>Nested Random Effects</h2>
 			<p>
-			Normalisation was carried by multiplying each pixel of the image $\mathbf{M_{ij}}$ by a normalisation factor:
-			$$\mathbf{M'_{ij}} = \mathbf{M_{ij}} * 128 / m$$
-			Where $m$ is the median of all values of $\mathbf{M}$.
-			The median of $\mathbf{M'}$, the normalised array, is therefore always $128$.
-			This value was chosen because it represents half of the 8bit ($0$ to $255$) range.
+			In this experiment, there are, in fact, two levels of random effects.
+			Indeed, two replicates (blocks) of the experiments have been produced,
+			but each individual snail is only represented in one block.
+			Blocks themeselve may have an (random) effect.
+			It is possible to account for this hierarchical model:
+			{% highlight R %}
+			R> Activity ~ time + (1 | Experiment/Snail)
+			{% endhighlight %}
+			However, it is sometimes recomended to colapse top level random effects (block) when the level of factor is small (see <a href="http://www.sciencedirect.com/science/article/pii/S0169534709000196"> B. M. Bolker et al. 2008</a> )
 			</p>
 			
 			</div>
