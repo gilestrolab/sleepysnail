@@ -15,7 +15,6 @@ var media_url_template = ["http://wl.figshare.com/articles/",
 
 var urlForProcess = function(){
 	hash = location.hash;
-	console.log(location.hash)
 	suffix = hash.split("#")[1]
 	if(hash){
 		showAllSuff(suffix)
@@ -55,7 +54,6 @@ $( document ).ready(function() {
 	var page = $(location).attr('href');
 	
 	$('ul.navbar-nav li a[href$="'+page+'"]').parents().addClass('active');
-	console.log("ERADYYYYYYYYYYYY")
 	urlForProcess()
 	
 	});
