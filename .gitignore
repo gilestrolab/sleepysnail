@@ -3,7 +3,7 @@
 *.mp4
 *.png
 *.svg
-
+*.Rda
 _site/
 
 # C extensions
