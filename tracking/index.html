@@ -30,7 +30,7 @@ title: Methods
 	</p>
 	</div>
 <div class="row">
-	<div class="col-md-6 dag_div">
+	<div class="col-md-4 dag_div">
 		<svg
 		   xmlns:dc="http://purl.org/dc/elements/1.1/"
 		   xmlns:cc="http://creativecommons.org/ns#"
@@ -449,7 +449,7 @@ title: Methods
 
 	</div>
 	
-		<div class="col-md-6">
+		<div class="col-md-8">
 			<div class="row fig_div">
 				<div id="fig_demo" class= "process active">
 					<h1>Interact with this page</h1>
@@ -496,6 +496,15 @@ title: Methods
 					</h1>
 					<figure> <div class="iframe_container"></iframe></div>
 					<figcaption>Visual explanation of the use of morphological snake for tracking snails.</figcaption></figure></div>
+					
+				<div id="fig_features" class= "process">
+					<h1>Basic geometrical features extracted from contours
+					<button style="font-size: 50%" onClick="scrollTo('#math');">Read details</button>
+					</h1>
+					<figure> <div class="iframe_container"></iframe></div>
+					<figcaption>Several standard geometrical features, such as perimeter,
+					 area, height and width, can be derived from each contour.</figcaption></figure></div>
+					
 				<div id="fig_rois" class= "process">
 					<h1>Definition of ROIs
 					<button style="font-size: 50%" onClick="scrollTo('#math');">Read details</button>
@@ -505,6 +514,187 @@ title: Methods
 			</div>
 		</div>
 	</div>
+	
+	<div class="row math_div" id="math"> 
+		<div id="math_features" class= "process">
+		<div class="row">
+			<div class="col-md-6">		
+				<h2>Basic features</h2>
+				
+				<p>
+				For every frame, several basic features can be extracted from the contour
+				previously defined. They can be used to derive secondary features and, for instance, infer
+				the state of an animal.
+				Here is a non exhaustive list of primary features:
+				<ul>
+				<li> Perimeter: $\mathcal{P}$</li>
+				<li> Area: $\mathcal{A}$</li>
+				<li> Height and Width: $\{W,H\}$</li>
+				<li> Center of mass: $\{x,y\}$</li>
+				<li> Perimeter of the <a href="https://en.wikipedia.org/wiki/Convex_hull">convex hull</a>: $ \mathcal{P}_h$</li>
+				<li> Area of the convex hull: $ \mathcal{A}_h$</li>
+				</ul>
+				Many more geometrical features, including "abstract" features (such as <a href="https://en.wikipedia.org/wiki/Image_moment#Scale_invariant_moments">Hu Moments</a>).
+				can be extracted.
+				</p>
+				
+				<h2>Derived features</h2>
+				<p>
+				<ul>
+				<li> aspect ratio: $A_r = \frac{H}{W} $</li>
+				<li> Circularity: $\frac{4\pi{} \mathcal{A}}{ \mathcal{P} ^2}$ </li>
+				<li> Convexity: $C_2 =  \frac{\mathcal{A}} {\mathcal{A}_h}$</li>
+
+				</p>
+
+			</div>
+			<div class="col-md-6">
+				
+				<h2>Compiling data</h2>
+				<p>
+					For each frame and each snail,
+					contours are found and features are computed.
+					Then, the generated data is compiled, along with the infered lighting condition (day vs night)
+					and the experimental variables (e.g age and species of the animal), in a master dataframe.
+					
+				</p>
+				
+				<figure>
+				
+<table cellspacing="0" border="0">
+	<colgroup span="9" width="76"></colgroup>
+	<tr>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center">Feature 1</td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">Feature 2</td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">…</td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">Feature n</td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">time</td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">Snail</td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">Age</td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">Species</td>
+		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">Experiment</td>
+	</tr>
+	<tr>
+		<td style="border-top: 1px solid #000000; border-left: 1px solid #000000" height="17" align="center" sdval="12" sdnum="2057;">12</td>
+		<td style="border-top: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" sdval="1.2" sdnum="2057;">1.2</td>
+		<td style="border-top: 1px solid #000000" align="center">…</td>
+		<td style="border-top: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" sdval="125" sdnum="2057;">125</td>
+		<td style="border-top: 1px solid #000000" align="center" sdval="1" sdnum="2057;">1</td>
+		<td style="border-top: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">A</td>
+		<td style="border-top: 1px solid #000000" align="center" sdval="3" sdnum="2057;">3</td>
+		<td style="border-top: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">H_a</td>
+		<td style="border-top: 1px solid #000000; border-right: 1px solid #000000" align="center" sdval="1" sdnum="2057;">1</td>
+	</tr>
+	<tr>
+		<td style="border-left: 1px solid #000000" height="17" align="center" sdval="15" sdnum="2057;">15</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" sdval="1.4" sdnum="2057;">1.4</td>
+		<td align="center">…</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" sdval="122" sdnum="2057;">122</td>
+		<td align="center" sdval="2" sdnum="2057;">2</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">A</td>
+		<td align="center" sdval="3" sdnum="2057;">3</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">H_a</td>
+		<td style="border-right: 1px solid #000000" align="center" sdval="1" sdnum="2057;">1</td>
+	</tr>
+	<tr>
+		<td style="border-left: 1px solid #000000" height="17" align="center" sdval="13" sdnum="2057;">13</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" sdval="0.9" sdnum="2057;">0.9</td>
+		<td align="center">…</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" sdval="154" sdnum="2057;">154</td>
+		<td align="center" sdval="3" sdnum="2057;">3</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">A</td>
+		<td align="center" sdval="3" sdnum="2057;">3</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">H_a</td>
+		<td style="border-right: 1px solid #000000" align="center" sdval="1" sdnum="2057;">1</td>
+	</tr>
+	<tr>
+		<td style="border-left: 1px solid #000000" height="17" align="center" sdval="14" sdnum="2057;">14</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" sdval="0.5" sdnum="2057;">0.5</td>
+		<td align="center">…</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" sdval="208" sdnum="2057;">208</td>
+		<td align="center" sdval="4" sdnum="2057;">4</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">A</td>
+		<td align="center" sdval="3" sdnum="2057;">3</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">H_a</td>
+		<td style="border-right: 1px solid #000000" align="center" sdval="1" sdnum="2057;">1</td>
+	</tr>
+	<tr>
+		<td style="border-left: 1px solid #000000" height="17" align="center">…</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">…</td>
+		<td align="center">…</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">…</td>
+		<td align="center">…</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">…</td>
+		<td align="center">…</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">…</td>
+		<td style="border-right: 1px solid #000000" align="center">…</td>
+	</tr>
+	<tr>
+		<td style="border-left: 1px solid #000000" height="17" align="center" sdval="12" sdnum="2057;">12</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" sdval="1.2" sdnum="2057;">1.2</td>
+		<td align="center">…</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" sdval="125" sdnum="2057;">125</td>
+		<td align="center" sdval="1" sdnum="2057;">1</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">B</td>
+		<td align="center" sdval="2" sdnum="2057;">2</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">C_n</td>
+		<td style="border-right: 1px solid #000000" align="center" sdval="1" sdnum="2057;">1</td>
+	</tr>
+	<tr>
+		<td style="border-left: 1px solid #000000" height="17" align="center" sdval="15" sdnum="2057;">15</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" sdval="1.4" sdnum="2057;">1.4</td>
+		<td align="center">…</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" sdval="122" sdnum="2057;">122</td>
+		<td align="center" sdval="2" sdnum="2057;">2</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">B</td>
+		<td align="center" sdval="2" sdnum="2057;">2</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">C_n</td>
+		<td style="border-right: 1px solid #000000" align="center" sdval="1" sdnum="2057;">1</td>
+	</tr>
+	<tr>
+		<td style="border-left: 1px solid #000000" height="17" align="center" sdval="13" sdnum="2057;">13</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" sdval="0.9" sdnum="2057;">0.9</td>
+		<td align="center">…</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" sdval="154" sdnum="2057;">154</td>
+		<td align="center" sdval="3" sdnum="2057;">3</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">B</td>
+		<td align="center" sdval="2" sdnum="2057;">2</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">C_n</td>
+		<td style="border-right: 1px solid #000000" align="center" sdval="1" sdnum="2057;">1</td>
+	</tr>
+	<tr>
+		<td style="border-left: 1px solid #000000" height="17" align="center" sdval="14" sdnum="2057;">14</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" sdval="0.5" sdnum="2057;">0.5</td>
+		<td align="center">…</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" sdval="208" sdnum="2057;">208</td>
+		<td align="center" sdval="4" sdnum="2057;">4</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">B</td>
+		<td align="center" sdval="2" sdnum="2057;">2</td>
+		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">C_n</td>
+		<td style="border-right: 1px solid #000000" align="center" sdval="1" sdnum="2057;">1</td>
+	</tr>
+	<tr>
+		<td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000" height="17" align="center">…</td>
+		<td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">…</td>
+		<td style="border-bottom: 1px solid #000000" align="center">…</td>
+		<td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">…</td>
+		<td style="border-bottom: 1px solid #000000" align="center">…</td>
+		<td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">…</td>
+		<td style="border-bottom: 1px solid #000000" align="center">…</td>
+		<td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">…</td>
+		<td style="border-bottom: 1px solid #000000; border-right: 1px solid #000000" align="center">…</td>
+	</tr>
+</table>
+				<figcaption>
+					<em>Schematic representation of a the sturtcure of the master data frame</em>.
+					Values of diferent variables are irrelevant. The actual master data frame has 250000 unique measurments. 
+					
+				</figcaption>
+				</figure>
+			</div>
+		</div>
+		</div>
+	
 	<div class="row math_div" id="math"> 
 		<div id="math_raw" class= "process">
 		<div class="row">
@@ -625,15 +815,15 @@ title: Methods
 				</figure>
 			</p>
 			<p>
-				If the timing was rigourously accurate, we whould observe a slope and intercept at $0$ and an $R^2$ very close to one.
+				If the timing was rigourously accurate, we whould observe a slope of $a = 0$, an intercept at $b = 0$ and an $R^2 \simeq 1$.
 				However, the overall slope is very significantly negative ($-0.67 min.h^{-1}$; $p-values &lt 2 \cdot 10^{-14}$;
 				$R^2 > 0.999$). This means that the time is anticipated approximatly 16 minutes earlier every day.
-				This could seriously bias biological conclusions, expectially if snails are crepuscular animals.
+				This could seriously bias biological conclusions, espetially if snails are crepuscular animals.
 				Therefore, the empirical time was later used to correct the expected time stamps.
 			</p>
 			<p>
 				The intercepts of $day \rightarrow night$ and $night \rightarrow day$ transitions are also significantly
-				different frem each other.
+				different from each other.
 				$(b_{night\rightarrow day} = -2.33  min$; $p-values &lt 2 \cdot 10^{-5}$).
 				This indicates that, on average, 
 				$night\rightarrow day$ transitions happen $2.33$ minutes after. 
@@ -651,16 +841,19 @@ title: Methods
 			<h2>Issue with distorted images</h2>
 			<p>
 			Visual inspection of videos revealed that frames were slightly distorted.
-			The image appears as if it was mapped onto a sphere as opose to a plan. 
+			The images appear as if it was mapped onto a sphere as opose to a plan. 
 			This is known as barrel distortion.
-			This artefecact results from the relatively wide angle of the camera used in combination with the type of camera lense.
-			Distortion artefact could reveal problematic in later stages of the analysis in so far as it would bias morphological
+			This artefact results from the relatively wide angle of the camera used,
+			in combination with the type of camera lense.
+			Distortion artefact could reveal problematic
+			in later stages of the analysis in so far as it would bias positionnal and morphological
 			measurments and render detection of the tube layout more complicated.
 			</p>
 			<h2>Correction of distortion</h2>
 			<h3>Parameter definition</h3>
 			<p>
-			Classically, undistortion would require to compute a vector of distortion coeficients $\mathbf{D} = (k_1, k_2, p_1,p_2,k_3)$.
+			Classically, undistortion would require to compute a vector of 
+			distortion coeficients $\mathbf{D} = (k_1, k_2, p_1,p_2,k_3)$.
 			In addition, a $3\times3$ camera matrix, $\mathbf{M}$, is requiered:
 			$$\mathbf{M} = \left( \begin{array}{ccc}
 			f_x & 0 & c_x \\
@@ -685,9 +878,10 @@ title: Methods
 			The images contain black lines delimiting a grid layout around each experimental tube.
 			We know, that these lines should be perfectly straight if the
 			undistortion is sucessful.
-			Therefore, it should be possible to infer $k$ and $f$ using a distance function quantifying how straight lines are in an undistorted image.
-			Therefore, <a href="http://en.wikipedia.org/wiki/Randomized_Hough_transform">probabilistic Hough transform</a>
-			was used to discover $n$ line segments.
+			Therefore, it should be possible to infer $k$ and $f$ using a
+			 distance function quantifying howm much lines are straight in an undistorted image.
+			Therefore, <a href="http://en.wikipedia.org/wiki/Randomized_Hough_transform">probabilistic
+			Hough transform</a> was used to discover $n$ line segments.
 			Then, the distance, metric was defined as:
 			$$ D = log\left(\frac{1}{(\sum_{i}^{n}{||l_i||})}\right)$$
 			where $||l_i||$ is the lenght of a line $i$, discovered by Hough transform.
@@ -821,23 +1015,34 @@ title: Methods
 			<h2>Snakes</h2>
 			<p>
 				<a href="http://en.wikipedia.org/wiki/Active_contour_model">Active contours</a> (a.k.a. snakes) is a computer vision framework designed to
-				fing the contour of a foreground object in a noisy image.
+				locate the contours of foreground objects in a noisy image.
 				Active contours have been used recently for segmenting biological images.
-				Active contours model a physical membrane around a foreground object and try to minimise the associated energy, iteratively.
-				One type of snakes, Geodesic Active Contours(GAC), 
-				todo
-				...
+				
+				Geodesic Active Contours(GAC) (see <a  href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.21.2196"> V. Casselles et al., 1997</a>)
+				model a physical membrane around a foreground object
+				and try to minimise the associated energy, iteratively, using level sets.
 			<p>
-				Recent approximation of GAC was provided through the use of morphological operators todo CITE.
+				Recently, fast approximation of GAC was provided through morphological
+				operators (<a  href="http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=5539900&tag=1">
+				Álvarez, L. et al., 2010</a>). It approximate the orginial GAC partial differential equation by:
 				
 				$$ \frac{\partial u}{\partial t} = 
 					|\nabla u | \left(\mu \operatorname{div} \left(\frac{\nabla u}{|\nabla u|}\right)
 					 - \nu -\lambda_1(I - c_1)^2 + \lambda_2(I - c_2)^2\right)$$
+				The important parameters here are $\lambda_1$ and $\lambda_2$. They define
+				the importance of inside and outside pixels, respectively.
+				
+				In order to find relevant value for $r = \lambda_2 / \lambda_1$, 
+				the area of ten representative biologial object was manually defined.
+				$r = 1.4$ minimised the error between the manually defined area and the resulting one.
+				
 			</p>
 			<p>
-				In addition a <a href="http://github.com/pmneila/morphsnakes"> python implementation</a> was provided by the authors and could be used in the project with few modifications.
+				A public <a href="http://github.com/pmneila/morphsnakes"> python implementation</a> is
+				published by Pablo Márquez-Neila. It could be used in the project with few modifications.
 				The main modification was to provide a terminaison criteria.
-				The iterative process would stop if the area between successive frames did not increase more than a values $\epsilon$ for four consecurive frames:
+				The iterative process would stop if the area between successive
+				frames did not increase more than a values $\epsilon$ for four consecutive frames:
 			
 				Formally, convergence was defined  by 
 				$$ \delta \leq \epsilon  $$
@@ -849,12 +1054,7 @@ title: Methods
 				$$ e_t = A_{t - 1} / A_{t}$$
 				$A_t$ is the area of the foreground object at a descrete time $t$.
 			</p>	
-			<p>
-				$\lambda_1$ and $\lambda_2$ define the importance of inside and outside pixels, respectively.
-				Therefore, the ratio $r = \lambda_2 / \lambda_1$ is an important parameter.
-				In order to find relevant value for $r$, the area of the biologial object was manually defined for ten representative pictures.
-				
-			</p>
+
 		</div>
 		</div>
 		</div>

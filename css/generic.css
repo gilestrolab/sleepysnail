@@ -4,6 +4,7 @@ dag.process.active{
 	fill: "red";
 }
 */
+svg{display: block;margin:auto;}
 .footer{
 	font-size: 12px;
 	margin-top:20px;

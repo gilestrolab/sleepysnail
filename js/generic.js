@@ -6,6 +6,7 @@ var media_map = {"raw":"1044213",
 "undist": "1045433",
 "daynight": "1045484",
 "hist": "1045574",
+"features": "1050508",
 "contours": "1041210"};
 
 
@@ -34,8 +35,10 @@ var showAllSuff = function(suffix){
 			var newFrame = document.createElement("iframe");
 			newFrame.src =  url;
 			
-			newFrame.width=568;
-			newFrame.height= 481;
+			newFrame.width=720;
+			newFrame.height= 530;
+			//~ newFrame.width=568;
+			//~ newFrame.height= 481;
 			
 			container.html(newFrame);
 			}
