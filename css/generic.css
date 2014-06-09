@@ -13,16 +13,28 @@ svg{display: block;margin:auto;}
 div.iframe_container{
 	/*border: 2px solid;*/
 }
+figcaption em{
+	text-decoration:underline
+}
 figure img{
-	width: 75%;
+	width: 85%;
 	margin-left: auto;
     margin-right: auto;
     border-width: 1px;
     border-color: Black;
 }
+
+figure table{
+	width: 85%;
+	margin-left: auto;
+    margin-right: auto;
+    border-width: 1px;
+    border-color: Black;
+}
+
 figcaption{
 	font-style: italic;
-	width: 75%;
+	width: 100%;
 	margin-left: auto;
     margin-right: auto;
     margin-bottom: 10px;
