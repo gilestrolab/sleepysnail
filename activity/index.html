@@ -7,10 +7,10 @@ title: Methods
     <h2>Studying of activity pattern</h2>
     
     <p>
-        <a href="../tracking">Video tracking</a> of land snails resulted in a recording of positional and morphological features
+        <a href="../tracking">Video tracking</a> of land snails resulted in recordings of positional and morphological features
         of 35 snails, every minute for 140 hours. This page describes how activity was defined and
         shows graphical description of overall activity to guide an in-depth statistical analysis.
-        It explains how several binomial generalised linear mixed models of activity where assessed.
+        It explains how several binomial generalised linear mixed models of activity were assessed.
         Finally, it describes the effect of variables such as time, species and age on the propensity to be active.
     <p>
         The entire statistical analysis was done using R programming language,
@@ -528,13 +528,13 @@ title: Methods
                 Activity decreases dramatically with time.
                It seems that after a long enough time, all individual are inactive. This probably reduces the effect of individual predictors in favour of interaction terms with time.
                In other words, the very strong  effect of time seems to mask other individual predictors.
-               For instance, if there were a large difference of activity between species, but after two days both species were inactive for four days, most of the effect would be interaction terms.
+               For instance, if there were a large difference in activity between species, but after two days both species were inactive for four days, most of the effect would be interaction terms.
                This is probably why we have no effect of species on its own, but a very strong interaction between species and time (H_a individuals seemingly reducing their activity faster).
-               The same conclusion could be drawn for Age. This is also likely to by why the model with all interaction terms had a larger predictive power.
+               The same conclusion could be drawn for Age. This is also likely to be why the model with all interaction terms had a larger predictive power.
                </p>
                
                  <p>
-                In the same maner, day light (is_day) has only a moderate effect on its own. This i because most of the effect is captured by the interaction with the time of the experiment.
+                In the same maner, daylight (is_day) has only a moderate effect on its own. This i because most of the effect is captured by the interaction with the time of the experiment.
                 For instance, in the first day of the experiment daylight has a very large effect, whislt it has almost none after 6 days.
                </p>
             </div>
@@ -565,7 +565,7 @@ title: Methods
         <div id="math_summary" class= "process">
         <div class="row">
             <div class="col-md-6">    
-            <h2>Activity seem to decrease during the experiment</h2>
+            <h2>Activity seems to decrease during the experiment</h2>
             <p>
                 When pooling all animals and computing the average activity ratio for each hour of the experiment,
                 it appears that:
@@ -693,9 +693,9 @@ title: Methods
             </figure>
             </p>
             <p>
-            It would be wrong to ignore the (random) effect between each measurements of a same animal and only model fixed effects.
-            The analysis of time series is a non-trivial, but one way to address this issue is to use
-            <em>mixed model</em> and set every individual snails as random effect.
+            It would be wrong to ignore the (random) effect between each measurement of an animal and only model fixed effects.
+            The analysis of time series is not trivial, but one way to address this issue is to use
+            <em>mixed model</em> and set every individual snail as a random effect.
             For instance, in R, a model could be formulated like:
 {% highlight R %}
 R> Activity ~ time + (1 | Snail)
@@ -719,7 +719,7 @@ R> Activity ~ time + (1 | Snail)
             Indeed, two replicates (blocks) of the experiments have been produced,
             but each individual snail is only represented in one block.
             Blocks themselves may have an (random) effect.
-            It is possible to account for this hierarchical model:
+            It is possible to account for this nestedness using hierarchical model:
 {% highlight R %}
 R> Activity ~ time + (1 | Experiment/Snail)
 {% endhighlight %}
@@ -737,12 +737,12 @@ R> Activity ~ time + (1 | Experiment/Snail)
             <div class="col-md-6">    
             <h2>The models</h2>
             <p>
-            The interspersed experimental designed allows us to consider several independent ($X$) variable in order to explain the
+            The interspersed experimental design allows us to consider several independent ($X$) variable in order to explain the
             response variable ($Y$).
             In the present study, we will consider the effect of the animal <em>age</em>, <em>species</em>,
-            whether the observation was during the <em>day or the night</em> over the <em>time</em> of the experiment.
+            whether the observation was during the <em>day or the night</em> and the <em>time</em> elapsed since the start of the experiment.
             
-            Therefore, we can formulate different combination of fixed effects. For example:
+            Therefore, we can formulate different combinations of fixed effects. For example:
             
 {% highlight python %}
 R> Activity ~ time + RANDOM_EFFECT
@@ -751,7 +751,7 @@ R> Activity ~ time + is_day * Species + RANDOM_EFFECT
 R> Activity ~ time * is_day + Species * Age + RANDOM_EFFECT
 ...
 {% endhighlight %}
-In addition, one can collapse block random effect or not:
+In addition, one can collapse the block random effect or not:
 {% highlight R %}
 R> Activity ~ FIXED_EFFECT + (1 | experiment/snail)
 R> Activity ~ FIXED_EFFECT + (1 | snail)
@@ -766,9 +766,9 @@ R> Activity ~ FIXED_EFFECT + (1 | snail)
             two fixed effects were fitted
             Computing likelihood with Laplace approximation.
             
-            The predictive power of each model were then assessed by the Akaike Information Criterion (AIC).
-            Interestingly, models with nested random effect systematically yielded 
-            higher (worst) AIC, by several points,
+            The predictive power of each model was then assessed by the Akaike Information Criterion (AIC).
+            Interestingly, models with nested random effects systematically yielded 
+            higher (worse) AIC, by several points,
             than their non-nested counterparts.
             Therefore, the simple (non-hierarchical) random effect was adopted.
             
