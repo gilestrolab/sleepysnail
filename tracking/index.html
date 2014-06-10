@@ -9,8 +9,9 @@ title: Methods
     <p>
         This study aimed at quantifying behaviour of individual land snails over several days and nights.
         Each experiment resulted in the acquisition of the a video sequence containing several isolated animals.
-        The present page describes the pipeline developed to extract time series of primary features
-        (such as coordinates, area, aspect ratio) for each snail from the raw videos, and how the raw data was acquired.
+        The present page explains how the raw videos were acquired and 
+        describes the pipeline developed to extract time series of features
+        (such as coordinates, area and circularity) for each snail from the raw videos.
        
     <p>
         The pipeline was implemented using python programming language,
@@ -456,55 +457,56 @@ title: Methods
                     <button style="font-size: 50%" onClick="scrollTo('#math');">Read details</button>
                     </h1>
                     <figure> <div class="iframe_container"></iframe></div>
-                    <figcaption>Representative video sequence of 18 individual land snails.</figcaption></figure></div>
+                    <figcaption><em>Representative video sequence of 18 individual land snails</em></figcaption></figure></div>
                 <div id="fig_concat" class= "process">
                     <h1>Sampling
                     <button style="font-size: 50%" onClick="scrollTo('#math');">Read details</button>
                     </h1>
                     <figure> <div class="iframe_container"></iframe></div>
-                    <figcaption>Representative video sequence of 18 individual land snails.</figcaption></figure></div>
+                    <figcaption><em>A resampled video showing the first three days.</em> Note that this video has been altered to permid online viewing.
+                    </figcaption></figure></div>
                 <div id="fig_hist" class= "process">
                     <h1>Histogram Stretching
                     <button style="font-size: 50%" onClick="scrollTo('#math');">Read details</button>
                     </h1>
                     <figure> <div class="iframe_container"></iframe></div>
-                    <figcaption>The intensity of each frame is normalised (stretched) to fix median at 128.</figcaption></figure></div>
+                    <figcaption><em>The intensity of each frame is normalised (stretched) to fix median at 128</em></figcaption></figure></div>
                    
                 <div id="fig_undist" class= "process">
                     <h1>Undistortion
                     <button style="font-size: 50%" onClick="scrollTo('#math');">Read details</button>
                     </h1>
                     <figure> <div class="iframe_container"></iframe></div>
-                    <figcaption>Processing steps for undistorting a frame.</figcaption></figure></div>
+                    <figcaption><em>Processing steps for undistorting a frame</em></figcaption></figure></div>
                    
                 <div id="fig_daynight" class= "process">
                     <h1>Day vs Night image classification
                     <button style="font-size: 50%" onClick="scrollTo('#math');">Read details</button>
                     </h1>
                     <figure> <div class="iframe_container"></iframe></div>
-                    <figcaption>Summary of the classification of frames in "day" or "night" images.</figcaption></figure></div>
+                    <figcaption><em>Summary of the classification of frames in "day" or "night" images</em></figcaption></figure></div>
                    
                 <div id="fig_contours" class= "process">
                     <h1>Active contours (snake) to define snail boundaries
                     <button style="font-size: 50%" onClick="scrollTo('#math');">Read details</button>
                     </h1>
                     <figure> <div class="iframe_container"></iframe></div>
-                    <figcaption>Visual explanation of the use of morphological snake for tracking snails.</figcaption></figure></div>
+                    <figcaption><em>Visual explanation of the use of morphological snake for tracking snails</em></figcaption></figure></div>
                    
                 <div id="fig_features" class= "process">
                     <h1>Basic geometrical features extracted from contours
                     <button style="font-size: 50%" onClick="scrollTo('#math');">Read details</button>
                     </h1>
                     <figure> <div class="iframe_container"></iframe></div>
-                    <figcaption>Several standard geometrical features, such as perimeter,
-                     area, height and width, can be derived from each contour.</figcaption></figure></div>
+                    <figcaption><em>Several standard geometrical features, such as perimeter,
+                     area, height and width, can be derived from each contour</em></figcaption></figure></div>
                    
                 <div id="fig_rois" class= "process">
                     <h1>Definition of ROIs
                     <button style="font-size: 50%" onClick="scrollTo('#math');">Read details</button>
                     </h1>
                     <figure> <div class="iframe_container"></iframe></div>
-                    <figcaption>Processing steps for automatically defining regions of interest (ROIs)</figcaption></figure></div>
+                    <figcaption><em>Processing steps for automatically defining regions of interest (ROIs)</em></figcaption></figure></div>
             </div>
         </div>
     </div>
@@ -697,16 +699,17 @@ title: Methods
                 <p>
                 The aim of this project is to investigate the use of land snails as model organism of sleep.
                 The first aspect was to quantify circadian activity of land snails in a controlled environment.
-                A crucial point was to investigate the effect of species and age on the activity patterns.
+                A crucial point was to investigate the effect of species and age on the activity patterns in order to 
+                characterise varibility and evaluate different biological models. 
                
                 </p>
                 <p>
-                Snails belonging to two common species, <em>Helix aperta</em> and <em>Cepaea nemoralis</em> and of different ages
-                (from 1 to 4 years old) were sampled from the field and raise in the laboratory environment for several weeks.
+                Snails belonging to two common species, <em><a href="https://en.wikipedia.org/wiki/Helix_aspersa">Helix aperta</a></em> and <em><a href="https://en.wikipedia.org/wiki/Grove_snail">Cepaea nemoralis</a></em> and of different ages
+                (from 1 to 3 years old) were sampled from the field and raised in the laboratory environment for several weeks.
                 In order to investigate their behaviour in isolations, snails were put in individual experimental tubes.
                 All tubes were laid-out in a grid pattern, delimited by black threads, as shown on the summary video (above).
                 A 12h/12h day/night cycle was applied using blue and red light (as snails cannot see the latter).
-                Each experiment lasted more than $100h$.
+                Each experiment lasted six days.
                 </p>
 
             </div>
@@ -715,17 +718,17 @@ title: Methods
                 <h2>Replication scheme</h2>
                 <p>
                     Two replicates of this experiment were performed.
-                    In each, 18 or 17 snails were put in individual containers.
+                    A total of 35 snails were individually monitored.
                     In order to limit the effect of confounding variables, individual animals were
-                    interspersed between and within experiment in a "systematic" way
+                    interspersed between and within experiments in a "systematic" way
                     (see <a href="http://www.esajournals.org/doi/abs/10.2307/1942661">S. H. Hurlbert, 1984, fig. 1</a>)
                 </p>
                
                 <h2>The raw videos</h2>
                 <p>
-                Raw videos were recorded at 5 frame per second, in grey-scale and at a pixel resolution of $1240 \times 960$.
-                During acquisition, videos were saved as successive sequences of 10000 frames (about 33.3 minutes) and
-                on the fly MPEG4-compressed, with conservative quality settings.
+                Raw videos were recorded at 5 fps (frame per second), in grey-scale and at a pixel resolution of $1240 \times 960$.
+                During acquisition, videos were saved in successive sequences of 10000 frames (about 33.3 minutes) and
+                on-the-fly MPEG4-compressed, with conservative quality settings.
                 </p>
             </div>
         </div>
@@ -738,7 +741,7 @@ title: Methods
             <p>
                 In a first place, video were concatenated and re-sampled at one frame per minute(fpm)
                 in order to simplify and speed-up subsequent analysis.
-                In further analysis, we estimated the overall maximal speed of a snail at about 10cm/min (which represents half of the tube).
+                In further analysis, we estimated the overall maximal speed of a snail at about $10cm/min$ (which represents two third of the tube).
                 In addition, activity bouts later fount to span, generally, over several minutes
                 Therefore, 1fpm appeared to be a good compromise; improving performance whist preserving relatively high-frequency information.
                 It would nevertheless be interesting to re-analyse the data at a higher frame rate.
@@ -763,7 +766,7 @@ title: Methods
             <h2>Stretching using median</h2>
             <p>
             Normalisation was carried by multiplying each pixel of the image $\mathbf{M_{ij}}$ by a normalisation factor:
-            $$\mathbf{M'_{ij}} = \mathbf{M_{ij}} * 128 / m$$
+            $$\mathbf{M'_{ij}} = \frac{128\mathbf{M_{ij}}}{m}$$
             Where $m$ is the median of all values of $\mathbf{M}$.
             The median of $\mathbf{M'}$, the normalised array, is therefore always $128$.
             This value was chosen because it represents half of the 8bit ($0$ to $255$) range.
@@ -778,12 +781,12 @@ title: Methods
             <div class="col-md-6">   
             <h2>Issue with day/night cycles</h2>
             <p>
-                The experimental arena was set up so that periods of 12h of red light (night) and 12h of blue light (day) were succeeding.
+                The experimental arena was set up so that periods of 12h of red light (night) and 12h of blue light (day) were alterning.
                 We suspected that the onset of night and day were critical periods for snails.
                 However, the analogue mechanism controlling the lights could not be synchronised accurately with the acquisition platform.
-                That is the timing of the onset of the night and day was inaccurate (±15min).
+                In othr words, the timing of the onset of the night and day was inaccurate (±15min).
                 We therefore decided to use the video frames themselves to define the transitions between day and night.
-                In addition, it was important to control that no electronic failures had occurred.
+                In addition, it was important to use this tool to ensure no electronic failures had occurred.
             </p>
             <h2>Unsupervised learning</h2>
             <p>
@@ -791,14 +794,14 @@ title: Methods
                 The median intensity as well as first and third quartiles were computed for each frames. Then, kmeans clustering was applied
                 to segregate all frames in two groups according to these three variables.
                 A posteriori, the cluster with the lowest centre for median intensity was defined as the "night" group.
-                As shown in the summary figure, both clusters segregated very well and no ambiguous frames were detected.
+                As shown in the summary presentation(above), both clusters segregated very well and no ambiguous frames were detected.
             </p>
             </div>
             <div class="col-md-6">   
             <h2>Time drifting</h2>
             <p>
                 After defining day and night frames, the time of all $day \rightarrow night$ and $night \rightarrow day$
-                transition were computed.
+                transitions were computed.
                     The difference between the observed and theoretical(expected) time can then be plotted against the observed time:
                 <figure>
                     <img src="../img/time_correction.png">
@@ -813,7 +816,7 @@ title: Methods
             <p>
                 If the timing was rigorously accurate, we should observe a slope of $a = 0$, an intercept at $b = 0$ and an $R^2 \simeq 1$.
                 However, the overall slope is very significantly negative ($-0.67 min.h^{-1}$; $p-values &lt 2 \cdot 10^{-14}$;
-                $R^2 > 0.999$). This means that the time is anticipated approximately 16 minutes earlier every day.
+                $R^2 > 0.999$). This means that the time is anticipated approximately <b>16 minutes earlier every day</b>.
                 This could seriously bias biological conclusions, especially if snails are crepuscular animals.
                 Therefore, the empirical time was later used to correct the expected time stamps.
             </p>
@@ -837,13 +840,14 @@ title: Methods
             <h2>Issue with distorted images</h2>
             <p>
             Visual inspection of videos revealed that frames were slightly distorted.
-            The images appear as if it was mapped onto a sphere as oppose to a plan.
-            This is known as barrel distortion.
+            The images appear as if they were mapped onto a sphere as oppose to a plan.
+            This is known as <a href="https://en.wikipedia.org/wiki/Distortion_%28optics%29#Radial_distortion">barrel
+            distortion</a>.
             This artefact results from the relatively wide angle of the camera used,
             in combination with the type of camera lens.
             Distortion artefact could reveal problematic
             in later stages of the analysis in so far as it would bias positional and morphological
-            measurements and render detection of the tube layout more complicated.
+            measurements and render detection of the grid layout more complicated.
             </p>
             <h2>Correction of distortion</h2>
             <h3>Parameter definition</h3>
@@ -875,7 +879,7 @@ title: Methods
             We know, that these lines should be perfectly straight if the
             undistortion is successful.
             Therefore, it should be possible to infer $k$ and $f$ using a
-             distance function quantifying howm much lines are straight in an undistorted image.
+             distance function quantifying "how much straight lines are" in an undistorted image.
             Therefore, <a href="http://en.wikipedia.org/wiki/Randomized_Hough_transform">probabilistic
             Hough transform</a> was used to discover $n$ line segments.
             Then, the distance, metric was defined as:
@@ -883,9 +887,9 @@ title: Methods
             where $||l_i||$ is the length of a line $i$, discovered by Hough transform.
             </p>
             <p>
-                In order to improve accurate of Hough transform, the image
+                In order to improve accuracy of Hough transform, the image
                 is pre-processed with a <a href=http://en.wikipedia.org/wiki/Top-hat_transform>black top-hat transform</a>
-                and converted to binary with automatic threshold.
+                and converted to binary with automatic threshold (see presentation above).
             </p>
             <h3>Inference</h3>
             <p>
@@ -896,12 +900,12 @@ title: Methods
                 <img src="../img/fk_landscape.png"></img>
             <figcaption>
                 <em>Example of distance for parameters $f$ and $k$</em>. The black arrow indicates the "best"
-                 set of parameters, $\hat{f}, \hat{k}$
+                 set of parameters, $\hat{f}, \hat{k}. Missing values are infinite distances (where no lines are found)$
             </figcaption>
             </figure>
             <p>
             The distortion was assumed to be constant in time.
-            Therefore, $k$ and $f$ were inferred on the first image of each sequence and used to undistort all frames of the same sequence.
+            Therefore, $k$ and $f$ were inferred on the first image of each sequence and used to undistort all  subsequent frames.
             </p>
             
         </div>
@@ -916,7 +920,7 @@ title: Methods
             <h2>Automatic separation of tubes</h2>
             <p>
                 We were interested in analysing the behaviour of snails in individual tubes.
-                We therefore wanted to analyse independently every animal in its tube.
+                We therefore wanted to analyse the state of every animal relative to its own tube.
                 During the experiment, tubes were visually delimited by black straight lines crossing in the corners of the tube.
                 This feature was used to separate each video in 18 videos (one per tube).
             </p>
@@ -952,16 +956,18 @@ title: Methods
             <h2>Inference</h2>
             <p>
                 Brute force over the range $[-\pi/4, +\pi/4]$, with a resolution of $\pi 10^{-2}$ was used to estimate $\hat{\theta}$.
-                Importantly, median values, $\mathbf{X}$ and $\mathbf{Y}$, for the ten $y$ and four $x$ clusters, respectively, were kept.
+                Importantly, median values, $X$ and $Y$, for the ten $y$ and four $x$ clusters,
+                respectively, were kept.
             </p>
             <h2>Remapping corners</h2>
-                All $4 \times 10$ possible of points after rotation $\hat{\theta}$ can be expressed as:
+                All $4 \times 10$ theoritical points (in an optimally rotated image rotated by the angle $\hat{\theta}$)
+                can be expressed as:
                 $$\mathbf{P} = \left( \begin{array}{ccc}
-                    \mathbf{X_1} & \mathbf{Y_1}\\
-                    \mathbf{X_2} & \mathbf{Y_1}\\
+                    X_1 & Y_1\\
+                    X_2 & Y_1\\
                     \vdots & \vdots\\
-                    \mathbf{X_i} & \mathbf{Y_j} \end{array} \right)$$
-                In order to remap these points onto the unrotated image, we can trivially compute:
+                    X_i & Y_j \end{array} \right)$$
+                In order to remap these points onto the original, unrotated, image, we can trivially compute:
                 
                 $$\mathbf{P'} = \mathbf{P} . \mathbf{R'}^T$$
                 With
@@ -982,7 +988,7 @@ title: Methods
             <div class="col-md-6">
             <h2>Overview</h2>
             <p>In this project, it was important to capture the entire shape of the animal in order to link morphological features to behavioural states.
-                Importantly, the position and shape of the sensory organs of the snail, tentacles, could b...
+                Importantly, the position and shape of the sensory organs of the snail (tentacles) may be interesting features to define wakefulness.
                 Although finding the approximate position of the animal is relatively trivial, finding the boundary proved difficult.
                 The presence of glare and shadows projected by neighbouring snails, in addition to the variability in contrast between snails, made this task challenging.
                 For each successive frame,  the following strategy was adopted:
@@ -1030,12 +1036,12 @@ title: Methods
                 
                 In order to find relevant value for $r = \lambda_2 / \lambda_1$,
                 the area of ten representative biological object was manually defined.
-                $r = 1.4$ minimised the error between the manually defined area and the resulting one.
+                $r = 1.4$ minimised the error between to the manually defined area.
                 
             </p>
             <p>
                 A public <a href="http://github.com/pmneila/morphsnakes"> python implementation</a> is
-                published by Pablo Márquez-Neila. It could be used in the project with few modifications.
+                published by Pablo Márquez-Neila and could be used in the project with minnor alterations.
                 The main modification was to provide a termination criteria.
                 The iterative process would stop if the area between successive
                 frames did not increase more than a values $\epsilon$ for four consecutive frames:
