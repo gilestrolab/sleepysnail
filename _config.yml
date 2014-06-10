@@ -4,5 +4,5 @@ pygments: true
 safe: true
 lsi: false
 #~ url: sleepysnail
-# baseurl: /sleepysnail
-baseurl: /~qg213
+baseurl: /sleepysnail
+# baseurl: /~qg213
