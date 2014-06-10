@@ -11,7 +11,7 @@ title: SleepySnail
     <p>
     Sleep appears to be ubiquitous amongst animals.
     Indeed, most animals in which it has been investigated
-    appear to exhibit and require the basics characteristics of sleep
+    appear to exhibit and require the basic characteristics of sleep
     (<em>e.g.</em> quiescent behaviours with elevated arousal thresholds,
     <a href="http://www.plosbiology.org/article/info%3Adoi%2F10.1371%2Fjournal.pbio.0060216#pbio-0060216-g002">see C. Cirelli and G. Tononi, 2008</a>).
     However, literature mainly focusses on a few vertebrate models, and sleep is poorly studied in
@@ -22,46 +22,46 @@ title: SleepySnail
     </p>
     
     <p>
-    Snails are an historically important animal model for studying the cellular basis
+    Snails are a historically important animal model for studying the cellular basis
     of learning and memory and they could potentially be used to investigate the links between sleep or sleep deprivation and learning.
     In mammals, electrophysiology is mostly used to quantify sleep.
-    Since, this methodology cannot be applied to other phyla, behavioural observation is generally used.
+    Since this methodology cannot be applied to other phyla, behavioural observation is generally used.
     This is however often very time consuming and subjective.
     The aim of this project was to develop a <a href="{{ site.baseurl }}/tracking/">video processing pipeline</a>
     to study activity of land snails — for which sleep has not yet been characterised.
-    In addition, preliminary <a href="{{ site.baseurl }}/activity/">analysis of snail day/night activity cycle</a>
+    In addition, preliminary <a href="{{ site.baseurl }}/activity/">analysis of snail day/night activity cycles</a>
     have been performed.
     </p>
     </div>
     <div class="col-md-6 dag_div">
     <h3>Scientific abstract</h3>    
     <p>
-    Only very few studies have been interested in whether molluscs exhibited sleeping pattern,
-     or needed sleep to consolidate memory.
-    Behavioural study of sleep requieres to monitor activity of individual animals over several days.
+    Very few studies have investigated whether molluscs exhibit sleeping pattern,
+     or need sleep to consolidate memory.
+    Behavioural study of sleep requires monitoring the activity of individual animals over several days.
      </p>
     <p>
-        The present study demonstrate an extensible video analysis pipeline which
+        The present study demonstrates an extensible video analysis pipeline which
         can be used to automatically monitor land snails in future experiments.
         It explains the important preprocessing steps, such as
         <a href="{{ site.baseurl }}/tracking/#undist">automatic undistortion</a>,
         <a href="{{ site.baseurl }}/tracking/#rois">statistical grid detection</a>
         and <a href="{{ site.baseurl }}/tracking/#daynight">time stamp correction</a>.
-        Then, is illustrate the use of Morphological Geodesic Active Contours
+        Then, it illustrates the use of Morphological Geodesic Active Contours
         (<a href="http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=6529072&tag=1">P. Marquez-Neila et al., 2013</a>)
         to detect contours of individual animals
         in a robust manner (<a href="{{ site.baseurl }}/tracking/#contours">description</a>).        
-        This permitted to quantify activity and morphology
-        of individual 35 snails every minute for over 140h.
+        This permites quantification of the activity and morphology
+        of 35 individual snails every minute for over 140h.
     </p>
     <p>
-        <a href="{{ site.baseurl }}/activity">Binomial Generalised Linear Mixed Model</a>
-        was used to evaluate the effects of variables such as time,
+        <a href="{{ site.baseurl }}/activity">Binomial Generalised Linear Mixed Models</a>
+        were used to evaluate the effects of variables such as time,
         age and species on the propensity to be active.
         This analysis revealed that the overall activity decreases dramatically during the experiment.
-        Snails were expectedly significantly more active during the night.
-        Interestingly, young animals were more active than older ones
-        There were also differences of activity between the two studied snail
+        Snails were expectedly to be significantly more active during the night.
+        Interestingly, young animals were more active than older ones.
+        There were also differences in activity between the two studied snail
         species.
     </p>
     
