@@ -7,8 +7,8 @@ title: Methods
     <h2>Video Tracking of Snails</h2>
     <h3>The pipeline</h3>
     <p>
-        This study aimed at quantifying behaviour of individual land snails over several days and nights.
-        Each experiment resulted in the acquisition of the a video sequence containing several isolated animals.
+        This study aimed to quantify behaviour of individual land snails over several days and nights.
+        Each experiment resulted in the acquisition of a video sequence containing several isolated animals.
         The present page explains how the raw videos were acquired and 
         describes the pipeline developed to extract time series of features
         (such as coordinates, area and circularity) for each snail from the raw videos.
@@ -740,10 +740,10 @@ title: Methods
             <div class="col-md-6">   
             <h2>Simplification of videos</h2>
             <p>
-                In a first place, video were concatenated and re-sampled at one frame per minute(fpm)
-                in order to simplify and speed-up subsequent analysis.
-                In further analysis, we estimated the overall maximal speed of a snail at about $10cm/min$ (which represents two third of the tube).
-                In addition, activity bouts later fount to span, generally, over several minutes
+                In the first place, video were concatenated and re-sampled at one frame per minute(fpm)
+                in order to simplify and speed up subsequent analysis.
+                In further analysis, we estimated the overall maximal speed of a snail at about 10cm/min (which represents two third of the tube).
+                In addition, activity bouts later fount to span, generally, over several minutes.
                 Therefore, 1fpm appeared to be a good compromise; improving performance whist preserving relatively high-frequency information.
                 It would nevertheless be interesting to re-analyse the data at a higher frame rate.
             </p>
@@ -758,15 +758,15 @@ title: Methods
             <h2>Different intensities between day and night frames</h2>
             <p>
             "Night" frames and "day" frames had dramatically different pixel intensities.
-            In subsequent analysis, the use adaptive algorithms was used to cope with difference of average intensity.
-            However, the difference of variances in intensities between day and night remained very high.
+            In subsequent analysis, adaptive algorithms were used to cope with difference of average intensity.
+            However, the difference in variances in intensities between day and night remained very high.
             For this reason, intra-frame normalisation was applied to all images.
             </p>
             </div>
             <div class="col-md-6">   
             <h2>Stretching using median</h2>
             <p>
-            Normalisation was carried by multiplying each pixel of the image $\mathbf{M_{ij}}$ by a normalisation factor:
+            Normalisation was carried out by multiplying each pixel of the image $\mathbf{M_{ij}}$ by a normalisation factor:
             $$\mathbf{M'_{ij}} = \frac{128\mathbf{M_{ij}}}{m}$$
             Where $m$ is the median of all values of $\mathbf{M}$.
             The median of $\mathbf{M'}$, the normalised array, is therefore always $128$.
@@ -782,7 +782,7 @@ title: Methods
             <div class="col-md-6">   
             <h2>Issue with day/night cycles</h2>
             <p>
-                The experimental arena was set up so that periods of 12h of red light (night) and 12h of blue light (day) were alterning.
+                The experimental arena was set up so that periods of 12h of red light (night) and 12h of blue light (day) were alteratning.
                 We suspected that the onset of night and day were critical periods for snails.
                 However, the analogue mechanism controlling the lights could not be synchronised accurately with the acquisition platform.
                 In othr words, the timing of the onset of the night and day was inaccurate (±15min).
@@ -792,7 +792,7 @@ title: Methods
             <h2>Unsupervised learning</h2>
             <p>
                 In order to classify night and day frame, an unsupervised learning approach was undertaken.
-                The median intensity as well as first and third quartiles were computed for each frames. Then, kmeans clustering was applied
+                The median intensity as well as first and third quartiles were computed for each frame. Then, kmeans clustering was applied
                 to segregate all frames in two groups according to these three variables.
                 A posteriori, the cluster with the lowest centre for median intensity was defined as the "night" group.
                 As shown in the summary presentation(above), both clusters segregated very well and no ambiguous frames were detected.
@@ -841,19 +841,19 @@ title: Methods
             <h2>Issue with distorted images</h2>
             <p>
             Visual inspection of videos revealed that frames were slightly distorted.
-            The images appear as if they were mapped onto a sphere as oppose to a plan.
+            The images appear as if they were mapped onto a sphere as opposed to a plan.
             This is known as <a href="https://en.wikipedia.org/wiki/Distortion_%28optics%29#Radial_distortion">barrel
             distortion</a>.
             This artefact results from the relatively wide angle of the camera used,
             in combination with the type of camera lens.
-            Distortion artefact could reveal problematic
+            Distortion artefact could become problematic
             in later stages of the analysis in so far as it would bias positional and morphological
             measurements and render detection of the grid layout more complicated.
             </p>
             <h2>Correction of distortion</h2>
             <h3>Parameter definition</h3>
             <p>
-            Classically, undistortion would require to compute a vector of
+            Classically, undistortion would require computation of a vector of
             distortion coefficients $\mathbf{D} = (k_1, k_2, p_1,p_2,k_3)$.
             In addition, a $3\times3$ camera matrix, $\mathbf{M}$, is required:
             $$\mathbf{M} = \left( \begin{array}{ccc}
@@ -877,13 +877,13 @@ title: Methods
             <h3>Distance function</h3>
             <p>
             The images contain black lines delimiting a grid layout around each experimental tube.
-            We know, that these lines should be perfectly straight if the
+            We know that these lines should be perfectly straight if the
             undistortion is successful.
             Therefore, it should be possible to infer $k$ and $f$ using a
              distance function quantifying "how much straight lines are" in an undistorted image.
             Therefore, <a href="http://en.wikipedia.org/wiki/Randomized_Hough_transform">probabilistic
             Hough transform</a> was used to discover $n$ line segments.
-            Then, the distance, metric was defined as:
+            Then, the distance metric was defined as:
             $$ D = log\left(\frac{1}{(\sum_{i}^{n}{||l_i||})}\right)$$
             where $||l_i||$ is the length of a line $i$, discovered by Hough transform.
             </p>
@@ -1008,7 +1008,7 @@ title: Methods
             <h2>Seeding</h2>
             <p>
                 In order to find the approximate position of each animal, a median filter ($15px$) was first applied to the preprocessed image.
-                This aims was to remove low frequency variation whilst preserving the edges of the image.
+                This aims to remove low frequency variation whilst preserving the edges of the image.
                 Then, grey-scale morphological closing was performed ($15px$).
                 Afterwards, adaptive thresholding was used to form a binary image.
                 Finally, the connected components in the binary image were filtered.
@@ -1026,8 +1026,8 @@ title: Methods
                 and try to minimise the associated energy, iteratively, using level sets.
             <p>
                 Recently, fast approximation of GAC was provided through morphological
-                operators (<a  href="http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=5539900&tag=1">
-                Álvarez, L. et al., 2010</a>). It approximate the original GAC partial differential equation by:
+                operators (<a  href="http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=5539900&tag=1">Álvarez,
+                L. et al., 2010</a>). It approximate the original GAC partial differential equation by:
                 
                 $$ \frac{\partial u}{\partial t} =
                     |\nabla u | \left(\mu \operatorname{div} \left(\frac{\nabla u}{|\nabla u|}\right)
@@ -1037,7 +1037,7 @@ title: Methods
                 
                 In order to find relevant value for $r = \lambda_2 / \lambda_1$,
                 the area of ten representative biological object was manually defined.
-                $r = 1.4$ minimised the error between to the manually defined area.
+                $r = 1.4$ minimised the error to the manually defined area.
                 
             </p>
             <p>
