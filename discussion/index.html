@@ -10,7 +10,7 @@ title: SleepySnail
         <h3>Activity</h3>    
         <h4>Definition of activity</h4>
         <p>
-            Activity was defined by an arbitrary threshold. This would make sense to provide a more rational
+            Activity was defined by an arbitrary threshold. It make sense to provide a more rational
             definition of activity, possibly relying on morphological measurements as well as speed. For instance, the centre
              of mass of an animal can remain unchanged despite the animal moving (e.g. turning, slight tentacle motions).
             
@@ -20,23 +20,23 @@ title: SleepySnail
                 The presented binomial generalised mixed effect model  does not capture the
                 structural pattern of activity.
                 For instance, activity seems to happen in bursts in most animals.
-                This is problematic, because it involves that activity at a given time $t_m$ depends on a previous state $t_{n-1}$.
+                This is problematic, because it involves that activity at a given time $t_n$ depends on a previous state $t_{n-1}$.
                 In this respect, it would be interesting to model activity using a generative model such as two states Markov chain.
         </p>
         <h4>Day/Night state is not independent from time</h4>
         <p>Another weakness of the proposed model (but also the experiment) is that night and day status are correlated with time since there is a 24h period.
-        Therefore, it is difficult to take apart the effect of both variable.
+        Therefore, it is difficult to tease apart the effect of both variable.
         Preliminary experiments in the laboratory have tried to alter the period, but results have not been analysed yet.
-        In addition, both variable could be combined into an explicitely periodic variable.
+        In addition, both variable could be combined into an explicitly periodic variable.
         </p>
         </div>
     <div class="col-md-6 dag_div">
     <h3>Tracking</h3>
     <h4>Lack of ground truth</h4>
     <p>
-    For this project, no ground truth data was available. Having a collection of annotated images of snails would have been a very valuable resource.
+    For this project, no ground truth data were available. Having a collection of annotated images of snails would have been a very valuable resource.
     Without ground truth data, it is very hard to trust the robustness and accuracy of the proposed method or to improve it.
-    For instance, the difference observed between day and night could, in principle, come from the fact that the tracking tool detect motion betted with the night frames.
+    For instance, the difference observed between day and night could, in principle, come from the fact that the tracking tool detects motion better with the night frames.
     It was nevertheless promising to see that the measurements of speed were biologically sound.
     In addition, preliminary visual confirmation could be performed by plotting inferred position on the image.
     Measurement of other features such as area appeared very noisy.
@@ -46,15 +46,16 @@ title: SleepySnail
     
     <h3>Back to the lab</h3>    
     <p>
-        The findings of this preliminary analysis will gives valuable clues to the experimentalists.
+        The findings of this preliminary analysis will give valuable clues to the experimentalists.
         The most critical point is the very strong decrease in activity over time.
         It probably arises from the fact that snails were not fed during the experiment, or that the environment was very stable
         (no changes in humidity or temperature).
         It will be essential to prevent this incidentally induced inactivity  before investigating sleep in land snails any further.
         
         It  nevertheless is very encouraging to observe
-        such a clear differential of activity between day and night.
-        In addition, it seems that young snails are more active and that <em>Helix asperta</em> is the most active species.
+        such a clear difference in activity between day and night.
+        In addition, it seems that young (one year old) snails are more active than older individuals and that <em>Helix aspersa</em>  more active than <em>Cepaea nemoralis</em>,
+        suggesting that other inter-specific differences may exist.
         
     </p>
     
