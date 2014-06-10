@@ -4,21 +4,21 @@ title: Methods
 ---
 
 <div class="jumbotron">
-	<h2>Studying of activity pattern</h2>
-	
-	<p>
-		<a href="../tracking">Video tracking</a> of land snails resulted in a recording of positionnal and morphological features
-		of 35 snails, every minute for 140 hours. This page describes how activity was defined and
-		shows graphical description of overal activity to guide an in-depth statistical analysis.
-		It explains how several binomial generalised linear mixed models of activity where assessed. 
-		Finally, it describes the effect of variables such as time, species and age on the propensity to be active.
-	<p>
-		The entire statistical analysis was done using R programing language, 
-		in combination with <a href="http://cran.r-project.org/web/packages/lme4/index.html">lme4</a> package.
-	</p>
-	</p>
-	
-	</div>
+    <h2>Studying of activity pattern</h2>
+    
+    <p>
+        <a href="../tracking">Video tracking</a> of land snails resulted in a recording of positional and morphological features
+        of 35 snails, every minute for 140 hours. This page describes how activity was defined and
+        shows graphical description of overall activity to guide an in-depth statistical analysis.
+        It explains how several binomial generalised linear mixed models of activity where assessed.
+        Finally, it describes the effect of variables such as time, species and age on the propensity to be active.
+    <p>
+        The entire statistical analysis was done using R programming language,
+        in combination with <a href="http://cran.r-project.org/web/packages/lme4/index.html">lme4</a> package.
+    </p>
+    </p>
+    
+    </div>
 <div class="row">
 	<div class="col-md-12 dag_div" >
 			<svg 
@@ -329,110 +329,71 @@ title: Methods
 
 	</div>
 		
-	<div class="col-md-0">
-		<div class="row fig_div hidden" style= "display: none;">
-			<div id="fig_demo" class= "process active">
-				<h1>Interact with this page</h1>
-			</div>
-				
-			<div id="fig_activity" class= "process">
-				<h1>Data preparation and definition of the response variable
-				<button style="font-size: 50%" onClick="scrollTo('#math');">Read details</button>
-				</h1>
-				<figure> <div class="iframe_container"></iframe></div>
-				<figcaption>TODO.</figcaption></figure></div>
-			
-			<div id="fig_summary" class= "process">
-				<h1>Summary of snail activity
-				<button style="font-size: 50%" onClick="scrollTo('#math');">Read details</button>
-				</h1>
-				<figure> <div class="iframe_container"></iframe></div>
-				<figcaption>TODO.</figcaption></figure></div>
-				
-			<div id="fig_glmms" class= "process">
-				<h1>Using Binomial Generalised Linear Mixed Models
-				<button style="font-size: 50%" onClick="scrollTo('#math');">Read details</button>
-				</h1>
-				<figure> <div class="iframe_container"></iframe></div>
-				<figcaption>TODO.</figcaption></figure></div>
-
-			<div id="fig_models" class= "process">
-				<h1>Comparing models
-				<button style="font-size: 50%" onClick="scrollTo('#math');">Read details</button>
-				</h1>
-				<figure> <div class="iframe_container"></iframe></div>
-				<figcaption>TODO.</figcaption></figure></div>
-				
-			<div id="fig_conclusion" class= "process">
-				<h1>Drawing conclusions from the best model
-				<button style="font-size: 50%" onClick="scrollTo('#math');">Read details</button>
-				</h1>
-				<figure> <div class="iframe_container"></iframe></div>
-				<figcaption>TODO.</figcaption></figure></div>
-			
-		</div>
-	</div>
-	
-	<div class="row math_div" id="math"> 
-		<div id="math_activity" class= "process">
-		<div class="row">
-			<div class="col-md-6">		
-				<h2>Pre-procecessing</h2>
-				<p>
-				Minor preprocessing was applied to the data resulting from the tracking pipeline.
-				<ol>
-					<li>The first two hours of both experiments were removed to account for behavioural habituation of the animals.</li>
-					<li>Median filter (with a window size of 3 minutes) was applied in order to remove potential outlier points.</li>
-					<li>Linear iterpolation was applied to replace the few missing points (where the algorithm could not detect the animal).
-					This also guarented the time series of features to be homogenous.</li>
-					<li>Distance between consecutive $\{x,y\}$ positions was trivially computed(see exemple figure below).</li>
-				</ol>
-				
-				</p>
-				<figure> <img src="../img/speed.png"></img>
-				<figcaption><em>Instantaneous speed over time for one individual.</em>
-				Each point represent an instantaneous speed at a given minute for a representative animal.
-				The grey and black stripes on the x axis represent artificial day and night, respectively.
-				The red horizontal line represents the arbitrary threshold of activity ($1mm/min$).
-				</figcaption></figure>
-			</div>
-			<div class="col-md-6">
-				<h2>Activity</h2>
-				<p>
-				Instead of using speed as a measure of activity,
-				we were interested in defining a binary response variable that could be a conceptual approximation
-				of whether an animal is asleep at a time $t$. 
-				This is an important difference, because we are more interested in the resting state of an animal
-				than in its ovelall speed.
-				For this reason, a snail was considered active at a given time if and only if its
-				instantaneous speed was higher than $1mm/min$ (see red line on the figure). This is a provisionnal approximation which should
-				be taken with caution (<a href=" ../discussion/">see discussion</a>).
-				</p>
-				<figure> <img src="../img/activity_one_animal.png"></img>
-				<figcaption><em>Average activity per hour.</em>
-				Each point represent the propotion of time during which a representative animal was active each hour of the experiment.
-				The grey and black stripes on the x axis represent artificial day and night, respectively.
-				
-				</figcaption></figure>
-			</div>
-		</div>
-		</div>
-		
-		
-		
-	<div class="row math_div" id="math"> 
-		<div id="math_conclusion" class= "process">
-		<div class="row">
-			<div class="col-md-6">		
-				<h2>Model Coefficients and bootstrap confidence intervals</h2>
-				<p>
-				The Maximum likelyhood estimates of the coefficients of the best models were computed.
-				In addition, bootstrap replicates were performed by refitting the model on random samples of the
-				original data.
-				
-				</p>
-				<figure> 
-		
+    <div class="row fig_div hidden" style= "display: none;"></div>
+    
+    <div class="row math_div" id="math">
+        <div id="math_activity" class= "process">
+        <div class="row">
+            <div class="col-md-6">        
+                <h2>Pre-procecessing</h2>
+                <p>
+                Minor preprocessing was applied to the data resulting from the tracking pipeline.
+                <ol>
+                    <li>The first two hours of both experiments were removed to account for behavioural habituation of the animals.</li>
+                    <li>Median filter (with a window size of 3 minutes) was applied in order to remove potential outlier points.</li>
+                    <li>Linear interpolation was applied to replace the few missing points (where the algorithm could not detect the animal).
+                    This also guaranteed the time series of features to be homogeneous.</li>
+                    <li>Distance between consecutive $\{x,y\}$ positions was trivially computed:</li>
+                </ol>
+                
+                </p>
+                <figure> <img src="../img/speed.png"></img>
+                <figcaption><em>Instantaneous speed over time for one individual.</em>
+                Each point represents an instantaneous speed at a given minute for a
+                 representative animal.
+                The grey and black stripes on the x axis represent artificial
+                 day and night, respectively.
+                The red horizontal line represents the arbitrary threshold of activity used ($1mm/min$).
+                </figcaption></figure>
+            </div>
+            <div class="col-md-6">
+                <h2>Activity</h2>
+                <p>
+                Instead of using speed as a measure of activity,
+                we were interested in defining a binary response variable that could be a conceptual approximation
+                of whether an animal is asleep at a time $t$.
+                This is an important difference, because we are more interested in the resting state of an animal
+                than in its overall speed.
+                For this reason, a snail was considered active at a given time if and only if its
+                instantaneous speed was higher than $1mm/min$ (see red line on the figure).
+                This is a provisional approximation which should
+                be taken with caution (<a href=" ../discussion/">see discussion</a>).
+                </p>
+                <figure> <img src="../img/activity_one_animal.png"></img>
+                <figcaption><em>Average activity per hour.</em>
+                Each point represents the proportion of time during which a representative animal was active each hour of the experiment.
+                The grey and black stripes on the x axis represent artificial day and night,
+                respectively.
+                </figcaption></figure>
+            </div>
+        </div>
+        </div>
+        
+        
+        
+    <div class="row math_div" id="math">
+        <div id="math_conclusion" class= "process">
+        <div class="row">
+            <div class="col-md-6">        
+                <h2>Model Coefficients and bootstrap confidence intervals</h2>
+                <p>
+                The Maximum likelihood estimates of the coefficients of the best models were computed.
+                In addition, bootstrap replicates were performed by refitting the model on random samples of the
+                original data.
+                
+                </p>
+                <figure>
+        
 			<table cellspacing="0" border="0" style="margin:auto">
 	<colgroup width="211"></colgroup>
 	<colgroup span="5" width="85"></colgroup>
@@ -509,218 +470,220 @@ title: Methods
 		<td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="right" sdval="0.19993" sdnum="2057;0;0.00E+00">2.00E-01</td>
 	</tr>
 </table>
-				<figcaption><em>Coefficient estimates for the best model.</em>
-				Because of computer resources and time limitations, only 164 bootstrap replicates could be carried.
-				A bootstrap confidence interval, [Q 2.5%, Q 97.5%], on values of parameters was nevertheless computed.
-				std is the parametric standard deviation. The P-value is from a parametric Z test (see <a href="http://cran.r-project.org/web/packages/lme4/lme4.pdf">lme4::glmer</a>).
-				Rows in bold font show a P-value lower than 0.05.
-				Globally, parametric P-values aggree with the bootstrap confidence interval: when the [Q 2.5%, Q 97.5%] range contains 0, it indicates that the estimate is
-				not consistantly different from 0.
-				
-				
-				</figcaption>
-				</figure>
-				
-			</div>
-			<div class="col-md-6">
-				<h2>Effect of time and species</h2>
-				<p>
-				Activity decreased during the experiment for both species.
-				In addition, activity was significantly higher during night,
-				
-				</p>
-				<figure> <img src="../img/time_and_species_activity.png"></img>
-				<figcaption><em>Effect of time and night on activities for both species</em>
-				Each points represents an average value of activity over an hour for all individual of a species.
-				Red and blue indicate <em>Cepaea nemoralis</em> and <em>Helix asperta</em>, respectively.
-				Solid lines are prediction of the models and doted lines are 95% bootstrap confidence intervals.
-				The grey and black stripes on the x axis represent artificial day and night, respectively.
-				</figcaption></figure>
-			</div>
-		</div>
-		</div>
-		
-		
-		<div id="math_summary" class= "process">
-		<div class="row">
-			<div class="col-md-6">	
-			<h2>Activity seem to decrease during the experiment</h2>
-			<p>
-				When pooling all animals and computing the average activity ratio for each hour of the experiment,
-				it appears that :
-				<ol>
-					<li>There is a very large proportion of inactivity (rarely more than 20% of animals are active).</li>
-					<li>Activity seems to decrease during experiment.</li>
-				</ol>
-				
-				<figure> <img src="../img/activity_all_animals.png"></img>
-				<figcaption><em>Average activity per hour for all animals.</em>
-				Overall average of activity for all animal and every hour of both experiments.
-				The grey and black stripes on the x axis represent artificial day and night, respectively.
-				</figcaption></figure>
-				
-			</p>
+                <figcaption><em>Coefficient estimates for the best model.</em>
+                Because of computer resources and time limitations, only 164 bootstrap replicates could be carried.
+                A bootstrap confidence interval, [Q 2.5%, Q 97.5%], on values of parameters was nevertheless computed.
+                std is the parametric standard deviation. The P-value is from a parametric Z test (see <a href="http://cran.r-project.org/web/packages/lme4/lme4.pdf">lme4::glmer</a>).
+                Rows in bold font show a P-value lower than 0.05.
+                Globally, parametric P-values agree with the bootstrap confidence interval: when the [Q 2.5%, Q 97.5%] range contains 0, it indicates that the estimate is
+                not consistently different from 0.
+                
+                
+                </figcaption>
+                </figure>
+                
+            </div>
+            <div class="col-md-6">
+                <h2>Effect of time and species</h2>
+                <p>
+                Activity decreased during the experiment for both species.
+                In addition, activity was significantly higher during night,
+                
+                </p>
+                <figure> <img src="../img/time_and_species_activity.png"></img>
+                <figcaption><em>Effect of time and night on activities for both species</em>
+                Each points represents an average value of activity over an hour for all individual of a species.
+                Red and blue indicate <em>Cepaea nemoralis</em> and <em>Helix asperta</em>, respectively.
+                Solid lines are prediction of the models and doted lines are 95% bootstrap confidence intervals.
+                The grey and black stripes on the x axis represent artificial day and night, respectively.
+                </figcaption></figure>
+            </div>
+        </div>
+        </div>
+        
+        
+        <div id="math_summary" class= "process">
+        <div class="row">
+            <div class="col-md-6">    
+            <h2>Activity seem to decrease during the experiment</h2>
+            <p>
+                When pooling all animals and computing the average activity ratio for each hour of the experiment,
+                it appears that :
+                <ol>
+                    <li>There is a very large proportion of inactivity (rarely more than 20% of animals are active).</li>
+                    <li>Activity seems to decrease during experiment.</li>
+                </ol>
+                
+                <figure> <img src="../img/activity_all_animals.png"></img>
+                <figcaption><em>Average activity per hour for all animals.</em>
+                Overall average of activity for all animal and every hour of both experiments.
+                The grey and black stripes on the x axis represent artificial day and night, respectively.
+                </figcaption></figure>
+                
+            </p>
 
 
-			</div>
-			<div class="col-md-6">	
-			<h2>Snails appear to be nocturnal</h2>
-			<p>
-				When looking at the overall activity, snails appear to be more active during night.
-				This result indicates that our experimental condition may be sufficient to promote
-				differential activities between day and night.
-				
-				<figure> <img src="../img/zeitgeber_activ.png"></img>
-				<figcaption><em>Overall average activity at different time of the day.</em>
-				The overall activity was aggregated, for all animals and over time, 
-				for every hour, relative to the onset of the night.
-				The time  $t=0$ represents the onset of the night, and $t=12$, the onset of the day.
-				</figcaption></figure>
-				
-			</p>
+            </div>
+            <div class="col-md-6">    
+            <h2>Snails appear to be nocturnal</h2>
+            <p>
+                When looking at the overall pattern, snails appear to be more active during night.
+                This result indicates that our experimental condition may be sufficient to promote
+                differential activities between day and night.
+                
+                <figure> <img src="../img/zeitgeber_activ.png"></img>
+                <figcaption><em>Overall average activity at different time of the day.</em>
+                The overall activity was aggregated, for all animals and over time,
+                for every hour, relative to the onset of the night.
+                The time  $t=0$ represents the onset of the night, and $t=12$, the onset of the day.
+                </figcaption></figure>
+                
+            </p>
 
-			</div>
-		</div>
-		</div>
-		
-		<div id="math_glmms" class= "process">
-		<div class="row">
-			<div class="col-md-6">	
-			<h2>Binomial response variable</h2>
-			<p>
-			The response variable, activity, is here assumed to be a random variable $Y$ with binary outcome (active or not active).
-			Therefore, linear framework, which assumes $Y$ is normaly distributed, cannot be used.
-			However, it is possible to model $Y$ in with a <em>generalised linear model</em>, with a binomial distribution, and perform a
-			logistic regression.
-			</p>
-			
-			<h2>Pseudo-replication</h2>
-			<p>
-			Each successive mesurment on a single snail is <em>not independant</em> from other measurment on the same animal.
-			A simplified data frame coule look like:
-			<figure>
-			<table cellspacing="0" border="0" style="margin:auto">
-				<colgroup span="3" width="85"></colgroup>
-				<tr>
-					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center"><b>Activity</b></td>
-					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center"><b>time</b></td>
-					<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center"><b>Snail</b></td>
-				</tr>
-				<tr>
-					<td style="border-top: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
-					<td style="border-top: 1px solid #000000" align="center" sdval="1" sdnum="2057;">1</td>
-					<td style="border-top: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">A</td>
-				</tr>
-				<tr>
-					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="0" sdnum="2057;">0</td>
-					<td align="center" sdval="2" sdnum="2057;">2</td>
-					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">A</td>
-				</tr>
-				<tr>
-					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
-					<td align="center" sdval="3" sdnum="2057;">3</td>
-					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">A</td>
-				</tr>
-				<tr>
-					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
-					<td align="center" sdval="4" sdnum="2057;">4</td>
-					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">A</td>
-				</tr>
-				<tr>
-					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
-					<td align="center" sdval="5" sdnum="2057;">5</td>
-					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">A</td>
-				</tr>
-				<tr>
-					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center">…</td>
-					<td align="center">…</td>
-					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">…</td>
-				</tr>
-				<tr>
-					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
-					<td align="center" sdval="1" sdnum="2057;">1</td>
-					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">B</td>
-				</tr>
-				<tr>
-					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="0" sdnum="2057;">0</td>
-					<td align="center" sdval="2" sdnum="2057;">2</td>
-					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">B</td>
-				</tr>
-				<tr>
-					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
-					<td align="center" sdval="3" sdnum="2057;">3</td>
-					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">B</td>
-				</tr>
-				<tr>
-					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
-					<td align="center" sdval="4" sdnum="2057;">4</td>
-					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">B</td>
-				</tr>
-				<tr>
-					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
-					<td align="center" sdval="5" sdnum="2057;">5</td>
-					<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">B</td>
-				</tr>
-				<tr>
-					<td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center">…</td>
-					<td style="border-bottom: 1px solid #000000" align="center">…</td>
-					<td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">…</td>
-				</tr>
-			</table>
-			</figure>
-			</p>
-			<p>
-			It would be wrong to ignore the (random) effect between each measurments of a same animal and only model fixed effects.
-			The analysis of time series is a non-trivial, but one way to adress this issue is to use
-			<em>generalised linear model</em> and set every individual snails as random effect.
-			For instance, in R, a model could be formulated like:
+            </div>
+        </div>
+        </div>
+        
+        <div id="math_glmms" class= "process">
+        <div class="row">
+            <div class="col-md-6">    
+            <h2>Binomial response variable</h2>
+            <p>
+            The response variable, activity, is here assumed to be a random variable $Y$ with
+             binary outcome (active or not active).
+            Therefore, the linear framework, which assumes $Y$  to be normally distributed,
+             cannot be used.
+            However, it is possible to model $Y$ in with a <em>generalised linear model</em>, 
+            with a binomial distribution, and perform a logistic regression.
+            </p>
+            
+            <h2>Pseudo-replication</h2>
+            <p>
+            Each successive measurement on a single snail is <em>not independent</em> from other measurement on the same animal.
+            A simplified data frame could look like:
+            <figure>
+            <table cellspacing="0" border="0" style="margin:auto">
+                <colgroup span="3" width="85"></colgroup>
+                <tr>
+                    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center"><b>Activity</b></td>
+                    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center"><b>time</b></td>
+                    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center"><b>Snail</b></td>
+                </tr>
+                <tr>
+                    <td style="border-top: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
+                    <td style="border-top: 1px solid #000000" align="center" sdval="1" sdnum="2057;">1</td>
+                    <td style="border-top: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">A</td>
+                </tr>
+                <tr>
+                    <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="0" sdnum="2057;">0</td>
+                    <td align="center" sdval="2" sdnum="2057;">2</td>
+                    <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">A</td>
+                </tr>
+                <tr>
+                    <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
+                    <td align="center" sdval="3" sdnum="2057;">3</td>
+                    <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">A</td>
+                </tr>
+                <tr>
+                    <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
+                    <td align="center" sdval="4" sdnum="2057;">4</td>
+                    <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">A</td>
+                </tr>
+                <tr>
+                    <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
+                    <td align="center" sdval="5" sdnum="2057;">5</td>
+                    <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">A</td>
+                </tr>
+                <tr>
+                    <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center">…</td>
+                    <td align="center">…</td>
+                    <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">…</td>
+                </tr>
+                <tr>
+                    <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
+                    <td align="center" sdval="1" sdnum="2057;">1</td>
+                    <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">B</td>
+                </tr>
+                <tr>
+                    <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="0" sdnum="2057;">0</td>
+                    <td align="center" sdval="2" sdnum="2057;">2</td>
+                    <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">B</td>
+                </tr>
+                <tr>
+                    <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
+                    <td align="center" sdval="3" sdnum="2057;">3</td>
+                    <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">B</td>
+                </tr>
+                <tr>
+                    <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
+                    <td align="center" sdval="4" sdnum="2057;">4</td>
+                    <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">B</td>
+                </tr>
+                <tr>
+                    <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center" sdval="1" sdnum="2057;">1</td>
+                    <td align="center" sdval="5" sdnum="2057;">5</td>
+                    <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">B</td>
+                </tr>
+                <tr>
+                    <td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="center">…</td>
+                    <td style="border-bottom: 1px solid #000000" align="center">…</td>
+                    <td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center">…</td>
+                </tr>
+            </table>
+            </figure>
+            </p>
+            <p>
+            It would be wrong to ignore the (random) effect between each measurements of a same animal and only model fixed effects.
+            The analysis of time series is a non-trivial, but one way to address this issue is to use
+            <em>mixed model</em> and set every individual snails as random effect.
+            For instance, in R, a model could be formulated like:
 {% highlight R %}
 R> Activity ~ time + (1 | Snail)
 {% endhighlight %}
 <!--
-			In mathematical terms, this model could be formulated as:
-			$$Y(t) = \frac{1}{1 + e^{-\beta_0 + \beta_1t}} + \epsilon_t$$
-			Where: $\beta_0$ and $\beta_1$ are coeficients, and $\epsilon$ is a random variable.
-			If we have multiple predictor variables, we can write this in a matrix notation:
-			$$Y = \frac{1}{1 + e^{-\beta_0 + \beta_1\mathbf{X}}} + \epsilon_t$$
-			Where $\mathbf{X}$ is a matrix of $n$ predictors by $m$ observations.
-			$\beta_1$ is a vector of coefficients.
+            In mathematical terms, this model could be formulated as:
+            $$Y(t) = \frac{1}{1 + e^{-\beta_0 + \beta_1t}} + \epsilon_t$$
+            Where: $\beta_0$ and $\beta_1$ are coefficients, and $\epsilon$ is a random variable.
+            If we have multiple predictor variables, we can write this in a matrix notation:
+            $$Y = \frac{1}{1 + e^{-\beta_0 + \beta_1\mathbf{X}}} + \epsilon_t$$
+            Where $\mathbf{X}$ is a matrix of $n$ predictors by $m$ observations.
+            $\beta_1$ is a vector of coefficients.
 -->
-			</p>
-			
-			</div>
-			<div class="col-md-6">	
-			<h2>Nested Random Effects</h2>
-			<p>
-			In this experiment, there are, in fact, two levels of random effects.
-			Indeed, two replicates (blocks) of the experiments have been produced,
-			but each individual snail is only represented in one block.
-			Blocks themeselve may have an (random) effect.
-			It is possible to account for this hierarchical model:
+            </p>
+            
+            </div>
+            <div class="col-md-6">    
+            <h2>Nested Random Effects</h2>
+            <p>
+            In this experiment, there are, in fact, two levels of random effects.
+            Indeed, two replicates (blocks) of the experiments have been produced,
+            but each individual snail is only represented in one block.
+            Blocks themselves may have an (random) effect.
+            It is possible to account for this hierarchical model:
 {% highlight R %}
 R> Activity ~ time + (1 | Experiment/Snail)
 {% endhighlight %}
-			However, it is sometimes recomended to colapse top level random effects (block)
-			 when the level of factor is small (see
-			 <a href="http://www.sciencedirect.com/science/article/pii/S0169534709000196"> B. M. 
-			 Bolker et al. 2008</a>).
-			</p>
-			
-		</div>
-		</div>
-		</div>
+            However, it is sometimes recommended to collapse top level random effects (block)
+             when the level of factor is low (see
+             <a href="http://www.sciencedirect.com/science/article/pii/S0169534709000196"> B. M.
+             Bolker et al. 2008</a>).
+            </p>
+            
+        </div>
+        </div>
+        </div>
 <div id="math_models" class= "process">
-		<div class="row">
-			<div class="col-md-6">	
-			<h2>The models</h2>
-			<p>
-			The interspreded experimental designed allows us to consider several inpependent ($X$) variable in order to explain the
-			response variable ($Y$).
-			In the present study, we will consider the effect of the animal <em>age</em>, <em>species</em>,
-			whether the observation was during the <em>day or the night</em> over the <em>time</em> of the experiment.
-			
-			Therefore, we can formulate different combination of fixed effects. For exemple:
-			
+        <div class="row">
+            <div class="col-md-6">    
+            <h2>The models</h2>
+            <p>
+            The interspersed experimental designed allows us to consider several independent ($X$) variable in order to explain the
+            response variable ($Y$).
+            In the present study, we will consider the effect of the animal <em>age</em>, <em>species</em>,
+            whether the observation was during the <em>day or the night</em> over the <em>time</em> of the experiment.
+            
+            Therefore, we can formulate different combination of fixed effects. For example:
+            
 {% highlight python %}
 R> Activity ~ time + RANDOM_EFFECT
 R> Activity ~ time * is_day + RANDOM_EFFECT
@@ -728,72 +691,75 @@ R> Activity ~ time + is_day * Species + RANDOM_EFFECT
 R> Activity ~ time * is_day + Species * Age + RANDOM_EFFECT
 ...
 {% endhighlight %}
-In addition, one can colapse block random effect or not:
+In addition, one can collapse block random effect or not:
 {% highlight R %}
 R> Activity ~ FIXED_EFFECT + (1 | experiment/snail)
 R> Activity ~ FIXED_EFFECT + (1 | snail)
 {% endhighlight %}
 
-			</div>
-			<div class="col-md-6">	
+            </div>
+            <div class="col-md-6">    
 
-			<h2>Assessing models</h2>
-			<p>
-			Models for all possible conbinations of the four variables and the two fixed effects were fitted 
-			Computing likelihood with Laplace approximation.
-			
-			The predictive power of each model were then assessed by the Akaike Information Criterion (AIC).
-			Interestingly, models with nested random effect systematically yeilded higher (worst) AIC, by several points,
-			than their non-nested counterparts. 
-			Therefore, the simple (non-hierarchical) random effect was addopted.
-			
-			<figure>
-			<table cellspacing="0" border="0" style="margin:auto;">
-	<colgroup width="249"></colgroup>
-	<colgroup width="81"></colgroup>
-	<tr>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="left">Model</td>
-		<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="right" sdnum="2057;0;0.0">AIC</td>
-	</tr>
-	<tr>
-		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="left"><font face="mono">is_day * time* Species * Age + (1 | id)</font></td>
-		<td style="border-right: 1px solid #000000" align="right" sdval="103302.717181491" sdnum="2057;0;0.0"><font face="mono">103302.7</font></td>
-	</tr>
-	<tr>
-		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="left"><font face="mono">is_day * time * Age + (1 | id)</font></td>
-		<td style="border-right: 1px solid #000000" align="right" sdval="103917.344935307" sdnum="2057;0;0.0"><font face="mono">103917.3</font></td>
-	</tr>
-	<tr>
-		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="left"><font face="mono">is_day * time + (1 | id)</font></td>
-		<td style="border-right: 1px solid #000000" align="right" sdval="104179.681911522" sdnum="2057;0;0.0"><font face="mono">104179.7</font></td>
-	</tr>
-	<tr>
-		<td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="left"><font face="mono">is_day * time+ Species + Age + (1 | id)</font></td>
-		<td style="border-right: 1px solid #000000" align="right" sdval="104181.978374587" sdnum="2057;0;0.0"><font face="mono">104182.0</font></td>
-	</tr>
-	<tr>
-		<td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="left"><font face="mono">is_day * time + Species * Age + (1 | id)</font></td>
-		<td style="border-bottom: 1px solid #000000; border-right: 1px solid #000000" align="right" sdval="104183.882536236" sdnum="2057;0;0.0"><font face="mono">104183.9</font></td>
-	</tr>
+            <h2>Assessing models</h2>
+            <p>
+            Models for all possible combinations of the four (or less) variables and the
+            two fixed effects were fitted
+            Computing likelihood with Laplace approximation.
+            
+            The predictive power of each model were then assessed by the Akaike Information Criterion (AIC).
+            Interestingly, models with nested random effect systematically yielded 
+            higher (worst) AIC, by several points,
+            than their non-nested counterparts.
+            Therefore, the simple (non-hierarchical) random effect was adopted.
+            
+            <figure>
+            <table cellspacing="0" border="0" style="margin:auto;">
+    <colgroup width="249"></colgroup>
+    <colgroup width="81"></colgroup>
+    <tr>
+        <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="left">Model</td>
+        <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="right" sdnum="2057;0;0.0">AIC</td>
+    </tr>
+    <tr>
+        <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="left"><font face="mono">is_day * time* Species * Age + (1 | id)</font></td>
+        <td style="border-right: 1px solid #000000" align="right" sdval="103302.717181491" sdnum="2057;0;0.0"><font face="mono">103302.7</font></td>
+    </tr>
+    <tr>
+        <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="left"><font face="mono">is_day * time * Age + (1 | id)</font></td>
+        <td style="border-right: 1px solid #000000" align="right" sdval="103917.344935307" sdnum="2057;0;0.0"><font face="mono">103917.3</font></td>
+    </tr>
+    <tr>
+        <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="left"><font face="mono">is_day * time + (1 | id)</font></td>
+        <td style="border-right: 1px solid #000000" align="right" sdval="104179.681911522" sdnum="2057;0;0.0"><font face="mono">104179.7</font></td>
+    </tr>
+    <tr>
+        <td style="border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="left"><font face="mono">is_day * time+ Species + Age + (1 | id)</font></td>
+        <td style="border-right: 1px solid #000000" align="right" sdval="104181.978374587" sdnum="2057;0;0.0"><font face="mono">104182.0</font></td>
+    </tr>
+    <tr>
+        <td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" height="17" align="left"><font face="mono">is_day * time + Species * Age + (1 | id)</font></td>
+        <td style="border-bottom: 1px solid #000000; border-right: 1px solid #000000" align="right" sdval="104183.882536236" sdnum="2057;0;0.0"><font face="mono">104183.9</font></td>
+    </tr>
 </table>
-			<figcaption>
-				<em>Ranking of several competing models</em>.
-				The AICs of each model were used to assess their respective goodness.
-				The overall best model includes the interactions between all the fixed effect predictor variables.
-			</figcaption>
-			</figure>
-			Since the difference between the top model and the subsequent was large (more than 500 points), model averaging
-			was not considered.
-			The fact that the best model includes species and age, and their interaction, indicates that both variables add some predictive power.
-			
-			</p>
-		</div>
-		</div>
-		</div>
+            <figcaption>
+                <em>Ranking of several competing models</em>.
+                The AICs of each model were used to assess their respective goodness.
+                The overall best model includes the interactions between all the fixed effect
+                 predictor variables.
+            </figcaption>
+            </figure>
+            Since the difference between the top model and the subsequent was large (more than 500 points), model averaging
+            was not considered.
+            The fact that the best model includes species and age, and their interactions, 
+            indicates that both variables add some predictive power.
+            </p>
+        </div>
+        </div>
+        </div>
 
 
-	</div>
-	
+    </div>
+    
 </div>
 
 
